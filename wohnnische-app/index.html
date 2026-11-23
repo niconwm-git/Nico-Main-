@@ -44,44 +44,58 @@ a{color:var(--oak)}
 
 /* Main layout */
 .layout{padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); padding-block:0 48px}
-.stage-col{display:none}
+.stage-col{display:none; min-width:0}
 .js .stage-col{display:block}
-.stage{position:relative; height:clamp(330px, 54svh, 600px); border-radius:var(--r-lg); background:var(--stage); overflow:hidden;
-  touch-action:pan-y; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; cursor:grab}
-.stage:active{cursor:grabbing}
-.stage.evening{background:color-mix(in srgb, var(--stage) 70%, #3a2a1c 30%)}
-.stage{transition:background .9s ease}
-.stage-inner{position:absolute; inset:0; will-change:transform}
-.stage-inner canvas{display:block; width:100%!important; height:100%!important}
-.fallback-img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain}
+/* Karussell: Karten liegen absolut in der Mitte, JS setzt je Karte translate/scale/rotate nach Abstand zur aktuellen Position */
+.carousel{position:relative; height:clamp(380px, 57svh, 640px); overflow:hidden; perspective:1400px;
+  margin-left:calc(-1 * max(16px, env(safe-area-inset-left,0px))); margin-right:calc(-1 * max(16px, env(safe-area-inset-right,0px)));
+  touch-action:pan-y; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; cursor:grab; outline:none}
+.carousel.dragging{cursor:grabbing}
+.carousel:focus-visible .slide.is-active{outline:2px solid var(--oak); outline-offset:3px}
+.slide{position:absolute; top:6px; bottom:14px; left:50%; width:var(--sw,300px); margin-left:calc(var(--sw,300px) / -2); border-radius:24px; overflow:hidden;
+  background:radial-gradient(120% 80% at 50% 28%, color-mix(in srgb, var(--stage) 55%, #fff 45%), var(--stage) 70%);
+  transform-origin:50% 50%; will-change:transform, opacity; backface-visibility:hidden; transition:box-shadow .4s ease}
+.slide.is-active{box-shadow:0 18px 40px -18px rgba(70,45,20,.35), 0 2px 6px rgba(70,45,20,.06)}
+.slide.evening{background:radial-gradient(120% 80% at 50% 30%, #5b4532, #2c221a 75%)}
+.slide .snap{position:absolute; inset:0; width:100%; height:100%; display:block; transition:opacity .25s ease}
+.slide .snap-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.slide.is-live .snap{opacity:0}
+.slide-cap{position:absolute; top:12px; left:12px; right:60px; display:flex; align-items:center; gap:8px; z-index:3; pointer-events:none}
+.slide-cap .n{white-space:nowrap; flex:none; font-family:var(--f-mono); font-size:11px; font-weight:500; letter-spacing:.04em; padding:5px 8px; border-radius:999px; background:var(--ink); color:var(--bg); font-variant-numeric:tabular-nums}
+.slide-cap .t{font-size:12.5px; font-weight:500; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:0; transition:opacity .3s}
+.slide:not(.is-active) .slide-cap .t{opacity:.85}
+.slide.evening .slide-cap .t{color:#f3e7d8}
+.live{position:absolute; inset:0; z-index:2}
+.live canvas{display:block; position:absolute; inset:0; width:100%!important; height:100%!important}
 .labels{position:absolute; inset:0; pointer-events:none; overflow:hidden}
 .lbl{position:absolute; left:0; top:0; transform:translate(-50%,-50%); font-family:var(--f-mono); font-size:11px; font-weight:500; line-height:1;
-  padding:4px 6px; border-radius:6px; background:color-mix(in srgb, var(--surface) 88%, transparent); color:var(--ink);
-  border:1px solid var(--line); white-space:nowrap; opacity:0; font-variant-numeric:tabular-nums}
+  padding:4px 6px; border-radius:6px; background:rgba(255,253,250,.92); color:#2a241e;
+  border:1px solid rgba(90,70,50,.18); white-space:nowrap; opacity:0; font-variant-numeric:tabular-nums}
 .lbl.mark{transform:translate(0,-115%); background:rgba(250,247,242,.82); border:0; padding:2px 4px; color:#4f4132; font-size:10.5px}
-.lbl.tag{background:var(--ink); color:var(--bg); border-color:transparent}
-.chip{position:absolute; top:12px; left:12px; font-family:var(--f-mono); font-size:11px; letter-spacing:.06em; padding:6px 9px; border-radius:999px;
-  background:color-mix(in srgb, var(--surface) 90%, transparent); border:1px solid var(--line); font-variant-numeric:tabular-nums; pointer-events:none}
-.replay{position:absolute; top:8px; right:8px; width:40px; height:40px; border-radius:999px; border:1px solid var(--line);
-  background:color-mix(in srgb, var(--surface) 90%, transparent); display:grid; place-items:center; cursor:pointer}
+.lbl.tag{background:#2a241e; color:#fbf7f1; border-color:transparent}
+.replay{position:absolute; top:8px; right:8px; width:40px; height:40px; border-radius:999px; border:1px solid rgba(90,70,50,.14);
+  background:rgba(255,253,250,.9); color:#2a241e; display:grid; place-items:center; cursor:pointer; z-index:4; transition:transform .2s}
+.replay:active{transform:scale(.92)}
 .replay svg{width:18px; height:18px}
-.legend{position:absolute; left:12px; bottom:10px; display:flex; gap:10px; font-size:11px; color:var(--muted); pointer-events:none;
-  padding:4px 8px; border-radius:999px; background:color-mix(in srgb, var(--stage) 80%, transparent)}
+.legend{position:absolute; left:12px; bottom:10px; display:flex; gap:10px; font-size:11px; color:#6b6258; pointer-events:none;
+  padding:4px 9px; border-radius:999px; background:rgba(255,253,250,.78)}
 .legend i{display:inline-block; width:9px; height:9px; border-radius:3px; margin-right:5px; vertical-align:-1px}
-.legend .n{background:var(--oak)} .legend .o{background:transparent; border:1.5px solid var(--muted)}
-.hint{position:absolute; left:50%; bottom:46px; transform:translateX(-50%); font-size:12px; padding:7px 12px; border-radius:999px;
-  background:var(--ink); color:var(--bg); white-space:nowrap; pointer-events:none; transition:opacity .5s ease}
-.hint.gone{opacity:0}
-.nav{position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:999px; border:1px solid var(--line);
-  background:color-mix(in srgb, var(--surface) 92%, transparent); display:none; place-items:center; cursor:pointer; opacity:.0; transition:opacity .2s}
+.legend .n{background:#a5703f} .legend .o{background:transparent; border:1.5px solid #8a7f72}
+.slide.evening .legend{display:none}
+.nav{position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:999px; border:1px solid var(--line);
+  background:var(--surface); display:none; place-items:center; cursor:pointer; z-index:5; box-shadow:0 4px 14px rgba(0,0,0,.08); transition:opacity .2s, transform .2s}
+.nav:hover{transform:translateY(-50%) scale(1.06)}
 .nav svg{width:18px; height:18px}
-.nav.prev{left:10px} .nav.next{right:10px}
-@media (hover:hover) and (pointer:fine){ .nav{display:grid} .stage:hover .nav{opacity:1} .nav:focus-visible{opacity:1} }
-.nav[disabled]{visibility:hidden}
-.autobar{position:absolute; left:12px; right:12px; bottom:10px; height:3px; border-radius:2px; background:color-mix(in srgb, var(--ink) 12%, transparent); overflow:hidden}
-.autobar b{display:block; height:100%; width:0; background:var(--oak)}
-.stage.autoplay .legend,.stage.autoplay .hint{display:none}
-
+.nav.prev{left:14px} .nav.next{right:14px}
+@media (hover:hover) and (pointer:fine){ .nav{display:grid} }
+.nav[disabled]{opacity:0; pointer-events:none}
+.autobar{position:absolute; left:14px; right:14px; bottom:12px; height:3px; border-radius:2px; background:rgba(40,30,20,.14); overflow:hidden; z-index:4}
+.autobar b{display:block; height:100%; width:0; background:#a5703f}
+.carousel.autoplay .legend{display:none}
+.under{display:flex; align-items:center; justify-content:center; gap:10px}
+.swipe-hint{font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; transition:opacity .5s; white-space:nowrap}
+.swipe-hint svg{width:16px; height:16px}
+.swipe-hint.gone{opacity:0; height:0; overflow:hidden}
 /* Dots */
 .dots{display:flex; justify-content:center; gap:1px; padding:8px 0 2px; flex-wrap:nowrap}
 .dot{width:20px; height:30px; border:0; background:transparent; padding:0; cursor:pointer; display:grid; place-items:center}
@@ -121,7 +135,8 @@ a{color:var(--oak)}
 @media (min-width:960px){
   .layout{display:grid; grid-template-columns:minmax(0,1fr) minmax(360px, 440px); gap:44px; align-items:start; padding-block:6px 48px}
   .stage-col{position:sticky; top:calc(env(safe-area-inset-top,0px) + var(--header-h) + 6px)}
-  .stage{height:calc(100svh - var(--header-h) - 74px); min-height:520px}
+  .carousel{height:calc(100svh - var(--header-h) - 100px); min-height:520px; margin-left:0; margin-right:0}
+  .stage-col .under + .under{display:none}
   .steps{padding-top:28px; margin:0}
 }
 
@@ -212,9 +227,10 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
 }
 
 /* Recording / Vollbild-Modus für die Gesamtanimation */
-.rec .top,.rec .dots,.rec .steps,.rec .legend,.rec .hint,.rec .replay,.rec .nav,.rec .chip{display:none!important}
+.rec .top,.rec .under,.rec .steps,.rec .legend,.rec .replay,.rec .nav,.rec .slide-cap{display:none!important}
 .rec .layout{padding:0}
-.rec .stage{height:100vh; border-radius:0}
+.rec .carousel{height:100vh; margin:0}
+.rec .slide{top:0; bottom:0; border-radius:0}
 .rec-cap{display:none}
 .rec .rec-cap{display:block; position:absolute; left:28px; right:28px; top:24px; pointer-events:none}
 .rec-cap .k{font-family:var(--f-mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--oak)}
@@ -234,21 +250,19 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
 
 <main class="layout">
   <section class="stage-col" aria-label="3D-Montagezeichnung">
-    <div class="stage" id="stage" tabindex="0" aria-roledescription="Montageanimation" aria-label="3D-Zeichnung des aktuellen Schritts. Nach links oder rechts wischen wechselt den Schritt, Tippen wiederholt die Animation.">
-      <div class="stage-inner" id="stageInner">
-        <img class="fallback-img" id="fallbackImg" alt="" hidden>
+    <div class="carousel" id="carousel" tabindex="0" role="region" aria-roledescription="Karussell" aria-label="Montageschritte als 3D-Zeichnung. Wischen oder Pfeiltasten wechseln den Schritt, Tippen oder Enter wiederholt die Animation.">
+      <div class="live" id="live">
         <div class="labels" id="labels"></div>
+        <div class="rec-cap" id="recCap"><div class="k" id="recK"></div><div class="t" id="recT"></div><div class="s">wohnwerk. · Wohnnische 1450 × 2300 × 570 mm</div></div>
+        <button class="replay" id="replayBtn" aria-label="Animation wiederholen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/></svg></button>
+        <div class="legend" id="legend"><span><i class="n"></i>neu</span><span><i class="o"></i>schon montiert</span></div>
+        <div class="autobar" id="autobar" hidden><b></b></div>
       </div>
-      <div class="rec-cap" id="recCap"><div class="k" id="recK"></div><div class="t" id="recT"></div><div class="s">wohnwerk. · Wohnnische 1450 × 2300 × 570 mm</div></div>
-      <div class="chip" id="chip">01 / 13</div>
-      <button class="replay" id="replayBtn" aria-label="Animation wiederholen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/></svg></button>
       <button class="nav prev" id="prevBtn" aria-label="Vorheriger Schritt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
       <button class="nav next" id="nextBtn" aria-label="Nächster Schritt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
-      <div class="legend" id="legend"><span><i class="n"></i>neu</span><span><i class="o"></i>schon montiert</span></div>
-      <div class="hint" id="hint">← Wischen · Tippen wiederholt →</div>
-      <div class="autobar" id="autobar" hidden><b></b></div>
     </div>
-    <nav class="dots" id="dots" aria-label="Schritte"></nav>
+    <div class="under"><nav class="dots" id="dots" aria-label="Schritte"></nav></div>
+    <div class="under"><div class="swipe-hint" id="swipeHint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V6.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0v3.5a6 6 0 0 1-6 6h-.6a5 5 0 0 1-3.9-1.9L4.8 15a1.5 1.5 0 0 1 2.3-1.9L9 15"/></svg>Wischen für den nächsten Schritt</div></div>
   </section>
 
   <section class="steps" id="steps" aria-live="polite">
@@ -939,7 +953,7 @@ function build3D(host){
 
   // ---- Kameraansichten je Schritt: Mittelpunkt, halbe Höhe, halbe Breite (mm)
   const VIEWS={
-    1:{c:[725,1100,320],hh:1420,hw:1120}, 2:{c:[725,330,330],hh:640,hw:960},
+    1:{c:[725,1080,320],hh:1500,hw:1160}, 2:{c:[725,330,330],hh:640,hw:960},
     3:{c:[740,470,880],hh:760,hw:1220}, 4:{c:[740,470,880],hh:760,hw:1220},
     5:{c:[725,480,520],hh:760,hw:1120}, 6:{c:[740,500,700],hh:660,hw:960},
     7:{c:[740,470,470],hh:620,hw:920}, 8:{c:[730,470,420],hh:640,hw:980},
@@ -1005,41 +1019,110 @@ function build3D(host){
   }
   function loop(now){
     raf=0;
-    const t=reduced?1:clamp((now-t0)/STEP_MS), ck=reduced?1:clamp((now-camT0)/950);
+    const t=reduced?1:clamp((performance.now()-t0)/STEP_MS), ck=reduced?1:clamp((now-camT0)/950);
     renderAt(t,ck);
-    if(t<1||ck<1) raf=requestAnimationFrame(loop);
+    if(t<1||ck<1||performance.now()<t0) raf=requestAnimationFrame(loop);
   }
   function kick(){ if(!raf) raf=requestAnimationFrame(loop); }
   function resize(){
     const r=host.getBoundingClientRect(); W=Math.max(1,r.width); H=Math.max(1,r.height);
-    renderer.setSize(W,H,false); renderAt(tNow,1);
+    renderer.setSize(W,H,false); renderAt(tNow,1); if(onResize) onResize();
   }
+  function setView(v){ camA=null; camCur.c.set(...v.c); camCur.hh=v.hh; camCur.hw=v.hw; }
   function setStep(n,opt={}){
-    S=n; setupLabels();
-    camA={c:camCur.c.toArray(), hh:camCur.hh, hw:camCur.hw}; camB=VIEWS[n];
-    const now=performance.now(); t0=now; camT0=now;
-    if(opt.instant||reduced){ t0=now-STEP_MS; camT0=now-2000; camA=null; camCur.c.set(...camB.c); camCur.hh=camB.hh; camCur.hw=camB.hw; renderAt(1,1); return; }
-    kick();
+    S=n; setupLabels(); setView(VIEWS[n]);
+    const now=performance.now(); camT0=now-2000; t0=(opt.instant||reduced)? now-STEP_MS : now+(opt.delay||0);
+    renderAt(clamp((now-t0)/STEP_MS),1); kick();
   }
+  // Standbild eines Schritts (Endzustand) in eine 2D-Leinwand kopieren
+  function snap(n, cv){
+    const s0=S, tt=tNow;
+    S=n; apply(n,1); setView(VIEWS[n]); fitCamera(); renderer.render(scene,camera);
+    const src=renderer.domElement; if(cv.width!==src.width||cv.height!==src.height){ cv.width=src.width; cv.height=src.height; }
+    const c=cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height); c.drawImage(src,0,0);
+    S=s0; setView(VIEWS[S]); renderAt(tt,1);
+  }
+  let onResize=null;
   function replay(){ t0=performance.now(); kick(); }
   new ResizeObserver(resize).observe(host); resize();
-  return {dbg:()=>({W,H,top:camera.top,right:camera.right,cam:camera.position.toArray().map(Math.round),labels:labelEls.map(l=>[l.e.style.left,l.e.style.top,l.e.style.opacity])}), setStep, replay, renderFrame(n,t){ if(S!==n){ S=n; setupLabels(); } const v=VIEWS[n], a=VIEWS[Math.max(1,n-1)]; camA={c:a.c,hh:a.hh,hw:a.hw}; camB=v; renderAt(t, n===1?1:clamp(t/.36)); }, resize, get busy(){return !!raf}};
+  return {dbg:()=>({W,H,top:camera.top,right:camera.right,cam:camera.position.toArray().map(Math.round),labels:labelEls.map(l=>[l.e.style.left,l.e.style.top,l.e.style.opacity])}), setStep, replay, snap, set onResize(f){onResize=f;}, renderFrame(n,t){ if(S!==n){ S=n; setupLabels(); } const v=VIEWS[n], a=VIEWS[Math.max(1,n-1)]; camA={c:a.c,hh:a.hh,hw:a.hw}; camB=v; renderAt(t, n===1?1:clamp(t/.36)); }, resize, get busy(){return !!raf}};
 }
 
 /* =================== App-Logik =================== */
-const stage=$('#stage'), inner=$('#stageInner');
+const car=$('#carousel'), live=$('#live');
 let cur=1, autoplay=null;
 function webglOK(){ try{ const c=document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl')||c.getContext('experimental-webgl'))); }catch(e){ return false; } }
-if(window.THREE && webglOK()){ try{ viewer=build3D(inner); }catch(e){ console.warn('3D nicht verfügbar', e); viewer=null; } }
-const fb=$('#fallbackImg');
-if(!viewer){ fb.hidden=false; $('#legend').hidden=true; }
+
+// Karten aufbauen
+const slides=[];
+for(let i=1;i<=N;i++){
+  const el=document.createElement('div'); el.className='slide'+(i===N?' evening':''); el.setAttribute('role','group'); el.setAttribute('aria-roledescription','Schritt'); el.setAttribute('aria-label',`${i} von ${N}: ${titles[i-1]}`);
+  const cap=document.createElement('div'); cap.className='slide-cap'; cap.innerHTML=`<span class="n">${pad(i)} / ${N}</span><span class="t"></span>`; cap.lastChild.textContent=titles[i-1];
+  el.appendChild(cap); car.insertBefore(el, live); slides.push({el, snapped:false});
+}
+if(window.THREE && webglOK()){ try{ viewer=build3D(live); }catch(e){ console.warn('3D nicht verfügbar', e); viewer=null; } }
+slides.forEach((sl,i)=>{
+  if(viewer){ const cv=document.createElement('canvas'); cv.className='snap'; cv.setAttribute('aria-hidden','true'); sl.el.insertBefore(cv, sl.el.firstChild); sl.cv=cv; }
+  else { const im=document.createElement('img'); im.className='snap-img'; im.alt=titles[i]; im.loading=i<2?'eager':'lazy'; im.src=`img/step-${pad(i+1)}.jpg`; sl.el.insertBefore(im, sl.el.firstChild); }
+});
+if(!viewer){ live.hidden=true; }
+
+// Geometrie
+let SW=300, GAP=12, STEPW=312;
+function measure(){
+  const w=car.clientWidth; const desk=window.innerWidth>=960;
+  SW=Math.round(desk? Math.min(w*0.8, 780) : Math.min(w-64, 560)); GAP=desk?20:12; STEPW=SW+GAP;
+  car.style.setProperty('--sw', SW+'px');
+}
+measure();
+
+// Feder-Physik in Index-Einheiten
+let pos=0, vel=0, target=0, springRaf=0, lastT=0;
+const K=190, C=26;
+function layout(){
+  for(let i=0;i<N;i++){
+    const d=i-pos, ad=Math.abs(d), el=slides[i].el;
+    if(ad>2.6){ el.style.transform=`translate3d(${d*STEPW}px,0,0) scale(.925)`; el.style.opacity='0'; continue; }
+    const sc=1-0.075*Math.min(1,ad), rot=Math.max(-1,Math.min(1,d))*-6;
+    el.style.transform=`translate3d(${d*STEPW}px,0,0) rotateY(${rot}deg) scale(${sc})`;
+    el.style.opacity=String(1-0.38*Math.min(1,ad));
+    el.style.zIndex=String(100-Math.round(ad*10));
+  }
+  const near=Math.round(Math.max(0,Math.min(N-1,pos)));
+  [...dots.children].forEach((d,i)=>{ if(i===near) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
+  const act=document.querySelector('.step.active'); if(act) act.style.opacity=String(1-0.55*Math.min(1,Math.abs(pos-(cur-1))*1.4));
+}
+function springTick(now){
+  springRaf=0; const dt=Math.min(0.032,(now-lastT)/1000||0.016); lastT=now;
+  const a=-K*(pos-target)-C*vel; vel+=a*dt; pos+=vel*dt;
+  if(Math.abs(pos-target)<0.0006&&Math.abs(vel)<0.004){ pos=target; vel=0; layout(); return; }
+  layout(); springRaf=requestAnimationFrame(springTick);
+}
+function springTo(t,v){ target=t; if(v!==undefined) vel=v; if(reduced){ pos=t; vel=0; layout(); return; } if(!springRaf){ lastT=performance.now(); springRaf=requestAnimationFrame(springTick); } }
+function stopSpring(){ if(springRaf) cancelAnimationFrame(springRaf); springRaf=0; }
+
+// Standbilder (Endzustand je Schritt) für die Nachbarkarten
+let snapQueue=[], snapTimer=0;
+function queueSnaps(all){
+  if(!viewer) return;
+  if(all) slides.forEach(s=>s.snapped=false);
+  const order=[cur-1,cur,cur-2,cur+1,cur-3,cur+2]; for(let i=0;i<N;i++) order.push(i);
+  snapQueue=[...new Set(order.filter(i=>i>=0&&i<N))].filter(i=>!slides[i].snapped);
+  clearTimeout(snapTimer); snapTimer=setTimeout(runSnaps, 30);
+}
+function runSnaps(){
+  const t0=performance.now();
+  while(snapQueue.length && performance.now()-t0<14){ const i=snapQueue.shift(); viewer.snap(i+1, slides[i].cv); slides[i].snapped=true; }
+  if(snapQueue.length) snapTimer=setTimeout(runSnaps, 16);
+}
+if(viewer){ let rt=0; viewer.onResize=()=>{ clearTimeout(rt); rt=setTimeout(()=>queueSnaps(true),120); }; }
 
 // Punkte & Menü-Schrittliste
 const dots=$('#dots'), menuSteps=$('#menuSteps');
 for(let i=1;i<=N;i++){
-  const b=document.createElement('button'); b.className='dot'; b.type='button'; b.setAttribute('aria-label',`Schritt ${i}: ${titles[i-1]}`); b.addEventListener('click',()=>go(i)); dots.appendChild(b);
+  const b=document.createElement('button'); b.className='dot'; b.type='button'; b.setAttribute('aria-label',`Schritt ${i}: ${titles[i-1]}`); b.addEventListener('click',()=>{ stopAuto(); hideHint(); go(i); }); dots.appendChild(b);
   const li=document.createElement('li'); const mb=document.createElement('button'); mb.type='button'; mb.innerHTML=`<span class="mono">${pad(i)}</span><span></span>`; mb.lastChild.textContent=titles[i-1];
-  mb.addEventListener('click',()=>{ closeMenu(); go(i); }); li.appendChild(mb); menuSteps.appendChild(li);
+  mb.addEventListener('click',()=>{ closeMenu(); go(i,{jump:true}); }); li.appendChild(mb); menuSteps.appendChild(li);
 }
 // Vor/Zurück-Hinweise im Text
 stepEls.forEach((a,i)=>{
@@ -1054,64 +1137,90 @@ function setHash(h){ try{ history.replaceState(null,'','#'+h); }catch(e){ try{ l
 function go(n,opt={}){
   n=clamp(n,1,N); const dir=n<cur?'back':'fwd'; const changed=n!==cur||opt.force;
   cur=n;
-  stepEls.forEach((a,i)=>{ const on=i+1===n; a.classList.toggle('active',on); a.classList.toggle('back',on&&dir==='back'); });
-  [...dots.children].forEach((d,i)=>{ if(i+1===n) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
+  stepEls.forEach((a,i)=>{ const on=i+1===n; a.classList.toggle('active',on); a.classList.toggle('back',on&&dir==='back'); a.style.opacity=''; });
   [...menuSteps.querySelectorAll('button')].forEach((d,i)=>{ if(i+1===n) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
-  $('#chip').textContent=`${pad(n)} / ${N}`;
   $('#prevBtn').disabled=n===1; $('#nextBtn').disabled=n===N;
-  stage.classList.toggle('evening', n===N);
   $('#recK').textContent=`Schritt ${pad(n)} · ${phases[n-1]}`; $('#recT').textContent=titles[n-1];
-  if(viewer){ if(changed||opt.instant) viewer.setStep(n,opt); }
-  else { fb.src=`img/step-${pad(n)}.jpg`; fb.alt=titles[n-1]; }
+  slides.forEach((s,i)=>{ s.el.classList.toggle('is-active',i===n-1); s.el.classList.toggle('is-live',!!viewer&&i===n-1); });
+  if(viewer){
+    slides[n-1].el.appendChild(live);
+    if(changed||opt.instant){ const far=Math.abs(pos-(n-1))>0.5 && !opt.instant; viewer.setStep(n,{instant:opt.instant, delay: far? 140:0}); }
+  }
+  if(opt.instant||opt.jump){ stopSpring(); pos=target=n-1; vel=0; layout(); } else springTo(n-1);
   if(!opt.noHash && !REC) setHash('schritt-'+n);
-  if(opt.scroll!==false && changed && window.innerWidth<960){ const top=stage.getBoundingClientRect().top; if(top<0) window.scrollTo({top:window.scrollY+top-70, behavior:reduced?'auto':'smooth'}); }
+  if(opt.scroll!==false && changed && window.innerWidth<960){ const top=car.getBoundingClientRect().top; if(top<0) window.scrollTo({top:window.scrollY+top-70, behavior:reduced?'auto':'smooth'}); }
+  if(viewer) queueSnaps(false);
 }
-$('#prevBtn').addEventListener('click',()=>{ stopAuto(); go(cur-1); });
-$('#nextBtn').addEventListener('click',()=>{ stopAuto(); go(cur+1); });
+$('#prevBtn').addEventListener('click',()=>{ stopAuto(); hideHint(); go(cur-1); });
+$('#nextBtn').addEventListener('click',()=>{ stopAuto(); hideHint(); go(cur+1); });
 $('#replayBtn').addEventListener('click',e=>{ e.stopPropagation(); stopAuto(); replay(); });
 function replay(){ if(viewer) viewer.replay(); }
 
-// Wisch- und Tippgesten direkt auf der Zeichnung
-let sx=0, sy=0, st=0, mode=null, pid=null;
-const hint=$('#hint'); let hintTimer=setTimeout(()=>hint.classList.add('gone'),5200);
-function hideHint(){ hint.classList.add('gone'); clearTimeout(hintTimer); }
-stage.addEventListener('pointerdown',e=>{
+// Gesten: Karten folgen dem Finger 1:1, Loslassen rastet mit Schwung ein
+const swipeHint=$('#swipeHint'); let hinted=false;
+function hideHint(){ if(hinted) return; hinted=true; swipeHint.classList.add('gone'); }
+let sx=0, sy=0, st=0, mode=null, pid=null, startPos=0, samples=[];
+car.addEventListener('pointerdown',e=>{
   if(e.target.closest('button')) return;
   if(e.pointerType==='mouse'&&e.button!==0) return;
-  sx=e.clientX; sy=e.clientY; st=performance.now(); mode='pending'; pid=e.pointerId;
+  sx=e.clientX; sy=e.clientY; st=performance.now(); mode='pending'; pid=e.pointerId; startPos=pos; samples=[[st,e.clientX]];
+  if(springRaf){ stopSpring(); startPos=pos; mode='swipe-armed'; }
 });
-stage.addEventListener('pointermove',e=>{
+car.addEventListener('pointermove',e=>{
   if(!mode||e.pointerId!==pid) return;
-  const dx=e.clientX-sx, dy=e.clientY-sy;
-  if(mode==='pending'){
-    if(Math.abs(dx)>9&&Math.abs(dx)>Math.abs(dy)*1.2){ mode='swipe'; try{stage.setPointerCapture(pid);}catch(_){} stopAuto(); hideHint(); }
-    else if(Math.abs(dy)>12){ mode=null; return; }
+  const dx=e.clientX-sx, dy=e.clientY-sy, now=performance.now();
+  if(mode==='pending'||mode==='swipe-armed'){
+    if(Math.abs(dx)>6&&Math.abs(dx)>Math.abs(dy)*1.1){ mode='swipe'; car.classList.add('dragging'); try{car.setPointerCapture(pid);}catch(_){} stopAuto(); hideHint(); sx=e.clientX; }
+    else if(Math.abs(dy)>10){ if(mode==='swipe-armed') springTo(Math.round(pos)); mode=null; return; }
+    else return;
   }
-  if(mode==='swipe'){
-    let d=dx; if((cur===1&&dx>0)||(cur===N&&dx<0)) d=dx*.25;
-    inner.style.transition='none'; inner.style.transform=`translateX(${d*.55}px)`; inner.style.opacity=String(1-Math.min(.45,Math.abs(d)/700));
-    e.preventDefault();
-  }
+  samples.push([now,e.clientX]); while(samples.length>2&&now-samples[0][0]>90) samples.shift();
+  let p=startPos-(e.clientX-sx)/STEPW;
+  if(p<0) p=-Math.pow(-p,.8)*.28; else if(p>N-1){ const o=p-(N-1); p=N-1+Math.pow(o,.8)*.28; }
+  pos=p; layout(); e.preventDefault();
 },{passive:false});
 function endGesture(e){
   if(!mode||e.pointerId!==pid) return;
-  const dx=e.clientX-sx, dt=performance.now()-st, m=mode; mode=null;
-  inner.style.transition='transform .28s cubic-bezier(.2,.7,.2,1), opacity .28s'; inner.style.transform=''; inner.style.opacity='';
-  if(m==='swipe'){ const v=Math.abs(dx)/Math.max(dt,1); if(Math.abs(dx)>48||v>.45){ if(dx<0&&cur<N) go(cur+1); else if(dx>0&&cur>1) go(cur-1); } }
-  else if(m==='pending'&&e.type==='pointerup'&&Math.abs(dx)<8&&dt<600){ hideHint(); stopAuto(); replay(); }
+  const m=mode; mode=null; car.classList.remove('dragging');
+  const dx=e.clientX-sx, dt=performance.now()-st;
+  if(m==='swipe'){
+    const f=samples[0], l=samples[samples.length-1]; const vpx=(l[1]-f[1])/Math.max(16,l[0]-f[0]); // px/ms
+    const v=-vpx*1000/STEPW; // Index/s
+    let tgt=Math.round(pos+v*0.16); const base=Math.round(startPos);
+    tgt=Math.max(base-1,Math.min(base+1,tgt)); if(Math.abs(pos-startPos)>1.2) tgt=Math.round(pos);
+    tgt=Math.max(0,Math.min(N-1,tgt));
+    vel=Math.max(-12,Math.min(12,v));
+    if(tgt+1!==cur) go(tgt+1); else springTo(tgt);
+  } else if(m==='swipe-armed'){ springTo(Math.round(pos)); }
+  else if(e.type==='pointerup'&&Math.abs(dx)<8&&dt<600){
+    const sl=e.target.closest('.slide'); const i=sl? slides.findIndex(s=>s.el===sl) : -1;
+    hideHint(); stopAuto();
+    if(i>=0&&i!==cur-1) go(i+1); else replay();
+  }
 }
-stage.addEventListener('pointerup',endGesture); stage.addEventListener('pointercancel',endGesture);
-stage.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); replay(); } });
+car.addEventListener('pointerup',endGesture); car.addEventListener('pointercancel',endGesture);
+car.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); replay(); } });
+// Trackpad: horizontales Scrollen bewegt das Karussell direkt
+let wheelT=0;
+car.addEventListener('wheel',e=>{
+  if(Math.abs(e.deltaX)<=Math.abs(e.deltaY)||Math.abs(e.deltaX)<1) return;
+  e.preventDefault(); stopSpring(); stopAuto(); hideHint();
+  pos=Math.max(-.25,Math.min(N-.75,pos+e.deltaX/STEPW*1.2)); layout();
+  clearTimeout(wheelT); wheelT=setTimeout(()=>{ const off=pos-(cur-1); let t=cur-1+(off>.18?Math.max(1,Math.round(off)):off<-.18?Math.min(-1,Math.round(off)):0); t=Math.max(0,Math.min(N-1,t)); if(t+1!==cur) go(t+1); else springTo(t); },110);
+},{passive:false});
 document.addEventListener('keydown',e=>{
   if(openId||drawer.classList.contains('on')){ if(e.key==='Escape'){ closePanel(); closeMenu(); } return; }
   if(e.target.closest('input,textarea,select,video')) return;
-  if(e.key==='ArrowRight'){ stopAuto(); go(cur+1); } else if(e.key==='ArrowLeft'){ stopAuto(); go(cur-1); }
+  if(e.key==='ArrowRight'){ stopAuto(); hideHint(); go(cur+1); } else if(e.key==='ArrowLeft'){ stopAuto(); hideHint(); go(cur-1); }
 });
+new ResizeObserver(()=>{ measure(); layout(); }).observe(car);
+// Kleiner Schubs beim ersten Öffnen zeigt, dass man wischen kann
+if(!REC && !reduced) setTimeout(()=>{ if(hinted||mode||cur>=N||openId) return; springTo(cur-1+0.16, 0); setTimeout(()=>{ if(!mode) springTo(cur-1); },420); },1400);
+setTimeout(hideHint, 9000);
 
-// Live-Gesamtanimation auf der Bühne
+// Live-Gesamtanimation im Karussell
 function startAuto(){
-  if(!viewer){ go(1); return; }
-  stopAuto(); hideHint(); stage.classList.add('autoplay'); const bar=$('#autobar'); bar.hidden=false;
+  stopAuto(); hideHint(); car.classList.add('autoplay'); const bar=$('#autobar'); bar.hidden=false;
   const t0=performance.now(); const total=N*STEP_MS+1200; let last=0;
   go(1,{force:true});
   function tick(now){
@@ -1122,7 +1231,7 @@ function startAuto(){
   }
   autoplay=requestAnimationFrame(tick);
 }
-function stopAuto(){ if(autoplay){ cancelAnimationFrame(autoplay); autoplay=null; } stage.classList.remove('autoplay'); $('#autobar').hidden=true; }
+function stopAuto(){ if(autoplay){ cancelAnimationFrame(autoplay); autoplay=null; } car.classList.remove('autoplay'); $('#autobar').hidden=true; }
 
 // Menü
 const drawer=$('#drawer'), scrim=$('#scrim'), menuBtn=$('#menuBtn');
@@ -1206,13 +1315,13 @@ function route(){
   const m=/^schritt-(\d+)$/.exec(h);
   if(PANELS.includes(h)){ if(openId!==h) openPanel(h); return; }
   if(openId) closePanel();
-  go(m? +m[1] : cur, {instant:true, noHash:!m, scroll:false, force:true});
+  go(m? +m[1] : cur, {jump:true, noHash:!m, scroll:false, force:true});
 }
 window.addEventListener('hashchange',route);
 if(REC){ go(1,{instant:true,noHash:true,force:true}); }
-else { const h=(location.hash||'').slice(1); const m=/^schritt-(\d+)$/.exec(h); go(m?+m[1]:1,{noHash:!m,scroll:false,force:true}); if(PANELS.includes(h)) openPanel(h); }
+else { const h=(location.hash||'').slice(1); const m=/^schritt-(\d+)$/.exec(h); go(m?+m[1]:1,{jump:true,noHash:!m,scroll:false,force:true}); if(PANELS.includes(h)) openPanel(h); }
 
 // Schnittstelle für Tests und Videoaufnahme
-window.__ww={ go, renderFrame:(n,t)=>{ if(!viewer) return; if(n!==cur){ cur=n; go(n,{instant:true,noHash:true,scroll:false}); } viewer.renderFrame(n,t); }, get cur(){return cur;}, get has3D(){return !!viewer;}, N, dbg:()=>viewer&&viewer.dbg() };
+window.__ww={ go, renderFrame:(n,t)=>{ if(!viewer) return; if(n!==cur){ cur=n; go(n,{instant:true,noHash:true,scroll:false}); } viewer.renderFrame(n,t); }, get cur(){return cur;}, get pos(){return pos;}, get has3D(){return !!viewer;}, N, dbg:()=>viewer&&viewer.dbg() };
 })();
 </script>
