@@ -1,0 +1,666 @@
+<title>Nico OS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: Leitstand – Kommandozeile oben, darunter Heute | Woche | Aufgaben | Projekte | Sync-Logbuch als Raster */
+:root {
+  --bg: #eef0ec;
+  --panel: #fbfcfa;
+  --ink: #18202b;
+  --muted: #5d6673;
+  --line: #d6dad3;
+  --accent: #2b55d6;
+  --accent-soft: #dfe6fb;
+  --signal: #d9822b;
+  --good: #2f8a57;
+  --bad: #c2413a;
+  --chip: #e6e9e3;
+  --font-display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12161c; --panel: #1a2029; --ink: #e7ebf0; --muted: #98a2b0; --line: #2c3440;
+  --accent: #7d9cff; --accent-soft: #24304d; --signal: #f0a457; --good: #5cc68b; --bad: #ef7d74; --chip: #242b36;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12161c; --panel: #1a2029; --ink: #e7ebf0; --muted: #98a2b0; --line: #2c3440;
+  --accent: #7d9cff; --accent-soft: #24304d; --signal: #f0a457; --good: #5cc68b; --bad: #ef7d74; --chip: #242b36;
+  color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-block: 20px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 16px; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; }
+h2 { font-size: 15px; font-weight: 700; letter-spacing: .01em; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+
+/* Kopf */
+header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand h1 { font-size: 30px; font-weight: 700; letter-spacing: -.02em; }
+.brand .ver { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.clock { display: flex; gap: 18px; align-items: baseline; flex-wrap: wrap; }
+.clock .time { font-family: var(--font-mono); font-size: 26px; font-weight: 500; }
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); margin-right: 6px; vertical-align: middle; }
+.status-dot.on { background: var(--good); }
+
+/* Kommandozeile */
+.cmd { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.cmd-row { display: flex; gap: 8px; align-items: stretch; }
+.cmd-row textarea { flex: 1; min-width: 0; resize: vertical; min-height: 48px; max-height: 220px; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--bg); font-size: 15px; }
+.btn { border: 1px solid var(--line); background: var(--panel); border-radius: 9px; padding: 8px 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+:root[data-theme="dark"] .btn.primary, :root:not([data-theme="light"]) .btn.primary { color: #fff; }
+.btn.mic.live { background: var(--bad); border-color: var(--bad); color: #fff; }
+.btn.small { padding: 4px 9px; font-size: 12px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.hints { display: flex; flex-wrap: wrap; gap: 6px; }
+.hint { border: 1px dashed var(--line); background: transparent; border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--muted); }
+.hint:hover { color: var(--ink); border-color: var(--muted); }
+.answer { font-size: 13px; border-left: 3px solid var(--accent); padding: 4px 10px; white-space: pre-wrap; }
+.answer.err { border-color: var(--bad); }
+
+/* Raster */
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.span-4 { grid-column: span 4; } .span-5 { grid-column: span 5; } .span-7 { grid-column: span 7; } .span-8 { grid-column: span 8; } .span-12 { grid-column: span 12; }
+@media (max-width: 1000px) { .span-4, .span-5, .span-7, .span-8 { grid-column: span 12; } }
+
+/* Heute */
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.stat { background: var(--bg); border-radius: 10px; padding: 8px 10px; }
+.stat b { display: block; font-family: var(--font-mono); font-size: 22px; font-weight: 500; }
+.stat.warn b { color: var(--signal); }
+.agenda { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.agenda li { display: grid; grid-template-columns: 52px 1fr; gap: 8px; align-items: baseline; }
+.agenda .t { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+
+/* Woche */
+.week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+@media (max-width: 700px) { .week { grid-template-columns: 1fr; } }
+.day { border: 1px solid var(--line); border-radius: 10px; padding: 8px; min-height: 120px; display: flex; flex-direction: column; gap: 5px; min-width: 0; background: var(--bg); }
+.day.today { border-color: var(--accent); box-shadow: inset 0 3px 0 var(--accent); }
+.day .dh { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.day .dh b { color: var(--ink); font-family: var(--font-mono); font-weight: 500; }
+@media (max-width: 700px) { .day { min-height: 0; } }
+.ev { font-size: 12px; background: var(--accent-soft); border-radius: 6px; padding: 3px 6px; overflow-wrap: anywhere; cursor: pointer; border: 0; text-align: left; }
+.ev .mono { font-size: 11px; color: var(--muted); margin-right: 4px; }
+.ev.task { background: var(--chip); }
+.ev.task.done { text-decoration: line-through; opacity: .6; }
+
+/* Listen */
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.list li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-top: 1px solid var(--line); }
+.list li:first-child { border-top: 0; }
+.list .body { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.list .meta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.pill { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--chip); color: var(--muted); font-weight: 500; }
+.pill.hoch { background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); }
+.pill.over { background: color-mix(in srgb, var(--signal) 18%, transparent); color: var(--signal); }
+.pill.proj { background: var(--accent-soft); color: var(--accent); }
+.chk { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); flex: none; }
+.x { border: 0; background: transparent; color: var(--muted); padding: 0 4px; font-size: 16px; line-height: 1; }
+.x:hover { color: var(--bad); }
+li.done .body > span:first-child { text-decoration: line-through; color: var(--muted); }
+.tabs { display: flex; gap: 4px; }
+.tab { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+.tab[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.quick { display: flex; gap: 6px; }
+.quick input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; background: var(--bg); }
+
+/* Projekte */
+.projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.proj { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px; background: var(--bg); min-width: 0; }
+.proj h3 { font-size: 16px; }
+.proj .top { display: flex; justify-content: space-between; gap: 6px; align-items: center; }
+.proj p { margin: 0; font-size: 13px; overflow-wrap: anywhere; }
+.proj .next { font-size: 12px; }
+.proj a { color: var(--accent); font-size: 12px; font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
+.proj a:hover { text-decoration: underline; }
+.st { font-size: 11px; font-weight: 600; }
+.st.aktiv { color: var(--good); } .st.geplant { color: var(--accent); } .st.pausiert { color: var(--muted); } .st.fertig { color: var(--muted); }
+
+/* Formulare */
+details.form > summary { list-style: none; cursor: pointer; }
+details.form > summary::-webkit-details-marker { display: none; }
+.fgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+.fgrid label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); min-width: 0; }
+.fgrid .full { grid-column: span 2; }
+.fgrid input, .fgrid select, .fgrid textarea { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; background: var(--panel); color: var(--ink); min-width: 0; width: 100%; }
+@media (max-width: 500px) { .fgrid { grid-template-columns: 1fr; } .fgrid .full { grid-column: span 1; } }
+
+/* Logbuch */
+.log li { flex-direction: column; gap: 4px; }
+.log .when { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.log .acts { font-size: 12px; color: var(--muted); }
+.sync { border: 1px solid color-mix(in srgb, var(--signal) 50%, var(--line)); border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; }
+.sync .row { display: flex; gap: 6px; flex-wrap: wrap; }
+.empty { color: var(--muted); font-size: 13px; padding: 6px 0; }
+.banner { background: color-mix(in srgb, var(--signal) 14%, var(--panel)); border: 1px solid color-mix(in srgb, var(--signal) 40%, var(--line)); border-radius: 10px; padding: 8px 12px; font-size: 13px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 10px; font-size: 13px; z-index: 50; max-width: calc(100% - 32px); }
+.dialog-back { position: fixed; inset: 0; background: color-mix(in srgb, var(--ink) 35%, transparent); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 40; }
+.dialog { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; width: min(480px, 100%); display: flex; flex-direction: column; gap: 10px; max-height: 90vh; overflow: auto; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><h1>Nico OS</h1><span class="ver" id="syncState"><span class="status-dot"></span>verbinde …</span></div>
+    <div class="clock">
+      <div><div class="label" id="dateLabel">–</div><div class="time" id="time">--:--</div></div>
+      <div><div class="label">Kalenderwoche</div><div class="time" id="kw">KW –</div></div>
+    </div>
+  </header>
+
+  <div class="banner" id="offline" hidden>Der Speicher ist in dieser Ansicht nicht erreichbar. Änderungen gelten nur bis zum Neuladen. Öffne Nico OS angemeldet auf claude.ai, damit alles gespeichert wird.</div>
+
+  <section class="cmd" aria-label="Kommandozentrale">
+    <div class="card-head"><h2>Kommandozentrale</h2><span class="label">Schreiben oder sprechen, Nico OS sortiert es ein</span></div>
+    <div class="cmd-row">
+      <textarea id="cmdInput" rows="2" placeholder="z. B. „Morgen 14 Uhr Zahnarzt, und erinnere mich Freitag an die Steuer“"></textarea>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn primary" id="cmdSend" type="button">Ausführen</button>
+        <button class="btn mic" id="micBtn" type="button" hidden>Sprechen</button>
+      </div>
+    </div>
+    <div class="hints" id="hints"></div>
+    <div class="answer" id="cmdAnswer" hidden></div>
+  </section>
+
+  <div class="grid">
+    <section class="card span-4" aria-label="Heute">
+      <div class="card-head"><h2>Heute</h2><span class="label" id="todayName"></span></div>
+      <div class="stats">
+        <div class="stat"><span class="label">Termine</span><b id="stEvents">0</b></div>
+        <div class="stat"><span class="label">Offen</span><b id="stOpen">0</b></div>
+        <div class="stat" id="stOverWrap"><span class="label">Überfällig</span><b id="stOver">0</b></div>
+      </div>
+      <ul class="agenda" id="agenda"></ul>
+    </section>
+
+    <section class="card span-8" aria-label="Kalender">
+      <div class="card-head">
+        <h2>Kalender <span class="muted mono" id="weekRange" style="font-weight:400;font-size:12px"></span></h2>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn small" id="wkPrev" type="button" aria-label="Vorige Woche">←</button>
+          <button class="btn small" id="wkNow" type="button">Heute</button>
+          <button class="btn small" id="wkNext" type="button" aria-label="Nächste Woche">→</button>
+          <button class="btn small" id="evNew" type="button">+ Termin</button>
+          <label class="btn small" for="icsFile">Apple-Kalender importieren</label>
+          <input type="file" id="icsFile" accept=".ics,text/calendar" hidden>
+          <button class="btn small" id="icsExport" type="button">Für Apple exportieren</button>
+        </div>
+      </div>
+      <div class="week" id="week"></div>
+    </section>
+
+    <section class="card span-5" aria-label="Aufgaben">
+      <div class="card-head">
+        <h2>Aufgaben</h2>
+        <div class="tabs" role="group" aria-label="Filter">
+          <button class="tab" data-f="offen" aria-pressed="true" type="button">Offen</button>
+          <button class="tab" data-f="woche" aria-pressed="false" type="button">Diese Woche</button>
+          <button class="tab" data-f="erledigt" aria-pressed="false" type="button">Erledigt</button>
+        </div>
+      </div>
+      <form class="quick" id="taskQuick"><input id="taskQuickInput" placeholder="Neue Aufgabe, Enter zum Speichern"><button class="btn small" type="submit">+</button></form>
+      <ul class="list" id="tasks"></ul>
+    </section>
+
+    <section class="card span-7" aria-label="Projekte und Apps">
+      <div class="card-head"><h2>Projekte, Apps &amp; Artefakte</h2>
+        <button class="btn small" id="projNew" type="button">+ Projekt</button></div>
+      <div class="projects" id="projects"></div>
+    </section>
+
+    <section class="card span-12" aria-label="Synchronisierung und Logbuch">
+      <div class="card-head"><h2>Sync &amp; Logbuch</h2><span class="label">Änderungen für verknüpfte Artefakte</span></div>
+      <div id="syncList" style="display:flex;flex-direction:column;gap:8px"></div>
+      <ul class="list log" id="log"></ul>
+    </section>
+  </div>
+</div>
+<div id="dialogs"></div>
+
+<script>
+(() => {
+  // ---------- Hilfen ----------
+  const $ = (id) => document.getElementById(id);
+  function h(tag, attrs, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v == null || v === false) continue;
+      if (k === "class") el.className = v;
+      else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+      else if (k === "text") el.textContent = v;
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    for (const c of kids.flat()) if (c != null && c !== false) el.append(c.nodeType ? c : document.createTextNode(String(c)));
+    return el;
+  }
+  const pad = (n) => String(n).padStart(2, "0");
+  const iso = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parseIso = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const monday = (d) => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); const wd = (x.getDay() + 6) % 7; return addDays(x, -wd); };
+  function isoWeek(d) { const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day); const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1)); return Math.ceil(((t - y0) / 864e5 + 1) / 7); }
+  const WD = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+  const fmtDay = (s) => parseIso(s).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" });
+  const todayIso = () => iso(new Date());
+  const toast = (msg) => { const t = h("div", { class: "toast", role: "status", text: msg }); document.body.append(t); setTimeout(() => t.remove(), 2600); };
+  const safeUrl = (u) => typeof u === "string" && /^https:\/\//.test(u) ? u : null;
+
+  // ---------- Zustand ----------
+  const S = { tasks: [], events: [], projects: [], log: [], weekStart: monday(new Date()), filter: "offen" };
+  let db = null; const mem = { tasks: new Map(), events: new Map(), projects: new Map(), log: new Map() };
+
+  const store = {
+    async add(col, data) {
+      if (db) { const r = await db.collection(col).add(data); return r.id; }
+      const id = col[0] + Math.random().toString(36).slice(2, 9); mem[col].set(id, data); pull(col); return id;
+    },
+    async update(col, id, data) {
+      if (db) return db.collection(col).doc(id).update(data);
+      mem[col].set(id, { ...mem[col].get(id), ...data }); pull(col);
+    },
+    async remove(col, id) {
+      if (db) return db.collection(col).doc(id).delete();
+      mem[col].delete(id); pull(col);
+    }
+  };
+  function pull(col) { S[col] = [...mem[col]].map(([id, d]) => ({ id, ...d })); render(); }
+
+  // ---------- Uhr ----------
+  function tick() {
+    const n = new Date();
+    $("time").textContent = `${pad(n.getHours())}:${pad(n.getMinutes())}`;
+    $("dateLabel").textContent = n.toLocaleDateString("de-DE", { weekday: "long", day: "numeric", month: "long" });
+    $("kw").textContent = "KW " + isoWeek(n);
+  }
+  tick(); setInterval(tick, 15000);
+
+  // ---------- Rendern ----------
+  const projName = (id) => (S.projects.find((p) => p.id === id) || {}).name;
+  const sortTasks = (a, b) => (a.done - b.done) || ((a.due || "9999") < (b.due || "9999") ? -1 : (a.due || "9999") > (b.due || "9999") ? 1 : 0) || ({ hoch: 0, mittel: 1, niedrig: 2 }[a.prio || "mittel"] - { hoch: 0, mittel: 1, niedrig: 2 }[b.prio || "mittel"]);
+  const sortEvents = (a, b) => (a.date + (a.start || "")).localeCompare(b.date + (b.start || ""));
+
+  function render() { renderToday(); renderWeek(); renderTasks(); renderProjects(); renderLog(); }
+
+  function renderToday() {
+    const t = todayIso();
+    const evs = S.events.filter((e) => e.date === t).sort(sortEvents);
+    const open = S.tasks.filter((x) => !x.done);
+    const over = open.filter((x) => x.due && x.due < t);
+    const dueToday = open.filter((x) => x.due === t);
+    $("stEvents").textContent = evs.length; $("stOpen").textContent = open.length; $("stOver").textContent = over.length;
+    $("stOverWrap").classList.toggle("warn", over.length > 0);
+    $("todayName").textContent = fmtDay(t);
+    const ul = $("agenda"); ul.replaceChildren();
+    evs.forEach((e) => ul.append(h("li", {}, h("span", { class: "t", text: e.start ? e.start + (e.end ? "–" + e.end : "") : "ganztags" }), h("span", {}, e.title, e.location ? h("span", { class: "muted", text: " · " + e.location }) : null))));
+    [...over, ...dueToday].forEach((x) => ul.append(h("li", {}, h("span", { class: "t", text: x.due < t ? "fällig!" : "Aufgabe" }), h("span", { text: x.title }))));
+    const tomorrow = iso(addDays(new Date(), 1));
+    const next = S.events.filter((e) => e.date > t).sort(sortEvents).slice(0, 3);
+    if (next.length) {
+      ul.append(h("li", {}, h("span", { class: "label", text: "Danach" }), h("span")));
+      next.forEach((e) => ul.append(h("li", {}, h("span", { class: "t", text: e.date === tomorrow ? "morgen" : fmtDay(e.date).slice(0, 6) }), h("span", {}, (e.start ? e.start + " " : "") + e.title))));
+    }
+    if (!ul.children.length) ul.append(h("li", {}, h("span", { class: "t", text: "–" }), h("span", { class: "muted", text: "Heute ist nichts geplant. Trag oben einen Termin oder eine Aufgabe ein." })));
+  }
+
+  function renderWeek() {
+    const w = $("week"); w.replaceChildren();
+    const t = todayIso();
+    const end = addDays(S.weekStart, 6);
+    $("weekRange").textContent = `KW ${isoWeek(S.weekStart)} · ${S.weekStart.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" })}–${end.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" })}`;
+    for (let i = 0; i < 7; i++) {
+      const d = iso(addDays(S.weekStart, i));
+      const box = h("div", { class: "day" + (d === t ? " today" : "") }, h("div", { class: "dh" }, h("span", { text: WD[i] }), h("b", { text: d.slice(8) + "." + d.slice(5, 7) + "." })));
+      S.events.filter((e) => e.date === d).sort(sortEvents).forEach((e) => box.append(h("button", { class: "ev", type: "button", onclick: () => eventDialog(e) }, e.start ? h("span", { class: "mono", text: e.start }) : null, e.title)));
+      S.tasks.filter((x) => x.due === d).forEach((x) => box.append(h("button", { class: "ev task" + (x.done ? " done" : ""), type: "button", title: "Aufgabe", onclick: () => taskDialog(x) }, "☐ " + x.title)));
+      w.append(box);
+    }
+  }
+
+  function renderTasks() {
+    const ul = $("tasks"); ul.replaceChildren();
+    const t = todayIso(); const wEnd = iso(addDays(monday(new Date()), 6));
+    let list = S.tasks.slice();
+    if (S.filter === "offen") list = list.filter((x) => !x.done);
+    if (S.filter === "woche") list = list.filter((x) => !x.done && x.due && x.due <= wEnd);
+    if (S.filter === "erledigt") list = list.filter((x) => x.done);
+    list.sort(sortTasks);
+    for (const x of list.slice(0, 80)) {
+      const meta = h("div", { class: "meta" },
+        x.due ? h("span", { class: "pill" + (!x.done && x.due < t ? " over" : ""), text: x.due === t ? "heute" : fmtDay(x.due) }) : null,
+        x.prio === "hoch" ? h("span", { class: "pill hoch", text: "wichtig" }) : null,
+        x.projectId && projName(x.projectId) ? h("span", { class: "pill proj", text: projName(x.projectId) }) : null);
+      ul.append(h("li", { class: x.done ? "done" : "" },
+        h("input", { type: "checkbox", class: "chk", "aria-label": "Erledigt: " + x.title, checked: !!x.done, onchange: (ev) => store.update("tasks", x.id, { done: ev.target.checked, doneAt: ev.target.checked ? new Date().toISOString() : null }) }),
+        h("div", { class: "body", onclick: () => taskDialog(x), style: "cursor:pointer" }, h("span", { text: x.title }), meta),
+        h("button", { class: "x", type: "button", "aria-label": "Löschen", onclick: () => store.remove("tasks", x.id) }, "×")));
+    }
+    if (!list.length) ul.append(h("li", { class: "empty", text: S.filter === "erledigt" ? "Noch nichts erledigt." : "Keine offenen Aufgaben. Neue oben eintippen oder in die Kommandozentrale sprechen." }));
+  }
+
+  function renderProjects() {
+    const box = $("projects"); box.replaceChildren();
+    const order = { aktiv: 0, geplant: 1, pausiert: 2, fertig: 3 };
+    const list = S.projects.slice().sort((a, b) => (order[a.status] ?? 1) - (order[b.status] ?? 1) || (a.name || "").localeCompare(b.name || ""));
+    for (const p of list) {
+      const openN = S.tasks.filter((x) => x.projectId === p.id && !x.done).length;
+      const url = safeUrl(p.url);
+      box.append(h("div", { class: "proj" },
+        h("div", { class: "top" }, h("span", { class: "pill", text: p.kind || "Projekt" }), h("span", { class: "st " + (p.status || "aktiv"), text: p.status || "aktiv" })),
+        h("h3", { text: p.name }),
+        p.summary ? h("p", { class: "muted", text: p.summary }) : null,
+        p.next ? h("p", { class: "next" }, h("span", { class: "label", text: "Nächster Schritt " }), p.next) : null,
+        h("div", { style: "display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap" },
+          url ? h("a", { href: url, target: "_blank", rel: "noopener" }, "Artefakt öffnen ↗") : h("span", { class: "muted", style: "font-size:12px", text: "kein Link" }),
+          h("span", { class: "muted", style: "font-size:12px", text: openN + " offen" })),
+        h("button", { class: "btn small", type: "button", onclick: () => projectDialog(p) }, "Bearbeiten")));
+    }
+    if (!list.length) box.append(h("div", { class: "empty", text: "Noch keine Projekte. Lege eins an oder sag z. B. „Neues Projekt Reise Japan, Link …“." }));
+  }
+
+  function renderLog() {
+    const sl = $("syncList"); sl.replaceChildren();
+    const pending = S.log.filter((l) => l.syncPending && l.syncPending.length).sort((a, b) => (b.at || "").localeCompare(a.at || ""));
+    for (const l of pending) {
+      for (const s of l.syncPending) {
+        const p = S.projects.find((x) => x.id === s.projectId) || { name: s.projectName || "Artefakt" };
+        const text = `Bitte in „${p.name}“${safeUrl(p.url) ? " (" + p.url + ")" : ""} übernehmen: ${s.change}`;
+        sl.append(h("div", { class: "sync" },
+          h("div", {}, h("span", { class: "pill over", text: "Sync offen" }), " ", h("b", { text: p.name }), h("span", { class: "muted", text: " · " + s.change })),
+          h("div", { class: "row" },
+            h("button", { class: "btn small", type: "button", onclick: () => copy(text) }, "Auftrag für Claude kopieren"),
+            safeUrl(p.url) ? h("a", { class: "btn small", href: p.url, target: "_blank", rel: "noopener", style: "text-decoration:none" }, "Artefakt öffnen ↗") : null,
+            h("button", { class: "btn small", type: "button", onclick: () => store.update("log", l.id, { syncPending: l.syncPending.filter((x) => x !== s) }) }, "Erledigt"))));
+      }
+    }
+    const ul = $("log"); ul.replaceChildren();
+    S.log.slice().sort((a, b) => (b.at || "").localeCompare(a.at || "")).slice(0, 12).forEach((l) => ul.append(h("li", {},
+      h("span", { class: "when", text: (l.at ? new Date(l.at).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "") + " · " + (l.source || "Kommandozentrale") }),
+      h("span", { text: l.text }),
+      l.actions && l.actions.length ? h("span", { class: "acts", text: "→ " + l.actions.join(" · ") }) : null)));
+    if (!S.log.length) ul.append(h("li", { class: "empty", text: "Hier erscheint jede Änderung, die über die Kommandozentrale oder Claude kommt." }));
+  }
+
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); toast("Kopiert. In den Claude-Chat einfügen."); }
+    catch { dialog("Auftrag kopieren", [h("textarea", { rows: 5, style: "width:100%", readonly: true, text: text })], []); }
+  }
+
+  // ---------- Dialoge ----------
+  function dialog(title, fields, buttons) {
+    const root = $("dialogs");
+    const close = () => root.replaceChildren();
+    const back = h("div", { class: "dialog-back", onclick: (e) => { if (e.target === back) close(); } },
+      h("div", { class: "dialog", role: "dialog", "aria-modal": "true", "aria-label": title },
+        h("h2", { text: title }), h("div", { class: "fgrid" }, fields),
+        h("div", { style: "display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap" },
+          buttons.map((b) => h("button", { class: "btn" + (b.primary ? " primary" : ""), type: "button", onclick: async () => { if ((await b.run()) !== false) close(); } }, b.label)),
+          h("button", { class: "btn", type: "button", onclick: close }, "Schließen"))));
+    root.replaceChildren(back);
+    const f = back.querySelector("input,textarea,select"); if (f) f.focus();
+    back.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  }
+  const field = (label, id, value, type = "text", full = false) => h("label", { class: full ? "full" : "" }, label, type === "textarea" ? h("textarea", { id, rows: 3, text: value || "" }) : h("input", { id, type, value: value || "" }));
+  const select = (label, id, value, opts) => h("label", {}, label, h("select", { id }, opts.map(([v, t]) => h("option", { value: v, selected: v === (value || "") }, t))));
+  const val = (id) => { const el = document.getElementById(id); return el ? el.value.trim() : ""; };
+  const projOpts = () => [["", "– kein Projekt –"], ...S.projects.map((p) => [p.id, p.name])];
+
+  function eventDialog(e = {}) {
+    dialog(e.id ? "Termin bearbeiten" : "Neuer Termin", [
+      field("Titel", "f_title", e.title, "text", true),
+      field("Datum", "f_date", e.date || iso(S.weekStart < new Date() && addDays(S.weekStart, 6) >= new Date() ? new Date() : S.weekStart), "date"),
+      field("Ort", "f_loc", e.location),
+      field("Beginn", "f_start", e.start, "time"),
+      field("Ende", "f_end", e.end, "time"),
+      select("Projekt", "f_proj", e.projectId, projOpts()),
+      h("span"),
+      field("Notiz", "f_notes", e.notes, "textarea", true)
+    ], [
+      ...(e.id ? [{ label: "Löschen", run: () => store.remove("events", e.id) }, { label: "Als .ics für Apple", run: () => { exportIcs([e], slug(e.title) + ".ics"); return false; } }] : []),
+      { label: "Speichern", primary: true, run: async () => {
+        const data = { title: val("f_title"), date: val("f_date"), start: val("f_start") || null, end: val("f_end") || null, location: val("f_loc") || null, notes: val("f_notes") || null, projectId: val("f_proj") || null };
+        if (!data.title || !data.date) { toast("Titel und Datum fehlen."); return false; }
+        if (e.id) await store.update("events", e.id, data); else await store.add("events", { ...data, source: "manuell", createdAt: new Date().toISOString() });
+      } }
+    ]);
+  }
+  function taskDialog(x = {}) {
+    dialog(x.id ? "Aufgabe bearbeiten" : "Neue Aufgabe", [
+      field("Aufgabe", "f_title", x.title, "text", true),
+      field("Fällig am", "f_due", x.due, "date"),
+      select("Priorität", "f_prio", x.prio || "mittel", [["hoch", "hoch"], ["mittel", "mittel"], ["niedrig", "niedrig"]]),
+      select("Projekt", "f_proj", x.projectId, projOpts()),
+      h("span"),
+      field("Notiz", "f_notes", x.notes, "textarea", true)
+    ], [
+      { label: "Speichern", primary: true, run: async () => {
+        const data = { title: val("f_title"), due: val("f_due") || null, prio: val("f_prio"), projectId: val("f_proj") || null, notes: val("f_notes") || null };
+        if (!data.title) return false;
+        if (x.id) await store.update("tasks", x.id, data); else await store.add("tasks", { ...data, done: false, createdAt: new Date().toISOString() });
+      } }
+    ]);
+  }
+  function projectDialog(p = {}) {
+    dialog(p.id ? "Projekt bearbeiten" : "Neues Projekt", [
+      field("Name", "f_name", p.name, "text", true),
+      select("Art", "f_kind", p.kind || "Projekt", [["Projekt", "Projekt"], ["App", "App"], ["Reise", "Reise"], ["Artefakt", "Artefakt"], ["Bereich", "Bereich"]]),
+      select("Status", "f_status", p.status || "aktiv", [["aktiv", "aktiv"], ["geplant", "geplant"], ["pausiert", "pausiert"], ["fertig", "fertig"]]),
+      field("Link zum Artefakt (https://claude.ai/…)", "f_url", p.url, "url", true),
+      field("Kurzbeschreibung", "f_sum", p.summary, "textarea", true),
+      field("Nächster Schritt", "f_next", p.next, "text", true)
+    ], [
+      ...(p.id ? [{ label: "Löschen", run: () => store.remove("projects", p.id) }] : []),
+      { label: "Speichern", primary: true, run: async () => {
+        const url = val("f_url");
+        const data = { name: val("f_name"), kind: val("f_kind"), status: val("f_status"), url: safeUrl(url), summary: val("f_sum") || null, next: val("f_next") || null };
+        if (!data.name) return false;
+        if (url && !data.url) { toast("Der Link muss mit https:// beginnen."); return false; }
+        if (p.id) await store.update("projects", p.id, data); else await store.add("projects", { ...data, createdAt: new Date().toISOString() });
+      } }
+    ]);
+  }
+
+  // ---------- Apple Kalender (.ics) ----------
+  const slug = (s) => (s || "termin").toLowerCase().replace(/[^a-z0-9äöüß]+/g, "-").slice(0, 40);
+  const icsEsc = (s) => String(s || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+  function icsDate(date, time) { return date.replace(/-/g, "") + (time ? "T" + time.replace(":", "") + "00" : ""); }
+  function buildIcs(events) {
+    const L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Nico OS//DE", "CALSCALE:GREGORIAN", "X-WR-CALNAME:Nico OS"];
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    for (const e of events) {
+      L.push("BEGIN:VEVENT", "UID:" + (e.id || Math.random().toString(36).slice(2)) + "@nico-os", "DTSTAMP:" + stamp, "SUMMARY:" + icsEsc(e.title));
+      if (e.start) {
+        L.push("DTSTART;TZID=Europe/Berlin:" + icsDate(e.date, e.start));
+        let endT = e.end; if (!endT) { const [hh, mm] = e.start.split(":").map(Number); endT = pad(Math.min(23, hh + 1)) + ":" + pad(mm); }
+        L.push("DTEND;TZID=Europe/Berlin:" + icsDate(e.date, endT));
+      } else {
+        L.push("DTSTART;VALUE=DATE:" + icsDate(e.date), "DTEND;VALUE=DATE:" + icsDate(iso(addDays(parseIso(e.date), 1))));
+      }
+      if (e.location) L.push("LOCATION:" + icsEsc(e.location));
+      if (e.notes) L.push("DESCRIPTION:" + icsEsc(e.notes));
+      L.push("END:VEVENT");
+    }
+    L.push("END:VCALENDAR");
+    return L.join("\r\n");
+  }
+  async function exportIcs(events, filename) {
+    if (!events.length) { toast("Keine Termine zum Exportieren."); return; }
+    const dl = await claude.use("downloads").catch(() => null);
+    if (!dl) { toast("Download ist in dieser Ansicht nicht verfügbar."); return; }
+    try { await dl.save({ filename, data: new Blob([buildIcs(events)], { type: "text/calendar" }) }); toast("Datei gespeichert. Öffnen fügt sie in Apple Kalender ein."); }
+    catch (e) { if (e && e.code !== "declined") toast("Export fehlgeschlagen: " + (e.message || e.code)); }
+  }
+  $("icsExport").addEventListener("click", () => {
+    const from = todayIso();
+    exportIcs(S.events.filter((e) => e.date >= from && e.source !== "apple"), "nico-os-termine.ics");
+  });
+
+  function parseIcs(text) {
+    const lines = text.replace(/\r\n[ \t]/g, "").replace(/\n[ \t]/g, "").split(/\r?\n/);
+    const out = []; let cur = null;
+    const unesc = (s) => s.replace(/\\n/gi, "\n").replace(/\\([,;\\])/g, "$1");
+    for (const line of lines) {
+      if (line === "BEGIN:VEVENT") { cur = {}; continue; }
+      if (line === "END:VEVENT") { if (cur && cur.title && cur.date) out.push(cur); cur = null; continue; }
+      if (!cur) continue;
+      const i = line.indexOf(":"); if (i < 0) continue;
+      const key = line.slice(0, i), v = line.slice(i + 1), name = key.split(";")[0];
+      if (name === "SUMMARY") cur.title = unesc(v).slice(0, 200);
+      else if (name === "LOCATION") cur.location = unesc(v).slice(0, 200);
+      else if (name === "UID") cur.uid = v.slice(0, 200);
+      else if (name === "DTSTART" || name === "DTEND") {
+        const m = v.match(/^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})(Z)?)?/); if (!m) continue;
+        let d, time = null;
+        if (m[4]) { d = m[7] ? new Date(Date.UTC(+m[1], m[2] - 1, +m[3], +m[4], +m[5])) : new Date(+m[1], m[2] - 1, +m[3], +m[4], +m[5]); time = pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+        else d = new Date(+m[1], m[2] - 1, +m[3]);
+        if (name === "DTSTART") { cur.date = iso(d); cur.start = time; } else if (time) cur.end = time;
+      }
+    }
+    return out;
+  }
+  $("icsFile").addEventListener("change", async (ev) => {
+    const file = ev.target.files[0]; ev.target.value = ""; if (!file) return;
+    const text = await file.text();
+    const from = iso(addDays(new Date(), -14)), to = iso(addDays(new Date(), 400));
+    const known = new Set(S.events.map((e) => e.uid).filter(Boolean));
+    const items = parseIcs(text).filter((e) => e.date >= from && e.date <= to && !(e.uid && known.has(e.uid))).slice(0, 300);
+    for (const e of items) await store.add("events", { ...e, end: e.end || null, start: e.start || null, location: e.location || null, uid: e.uid || null, source: "apple", createdAt: new Date().toISOString() });
+    await store.add("log", { text: `Apple-Kalender importiert: ${file.name}`, actions: [items.length + " Termine übernommen"], at: new Date().toISOString(), source: "Import" });
+    toast(items.length + " Termine aus Apple Kalender übernommen.");
+  });
+
+  // ---------- Schnelleingaben ----------
+  $("taskQuick").addEventListener("submit", async (e) => {
+    e.preventDefault(); const v = $("taskQuickInput").value.trim(); if (!v) return;
+    $("taskQuickInput").value = ""; await store.add("tasks", { title: v, done: false, prio: "mittel", due: null, projectId: null, createdAt: new Date().toISOString() });
+  });
+  document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
+    S.filter = b.dataset.f; document.querySelectorAll(".tab").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false")); renderTasks();
+  }));
+  $("wkPrev").onclick = () => { S.weekStart = addDays(S.weekStart, -7); renderWeek(); };
+  $("wkNext").onclick = () => { S.weekStart = addDays(S.weekStart, 7); renderWeek(); };
+  $("wkNow").onclick = () => { S.weekStart = monday(new Date()); renderWeek(); };
+  $("evNew").onclick = () => eventDialog();
+  $("projNew").onclick = () => projectDialog();
+
+  // ---------- Kommandozentrale ----------
+  const HINTS = ["Morgen 9 Uhr Call mit Bank", "Aufgabe: Steuer bis Freitag, wichtig", "Reise: Abflug auf 14:20 verschoben", "Was steht diese Woche an?"];
+  HINTS.forEach((t) => $("hints").append(h("button", { class: "hint", type: "button", onclick: () => { $("cmdInput").value = t; $("cmdInput").focus(); } }, t)));
+
+  let sample = null, busy = false;
+  const findProject = (ref) => { if (!ref) return null; const r = String(ref).toLowerCase(); return S.projects.find((p) => p.id === ref) || S.projects.find((p) => (p.name || "").toLowerCase() === r) || S.projects.find((p) => (p.name || "").toLowerCase().includes(r)) || null; };
+
+  function makeTools(acts, syncs) {
+    const s = (props, req) => ({ type: "object", properties: props, required: req || [] });
+    const str = { type: "string" };
+    return [
+      { name: "add_task", description: "Neue Aufgabe anlegen.", inputSchema: s({ title: str, due: { type: "string", description: "YYYY-MM-DD" }, prio: { type: "string", enum: ["hoch", "mittel", "niedrig"] }, project: { type: "string", description: "Projektname oder -id" }, notes: str }, ["title"]),
+        execute: async (i) => { const p = findProject(i.project); await store.add("tasks", { title: String(i.title).slice(0, 300), due: i.due || null, prio: i.prio || "mittel", projectId: p ? p.id : null, notes: i.notes || null, done: false, createdAt: new Date().toISOString() }); acts.push("Aufgabe: " + i.title); return "ok"; } },
+      { name: "update_task", description: "Bestehende Aufgabe ändern oder abhaken (id aus der Liste).", inputSchema: s({ id: str, title: str, due: str, prio: str, done: { type: "boolean" }, notes: str }, ["id"]),
+        execute: async (i) => { const x = S.tasks.find((t) => t.id === i.id); if (!x) throw new Error("Aufgabe nicht gefunden"); const d = {}; for (const k of ["title", "due", "prio", "done", "notes"]) if (i[k] !== undefined) d[k] = i[k]; await store.update("tasks", i.id, d); acts.push((i.done ? "Erledigt: " : "Geändert: ") + x.title); return "ok"; } },
+      { name: "add_event", description: "Neuen Kalendertermin anlegen.", inputSchema: s({ title: str, date: { type: "string", description: "YYYY-MM-DD" }, start: { type: "string", description: "HH:MM" }, end: { type: "string", description: "HH:MM" }, location: str, notes: str, project: str }, ["title", "date"]),
+        execute: async (i) => { const p = findProject(i.project); await store.add("events", { title: String(i.title).slice(0, 200), date: i.date, start: i.start || null, end: i.end || null, location: i.location || null, notes: i.notes || null, projectId: p ? p.id : null, source: "kommando", createdAt: new Date().toISOString() }); acts.push("Termin: " + i.title + " " + i.date + (i.start ? " " + i.start : "")); return "ok"; } },
+      { name: "update_event", description: "Termin ändern (id aus der Liste).", inputSchema: s({ id: str, title: str, date: str, start: str, end: str, location: str, notes: str }, ["id"]),
+        execute: async (i) => { const e = S.events.find((x) => x.id === i.id); if (!e) throw new Error("Termin nicht gefunden"); const d = {}; for (const k of ["title", "date", "start", "end", "location", "notes"]) if (i[k] !== undefined) d[k] = i[k]; await store.update("events", i.id, d); acts.push("Termin geändert: " + e.title); return "ok"; } },
+      { name: "delete_item", description: "Aufgabe, Termin oder Projekt löschen.", inputSchema: s({ kind: { type: "string", enum: ["tasks", "events", "projects"] }, id: str }, ["kind", "id"]),
+        execute: async (i) => { const x = (S[i.kind] || []).find((y) => y.id === i.id); if (!x) throw new Error("nicht gefunden"); await store.remove(i.kind, i.id); acts.push("Gelöscht: " + (x.title || x.name)); return "ok"; } },
+      { name: "upsert_project", description: "Projekt / App / Reise / Artefakt anlegen oder aktualisieren. Mit id = ändern.", inputSchema: s({ id: str, name: str, kind: { type: "string", enum: ["Projekt", "App", "Reise", "Artefakt", "Bereich"] }, status: { type: "string", enum: ["aktiv", "geplant", "pausiert", "fertig"] }, summary: str, next: { type: "string", description: "nächster Schritt" }, url: { type: "string", description: "https-Link zum Artefakt" } }, ["name"]),
+        execute: async (i) => { const d = {}; for (const k of ["name", "kind", "status", "summary", "next"]) if (i[k] !== undefined) d[k] = i[k]; if (i.url !== undefined) d.url = safeUrl(i.url); const p = i.id ? S.projects.find((x) => x.id === i.id) : findProject(i.name); if (p) { await store.update("projects", p.id, d); acts.push("Projekt aktualisiert: " + p.name); } else { await store.add("projects", { kind: "Projekt", status: "aktiv", ...d, createdAt: new Date().toISOString() }); acts.push("Projekt neu: " + i.name); } return "ok"; } },
+      { name: "flag_artifact_sync", description: "Merken, dass eine Information auch im eigenständigen Artefakt eines Projekts (z. B. Reise) nachgetragen werden muss. Immer nutzen, wenn eine Änderung ein Projekt mit Artefakt-Link betrifft.", inputSchema: s({ project: str, change: { type: "string", description: "präzise Änderung, die im Artefakt übernommen werden soll" } }, ["project", "change"]),
+        execute: async (i) => { const p = findProject(i.project); syncs.push({ projectId: p ? p.id : null, projectName: p ? p.name : i.project, change: String(i.change).slice(0, 500) }); acts.push("Sync vorgemerkt: " + (p ? p.name : i.project)); return "ok"; } }
+    ];
+  }
+
+  function context() {
+    const t = todayIso();
+    const tasks = S.tasks.filter((x) => !x.done).sort(sortTasks).slice(0, 60).map((x) => `- [${x.id}] ${x.title}${x.due ? " (fällig " + x.due + ")" : ""}${x.projectId ? " #" + (projName(x.projectId) || "") : ""}`).join("\n") || "(keine)";
+    const evs = S.events.filter((e) => e.date >= iso(addDays(new Date(), -3))).sort(sortEvents).slice(0, 60).map((e) => `- [${e.id}] ${e.date} ${e.start || "ganztags"}${e.end ? "-" + e.end : ""} ${e.title}${e.location ? " @" + e.location : ""}`).join("\n") || "(keine)";
+    const projs = S.projects.map((p) => `- [${p.id}] ${p.name} (${p.kind || "Projekt"}, ${p.status || "aktiv"})${p.url ? " Artefakt: " + p.url : ""}${p.next ? " | nächster Schritt: " + p.next : ""}${p.summary ? " | " + p.summary : ""}`).join("\n") || "(keine)";
+    return `Heute ist ${new Date().toLocaleDateString("de-DE", { weekday: "long" })}, ${t}, Zeitzone Europe/Berlin, KW ${isoWeek(new Date())}.\n\nOFFENE AUFGABEN:\n${tasks}\n\nTERMINE:\n${evs}\n\nPROJEKTE:\n${projs}`;
+  }
+
+  async function runCommand() {
+    const text = $("cmdInput").value.trim(); if (!text || busy) return;
+    const ans = $("cmdAnswer"); ans.hidden = false; ans.classList.remove("err");
+    if (!sample) {
+      await store.add("tasks", { title: text, done: false, prio: "mittel", due: null, projectId: null, createdAt: new Date().toISOString() });
+      await store.add("log", { text, actions: ["Als Aufgabe gespeichert (ohne Claude)"], at: new Date().toISOString() });
+      ans.textContent = "Als Aufgabe gespeichert. Claude ist in dieser Ansicht nicht verfügbar, daher keine automatische Einordnung.";
+      $("cmdInput").value = ""; return;
+    }
+    busy = true; $("cmdSend").disabled = true; ans.textContent = "Ordne ein …";
+    const acts = [], syncs = [];
+    const prompt = `Du bist die Kommandozentrale von "Nico OS", Nicos persönlichem Dashboard. Nico schreibt oder spricht Infos, Termine, Aufgaben und Änderungen. Übersetze sie mit den Werkzeugen in konkrete Änderungen. Regeln:
+- Relative Angaben ("morgen", "Freitag", "nächste Woche") in absolute Daten YYYY-MM-DD umrechnen, Uhrzeiten HH:MM.
+- Termin = fester Zeitpunkt; Aufgabe = etwas zu erledigen (ggf. mit Fälligkeit).
+- Bestehende Einträge ändern statt doppelt anlegen; nutze die ids in eckigen Klammern.
+- Betrifft eine Info ein Projekt (z. B. die Reise), aktualisiere das Projekt (next/summary) UND rufe flag_artifact_sync auf, wenn das Projekt einen Artefakt-Link hat.
+- Bei reinen Fragen keine Werkzeuge, nur antworten.
+- Antworte zum Schluss in 1–3 kurzen Sätzen auf Deutsch, was du geändert hast oder die Antwort. Keine Aufzählung von ids.
+
+${context()}
+
+NICO SAGT:
+${text}`;
+    try {
+      const r = await sample(prompt, { tools: makeTools(acts, syncs), modelTier: "default", cache: false, onText: ({ text: t }) => { ans.textContent = t; } });
+      ans.textContent = r.text || (acts.length ? "Erledigt." : "Keine Änderung.");
+      if (acts.length || syncs.length) await store.add("log", { text, actions: acts, syncPending: syncs, at: new Date().toISOString(), source: "Kommandozentrale" });
+      $("cmdInput").value = "";
+    } catch (e) {
+      ans.classList.add("err");
+      ans.textContent = e && e.code === "rate_limited" ? "Gerade zu viele Anfragen. Versuch es in einer Minute noch mal." : e && e.code === "not_granted" ? "Claude-Zugriff wurde abgelehnt. Eingaben werden jetzt als Aufgaben gespeichert." : "Das hat nicht geklappt: " + ((e && e.message) || "unbekannter Fehler");
+      if (e && e.code === "not_granted") sample = null;
+      if (acts.length) await store.add("log", { text, actions: acts, syncPending: syncs, at: new Date().toISOString(), source: "Kommandozentrale" });
+    } finally { busy = false; $("cmdSend").disabled = false; }
+  }
+  $("cmdSend").addEventListener("click", runCommand);
+  $("cmdInput").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey || !e.shiftKey)) { e.preventDefault(); runCommand(); } });
+
+  // ---------- Start ----------
+  function setStatus(on, label) { const s = $("syncState"); s.replaceChildren(h("span", { class: "status-dot" + (on ? " on" : "") }), label); }
+
+  render();
+  claude.use("sample").then((s) => { sample = s; }).catch(() => {});
+  claude.use("dictation").then((d) => {
+    if (!d) return;
+    const b = $("micBtn"); b.hidden = false; let base = "";
+    d.onPartial(({ text }) => { $("cmdInput").value = (base + " " + text).trim(); });
+    d.onFinal(({ text }) => { base = (base + " " + text).trim(); $("cmdInput").value = base; });
+    d.onState(({ state }) => { const live = state === "listening" || state === "starting"; b.classList.toggle("live", live); b.textContent = live ? "Stopp" : "Sprechen"; });
+    b.addEventListener("click", () => {
+      if (d.active()) { d.stop().catch(() => {}); return; }
+      base = $("cmdInput").value.trim();
+      d.start({ language: "de-DE" }).catch((e) => { if (e && e.code === "not_granted") b.hidden = true; });
+    });
+  }).catch(() => {});
+
+  const timer = setTimeout(() => { if (!db) { $("offline").hidden = false; setStatus(false, "nur lokal"); } }, 10000);
+  claude.use("db").then((d) => {
+    if (!d) { clearTimeout(timer); $("offline").hidden = false; setStatus(false, "nur lokal"); return; }
+    db = d; let first = true;
+    for (const col of ["tasks", "events", "projects", "log"]) {
+      d.collection(col).onSnapshot((snap) => {
+        S[col] = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        if (first) { first = false; clearTimeout(timer); setStatus(true, "synchron"); }
+        render();
+      }, (err) => { setStatus(false, "Speicherfehler"); toast("Speicher nicht erreichbar: " + err.message); });
+    }
+  }).catch(() => { $("offline").hidden = false; setStatus(false, "nur lokal"); });
+})();
+</script>
