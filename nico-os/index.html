@@ -467,6 +467,143 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 .sk { display: block; background: linear-gradient(90deg, var(--card2), var(--card3), var(--card2)); background-size: 200% 100%; animation: shim 1.2s infinite; border-radius: 10px; height: 14px; }
 @keyframes shim { to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ===== Kompakt & clean ===== */
+:root { --shadow: none; --r: 16px; }
+body { font-size: 14px; }
+.app { padding-block: 6px 120px; }
+.view, .grid, .col { gap: 10px; }
+.big { font-size: 22px; letter-spacing: -.02em; }
+@media (min-width: 900px) { .big { font-size: 24px; } }
+.subline { font-size: 12px; }
+.round { width: 32px; height: 32px; background: var(--card2); }
+.round svg.i { width: 17px; height: 17px; }
+.round.ink { font-size: 13px; }
+.card { padding: 13px 14px; gap: 9px; border-radius: 16px; }
+.card-h { min-height: 24px; }
+.card-h h2 { font-size: 15px; font-weight: 700; }
+.card-h .cnt { font-size: 12px; font-weight: 600; }
+.link { font-size: 13px; }
+.sec { font-size: 15px; font-weight: 700; padding: 6px 2px 0; }
+.ov { gap: 6px; }
+.ovt { padding: 8px 10px 7px; border-radius: 13px; }
+.ovt b { font-size: 18px; }
+.ovt span { font-size: 11px; font-weight: 500; }
+.nextbar { padding: 7px 10px 7px 7px; border-radius: 14px; gap: 10px; background: var(--card); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent); }
+.nextbar .nb-t { min-width: 50px; padding: 5px 7px; border-radius: 10px; }
+.nextbar .nb-t b { font-size: 13px; }
+.nextbar .nb-t small { font-size: 10px; }
+.nextbar .nb-k { font-size: 10px; }
+.nextbar .nb-x { font-size: 14px; font-weight: 600; }
+.nextbar .nb-s { font-size: 12px; }
+.seg { border-radius: 9px; padding: 2px; }
+.seg button { padding: 4px 10px; font-size: 12px; border-radius: 7px; }
+.dayhead { font-size: 12px; padding: 10px 0 4px; }
+.ev { grid-template-columns: 42px 3px minmax(0, 1fr); gap: 10px; padding: 6px 4px 6px 0; border-radius: 10px; }
+.ev .tm { font-size: 12px; font-weight: 600; }
+.ev .tm span { font-size: 10.5px; }
+.ev .tt { font-size: 14px; font-weight: 500; }
+.ev .ss { font-size: 12px; color: var(--ink3); }
+.free { font-size: 12px; padding: 2px 0 2px 52px; }
+.todo { grid-template-columns: 20px minmax(0, 1fr); gap: 11px; padding: 8px 2px; }
+.ck { width: 20px; height: 20px; border-width: 1.6px; }
+.ck.on::after { width: 5px; height: 9px; border-width: 0 2px 2px 0; }
+.todo .tt { font-size: 14px; font-weight: 400; }
+.meta { gap: 8px; margin-top: 2px; }
+.tag { background: none; padding: 0; font-size: 11.5px; font-weight: 500; color: var(--ink3); border-radius: 0; }
+.tag.over { background: none; color: var(--warn); }
+.tag.today { background: none; color: var(--accent); }
+.tag.soon { background: none; color: var(--ink2); }
+.tag .dot { width: 6px; height: 6px; }
+.flag { font-size: 11px; }
+.group-h { font-size: 12px; font-weight: 600; padding: 12px 2px 2px; color: var(--ink3); }
+.trow + .trow { box-shadow: inset 0 1px 0 color-mix(in srgb, var(--line) 70%, transparent); }
+.addrow { border-radius: 12px; padding: 3px 3px 3px 11px; }
+.addrow.raised { background: var(--card); }
+.addrow input { font-size: 14px; padding: 7px 0; }
+.addrow button { width: 30px; height: 30px; border-radius: 9px; }
+.addrow button svg.i { width: 17px; height: 17px; }
+.tok { font-size: 11px; padding: 2px 8px; }
+.filters { gap: 6px; }
+.fbtn { padding: 5px 11px; font-size: 12.5px; font-weight: 500; background: var(--card); }
+.fbtn .n { font-size: 11px; }
+.focus { padding: 12px 14px; border-radius: 16px; gap: 6px; background: var(--card); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent); }
+.focus .k { font-size: 10px; }
+.focus .tt { font-size: 16px; font-weight: 600; }
+.focus .row button { padding: 6px 12px; font-size: 12.5px; }
+.focus .row button svg.i { width: 14px; height: 14px; }
+.gesture-hint { font-size: 11px; }
+.wd { gap: 4px; padding: 4px 0; }
+.wd .n { font-size: 10px; }
+.wd .d { width: 30px; height: 30px; font-size: 14px; }
+.mtitle { font-size: 22px; }
+.mtitle svg.i { width: 18px; height: 18px; }
+.pillbtn { padding: 6px 12px; font-size: 12px; background: var(--card2); }
+.minibtn { padding: 4px 9px; font-size: 12px; }
+.minibtn svg.i { width: 13px; height: 13px; }
+.mcell { min-height: 78px; }
+.subhead { font-size: 10.5px; padding-top: 8px; }
+.trip-now { font-size: 18px; }
+.trip-pct b { font-size: 15px; }
+.track { height: 5px; }
+.stop { padding: 5px 0; }
+.stop .nm { font-size: 13.5px; font-weight: 600; }
+.stop .dt { font-size: 12px; }
+.badge { font-size: 10px; padding: 2px 7px; }
+.pstrip { gap: 8px; }
+.pc { flex: 0 0 168px; border-radius: 14px; }
+.pc .cover { height: 3px; background: var(--pcol); }
+.pc .mono { display: none; }
+.pc .in { padding: 11px 12px 12px; gap: 4px; }
+.pc .nm { font-size: 13.5px; font-weight: 700; }
+.pc .ss, .pc .nx { font-size: 12px; }
+.prog { height: 3px; margin-top: 6px; }
+.pc.add { min-height: 110px; font-size: 13px; }
+.plist { gap: 10px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.phero { background: var(--card); color: var(--ink); box-shadow: inset 3px 0 0 var(--pcol); border-radius: 16px; padding: 14px 16px; gap: 6px; }
+.phero h1 { font-size: 21px; }
+.phero .kd { font-size: 12px; color: var(--pcol); opacity: 1; }
+.phero .sum { font-size: 13.5px; color: var(--ink2); opacity: 1; }
+.pill { padding: 6px 11px; font-size: 12.5px; background: var(--card2); color: var(--ink); }
+.pill.solid { background: var(--accent); color: var(--accent-ink); }
+.pill svg.i { width: 14px; height: 14px; }
+.stats { gap: 6px; }
+.stat { padding: 9px 11px; border-radius: 13px; }
+.stat b { font-size: 16px; }
+.stat span { font-size: 11px; }
+.mrow { padding: 10px 13px; gap: 10px; }
+.mrow .ic { width: 28px; height: 28px; border-radius: 8px; }
+.mrow .ic svg.i { width: 15px; height: 15px; }
+.mrow .tx b { font-size: 14px; font-weight: 500; }
+.mrow .tx span { font-size: 12px; }
+.mlabel { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.tabbar { width: min(380px, calc(100% - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))); padding: 4px; border-radius: 22px; }
+.tab { font-size: 9.5px; font-weight: 600; padding: 5px 0 3px; }
+.tab svg.i { width: 20px; height: 20px; }
+.fab { width: 48px; height: 48px; border-radius: 16px; transform: translateY(-8px); }
+.fab:active { transform: translateY(-8px) scale(.92); }
+.fab svg.i { width: 24px; height: 24px; }
+.sheet { gap: 12px; border-radius: 22px 22px 0 0; }
+@media (min-width: 700px) { .sheet { border-radius: 22px; } }
+.sh-h h2 { font-size: 17px; }
+.bigin { font-size: 18px; }
+.compose textarea { font-size: 17px; min-height: 76px; }
+.frow { min-height: 42px; padding: 8px 12px; }
+.frow .lb { font-weight: 500; font-size: 14px; }
+.frow input, .frow select { font-size: 14px; }
+.fgroup { border-radius: 13px; }
+.qchips button { padding: 5px 10px; font-size: 12px; }
+.btn { padding: 9px 15px; font-size: 13.5px; border-radius: 12px; }
+.mic, .send, .ghostbtn { height: 44px; }
+.mic { width: 44px; }
+.send { padding: 0 18px; font-size: 14px; }
+.ghostbtn { font-size: 13px; }
+.qa button { padding: 10px 6px; font-size: 12px; border-radius: 13px; }
+.suggest button { font-size: 12px; padding: 5px 10px; }
+.toast { font-size: 13px; padding: 9px 9px 9px 14px; border-radius: 13px; bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
+.blk2 { font-size: 12px; }
+.done-state .big-ck { width: 40px; height: 40px; }
+.done-state .big-ck svg.i { width: 22px; height: 22px; }
 </style>
 
 <div class="topbar" id="topbar" aria-hidden="true"></div>
@@ -842,11 +979,12 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
     const cur = st[ci];
     const top = h("div", { class: "trip-top" }, h("div", {}, h("div", { class: "small muted", text: "Du bist in" }), h("div", { class: "trip-now", text: cur ? cur.name : "–" })), h("div", { class: "trip-pct" }, h("b", { text: "Tag " + (done + 1) }), h("span", { class: "small muted", text: "von " + total + " · noch " + (total - done) })));
     const track = h("div", { class: "track", "aria-hidden": "true" }, st.map((s, i) => h("i", { class: i < ci ? "past" : i === ci ? "cur" : s.status === "offen" ? "open" : "", style: `--n:${Math.max(1, dd(s.from, s.to))}`, title: s.name })));
-    const from = around ? ci : 0, to = around ? Math.min(st.length, ci + around + 1) : st.length;
+    const from = around ? ci : (S.tripAll ? 0 : Math.max(0, ci - 1)), to = around ? Math.min(st.length, ci + around + 1) : st.length;
     const stops = h("div", { class: "stops" }, st.slice(from, to).map((s, k) => { const i = from + k;
       return h("div", { class: "stop" + (i === ci ? " cur" : i < ci ? " past" : "") }, h("span", { class: "pt" }),
         h("div", {}, h("div", { class: "nm", text: s.name }), h("div", { class: "dt", text: fmt(s.from, { day: "numeric", month: "short" }) + " – " + fmt(s.to, { day: "numeric", month: "short" }) + (i === ci ? " · noch " + dd(t, s.to) + " Nächte" : i > ci ? " · in " + dd(t, s.from) + " Tagen" : "") })),
         i >= ci ? h("span", { class: "badge" + (s.status === "offen" ? " open" : ""), text: s.status === "offen" ? "offen" : "gebucht" }) : h("span")); }));
+    if (!around && from > 0) stops.prepend(h("button", { class: "link", type: "button", style: "text-align:left;padding:2px 0 6px 28px", onclick: () => { S.tripAll = true; renderAll(); } }, from + " frühere Stationen anzeigen"));
     return [top, track, stops];
   }
 
@@ -990,7 +1128,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
           h("button", { class: "pill", type: "button", onclick: () => eventSheet({ projectId: p.id, date: t }) }, icon("cal"), "Termin"),
           h("button", { class: "pill", type: "button", "aria-label": "Projekt bearbeiten", onclick: () => projectSheet(p) }, icon("edit")))),
       h("div", { class: "stats" }, h("div", { class: "stat" }, h("b", { text: open.length }), h("span", { text: "offen" })), h("div", { class: "stat" }, h("b", { text: all.length ? Math.round((all.length - open.length) / all.length * 100) + " %" : "–" }), h("span", { text: "erledigt" })), h("div", { class: "stat" }, h("b", { text: evs.length ? fmt(evs[0].date, { day: "2-digit", month: "2-digit" }) : "–" }), h("span", { text: "nächster Termin" }))),
-      p.next ? h("div", { class: "card" }, h("div", { class: "small muted", text: "Nächster Schritt" }), h("div", { style: "font-weight:700;font-size:17px", text: p.next })) : null,
+      p.next ? h("div", { class: "card" }, h("div", { class: "small muted", text: "Nächster Schritt" }), h("div", { style: "font-weight:600;font-size:15px", text: p.next })) : null,
       p.id === "reise" && tr ? h("div", { class: "card" }, h("div", { class: "card-h" }, h("h2", { text: "Route" })), ...tripWidget(tr, 0)) : null,
       h("div", { class: "grid" },
         h("div", { class: "card" }, h("div", { class: "card-h" }, h("h2", {}, "To-dos ", h("span", { class: "cnt", text: open.length || "" }))), h("div", { class: "todos" }, open.length ? open.map(todoRow) : h("div", { class: "empty", text: "Keine offenen Aufgaben." }))),
