@@ -82,7 +82,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 .col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 @media (min-width: 900px) { .grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); align-items: start; } .big { font-size: 38px; } }
 .card { background: var(--card); border-radius: var(--r); padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-.card-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 28px; }
+.card-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 28px; flex-wrap: wrap; }
 .card-h h2 { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
 .card-h .cnt { font-size: 13px; font-weight: 700; color: var(--ink3); font-family: var(--f-body); }
 .link { color: var(--accent); font-weight: 600; font-size: 14px; }
@@ -247,6 +247,33 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 .allday { display: flex; flex-wrap: wrap; gap: 6px; }
 .adb { font-size: 13px; font-weight: 600; padding: 5px 10px; border-radius: 9px; background: color-mix(in srgb, var(--life) 15%, var(--card)); }
 .adb.work { background: color-mix(in srgb, var(--work) 14%, var(--card)); }
+
+.subhead { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--ink3); text-transform: uppercase; letter-spacing: .05em; padding: 10px 0 0; }
+.subhead svg.i { width: 14px; height: 14px; }
+.addbtns { display: flex; gap: 6px; }
+.minibtn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 10px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); font-weight: 700; font-size: 13px; }
+.minibtn svg.i { width: 15px; height: 15px; }
+.mgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 1px; background: var(--line); border-radius: 14px; overflow: hidden; touch-action: pan-y; animation: viewIn .25s var(--ease); }
+.mdn { background: var(--card); text-align: center; font-size: 11px; font-weight: 700; color: var(--ink3); padding: 6px 0; text-transform: uppercase; }
+.mcell { background: var(--card); min-height: 92px; padding: 4px 3px; display: flex; flex-direction: column; gap: 2px; text-align: left; min-width: 0; align-items: stretch; }
+@media (min-width: 900px) { .mcell { min-height: 118px; padding: 6px; } .mi { font-size: 11.5px !important; } }
+.mcell:hover { background: var(--card2); }
+.mcell.sel { background: var(--card2); box-shadow: inset 0 0 0 2px var(--accent); }
+.mcell.out { opacity: .35; }
+.mcell.trip { box-shadow: inset 0 2px 0 color-mix(in srgb, var(--trip) 40%, transparent); }
+.mcell.trip.open { box-shadow: inset 0 3px 0 color-mix(in srgb, var(--warn) 55%, transparent); }
+.mcell.trip.sel { box-shadow: inset 0 0 0 2px var(--accent), inset 0 5px 0 color-mix(in srgb, var(--trip) 55%, transparent); }
+.mh { display: flex; align-items: center; gap: 3px; min-width: 0; }
+.mcell .d { font-size: 12px; font-weight: 700; min-width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; flex: none; }
+.mcell.today .d { background: var(--accent); color: var(--accent-ink); }
+.mcell .stn { font-size: 9px; font-weight: 700; color: var(--trip); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.mi { font-size: 10px; line-height: 1.3; padding: 1px 4px; border-radius: 4px; background: color-mix(in srgb, var(--life) 22%, transparent); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mi.work { background: color-mix(in srgb, var(--work) 24%, transparent); }
+.mi.trip { background: color-mix(in srgb, var(--trip) 22%, transparent); }
+.mi.task { background: var(--card3); color: var(--ink2); }
+.mi.task::before { content: "○ "; }
+.mcell .more { font-size: 10px; color: var(--ink3); padding-left: 2px; }
+@media (max-width: 600px) { .mi .mt { display: none; } .mi { font-size: 9.5px; padding: 1px 3px; } .mi.task::before { content: ""; } .mi.task { border-left: 2px solid var(--ink3); } .mcell { padding: 3px 2px; } .mcell .more { font-size: 9px; } }
 
 /* Reise */
 .trip-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; }
@@ -455,7 +482,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
       <div class="hdr-act"><button class="round" type="button" data-search aria-label="Suchen"></button><a class="round ink" href="#menu" aria-label="Menü">N</a></div>
     </header>
     <div class="calhead">
-      <div class="seg" id="cMode" role="group" aria-label="Ansicht"><button type="button" data-m="liste" aria-pressed="true">Liste</button><button type="button" data-m="tag" aria-pressed="false">Tag</button></div>
+      <div class="seg" id="cMode" role="group" aria-label="Ansicht"><button type="button" data-m="liste" aria-pressed="true">Liste</button><button type="button" data-m="tag" aria-pressed="false">Tag</button><button type="button" data-m="monat" aria-pressed="false">Monat</button></div>
       <div class="calnav"><button class="round" id="cPrev" type="button" aria-label="Zurück"></button><button class="pillbtn" id="cToday" type="button">Heute</button><button class="round" id="cNext" type="button" aria-label="Weiter"></button></div>
     </div>
     <div class="card" id="cTop"></div>
@@ -560,7 +587,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 
   /* ---------- Daten ---------- */
   const COLS = ["tasks", "events", "projects", "log", "sync", "meta"];
-  const S = { tasks: [], events: [], projects: [], log: [], sync: [], meta: [], loaded: false, area: "alle", cal: { mode: "liste", sel: null, open: false }, tf: null, ta: "alle" };
+  const S = { tasks: [], events: [], projects: [], log: [], sync: [], meta: [], loaded: false, area: "alle", cal: { mode: "liste", sel: null }, tf: null, ta: "alle" };
   let db = null; const mem = Object.fromEntries(COLS.map((c) => [c, new Map()]));
   const store = {
     async add(col, data) { if (db) return (await db.collection(col).add(data)).id; const id = Math.random().toString(36).slice(2, 9); mem[col].set(id, data); pull(col); return id; },
@@ -673,7 +700,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
   /* ---------- Schnelleingabe mit lokaler Erkennung ---------- */
   const DAYS = { mo: 1, montag: 1, di: 2, dienstag: 2, mi: 3, mittwoch: 3, do: 4, donnerstag: 4, fr: 5, freitag: 5, sa: 6, samstag: 6, so: 0, sonntag: 0 };
   function parseQuick(text) {
-    let t = " " + text + " ", due = null, prio = "mittel", area = null, projectId = null, time = null;
+    let t = " " + text.replace(/^\s*(neue\s+)?(aufgabe|to-?do|termin)\s*[:,]?\s*/i, "") + " ", due = null, prio = "mittel", area = null, projectId = null, time = null;
     const base = P(today());
     const take = (re, fn) => { const m = t.match(re); if (m) { fn(m); t = t.replace(m[0], " "); } };
     take(/\s!+(?=\s)/, () => { prio = "hoch"; });
@@ -688,7 +715,10 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
     take(/\s(übermorgen)(?=\s)/i, () => { due = iso(add(base, 2)); });
     take(/\s(morgen)(?=\s)/i, () => { due = iso(add(base, 1)); });
     take(/\s(nächste woche)(?=\s)/i, () => { due = iso(add(mon(base), 7)); });
-    take(/\s(bis\s|am\s)?(\d{1,2})\.(\d{1,2})\.(\d{2,4})?(?=\s)/, (m) => { let y = m[4] ? +m[4] : base.getFullYear(); if (y < 100) y += 2000; let d = new Date(y, +m[3] - 1, +m[2]); if (!m[4] && iso(d) < iso(base)) d = new Date(y + 1, +m[3] - 1, +m[2]); due = iso(d); });
+    const MON = { jan: 1, januar: 1, feb: 2, februar: 2, mär: 3, märz: 3, maerz: 3, apr: 4, april: 4, mai: 5, jun: 6, juni: 6, jul: 7, juli: 7, aug: 8, august: 8, sep: 9, sept: 9, september: 9, okt: 10, oktober: 10, nov: 11, november: 11, dez: 12, dezember: 12, erster: 1, ersten: 1, zweiter: 2, zweiten: 2, dritter: 3, dritten: 3, vierter: 4, vierten: 4, fünfter: 5, fünften: 5, sechster: 6, sechsten: 6, siebter: 7, siebten: 7, achter: 8, achten: 8, neunter: 9, neunten: 9, zehnter: 10, zehnten: 10, elfter: 11, elften: 11, zwölfter: 12, zwölften: 12 };
+    const mkDate = (dd_, mm, yy) => { let y = yy ? +yy : base.getFullYear(); if (y < 100) y += 2000; let d = new Date(y, mm - 1, dd_); if (!yy && iso(d) < iso(base)) d = new Date(y + 1, mm - 1, dd_); return iso(d); };
+    take(/[\s,]+(bis\s(zum\s)?|am\s)?(\d{1,2})\.?\s+([a-zäöü]+)\.?(\s\d{4})?(?=[\s,])/i, (m) => { const mm = MON[m[4].toLowerCase()]; if (mm) due = mkDate(+m[3], mm, m[5] && m[5].trim()); else t += m[0]; });
+    take(/\s(bis\s|am\s)?(\d{1,2})\.(\d{1,2})\.?(\d{2,4})?(?=[\s,])/, (m) => { let y = m[4] ? +m[4] : base.getFullYear(); if (y < 100) y += 2000; let d = new Date(y, +m[3] - 1, +m[2]); if (!m[4] && iso(d) < iso(base)) d = new Date(y + 1, +m[3] - 1, +m[2]); due = iso(d); });
     take(/\s(bis\s|am\s)?(montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag|mo|di|mi|do|fr|sa|so)\.?(?=\s)/i, (m) => { const w = DAYS[m[2].toLowerCase()]; let n = (w - base.getDay() + 7) % 7; if (n === 0) n = 7; due = iso(add(base, n)); });
     if (!area && /\b(call|meeting|kunde|kunden|büro|standup|präsentation|projekt|arbeit)\b/i.test(text)) area = "arbeit";
     const title = t.replace(/\s+/g, " ").replace(/[\s,]+$/, "").trim();
@@ -700,7 +730,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
   }
   async function saveQuick(q) {
     if (q.kind === "termin") { const d = { title: q.title, date: q.due, start: q.time, end: null, location: null, area: q.area || "privat", projectId: q.projectId, notes: null, source: "schnell", createdAt: nowIso() }; await store.add("events", d); queueSync(d, "event", "neu: " + d.date + " " + d.start); toast("Termin eingetragen · " + rel(q.due) + " " + q.time); }
-    else { const d = { title: q.title, due: q.due, prio: q.prio, area: q.area || "privat", projectId: q.projectId, done: false, createdAt: nowIso() }; await store.add("tasks", d); queueSync(d, "task", "neu" + (d.due ? ", fällig " + d.due : "")); toast("Aufgabe hinzugefügt" + (q.due ? " · " + rel(q.due) : "")); }
+    else { const d = { title: q.title, due: q.due || today(), prio: q.prio, area: q.area || "privat", projectId: q.projectId, done: false, createdAt: nowIso() }; await store.add("tasks", d); queueSync(d, "task", "neu" + (d.due ? ", fällig " + d.due : "")); toast("Aufgabe hinzugefügt · " + rel(d.due)); }
   }
   function bindQuick(form, input, tok) {
     input.addEventListener("input", () => { if (!input.value.trim()) { tok.replaceChildren(); return; } tokensFor(parseQuick(input.value), tok); });
@@ -791,46 +821,61 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
   }
 
   /* ---------- KALENDER ---------- */
+  const calTodos = (d) => { const t = today(); return S.tasks.filter((x) => !x.done && (x.due === d || (d === t && (!x.due || x.due < t)))).sort(sortT); };
+  function dayBlock(d, keep) {
+    const out = []; const evs = evOn(d); const tks = calTodos(d);
+    evs.forEach((e) => out.push(evRow(e, { keep })));
+    if (tks.length) out.push(h("div", { class: "subhead" }, icon("check"), "To-dos"), h("div", { class: "todos" }, tks.map(todoRow)));
+    if (!evs.length && !tks.length) out.push(h("div", { class: "free", text: "Frei" }));
+    return out;
+  }
+  function addBtns(d) { return h("div", { class: "addbtns" }, h("button", { class: "minibtn", type: "button", onclick: () => taskSheet({ due: d }) }, icon("check"), "Aufgabe"), h("button", { class: "minibtn", type: "button", onclick: () => eventSheet({ date: d }) }, icon("cal"), "Termin")); }
   function renderCal() {
     const c = S.cal; if (!c.sel) c.sel = today(); const sel = P(c.sel); const t = today();
-    const tb = $("cTitle"); tb.replaceChildren(sel.toLocaleDateString("de-DE", { month: "long" }), icon("chevD")); tb.setAttribute("aria-expanded", c.open ? "true" : "false");
+    const tb = $("cTitle"); tb.replaceChildren(sel.toLocaleDateString("de-DE", { month: "long" }), icon("chevD")); tb.setAttribute("aria-expanded", c.mode === "monat" ? "true" : "false");
     $("cYear").textContent = sel.getFullYear() + " · KW " + kw(sel);
     document.querySelectorAll("#cMode button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.m === c.mode ? "true" : "false"));
-    const top = $("cTop"); top.replaceChildren();
-    const dots = (d) => { const evs = evOn(d); const tk = S.tasks.some((x) => x.due === d && !x.done); return h("span", { class: "dots" }, [...evs.slice(0, 3).map((e) => h("i", { class: isTrip(e) ? "t" : areaOf(e) === "arbeit" ? "w" : "" })), tk ? h("i", { class: "k" }) : null]); };
-    if (c.open) {
+    const top = $("cTop"), body = $("cBody"); top.replaceChildren(); body.replaceChildren();
+    const dots = (d) => { const evs = evOn(d); const tk = calTodos(d).length; return h("span", { class: "dots" }, [...evs.slice(0, 3).map((e) => h("i", { class: isTrip(e) ? "t" : areaOf(e) === "arbeit" ? "w" : "" })), tk ? h("i", { class: "k" }) : null]); };
+    if (c.mode === "monat") {
       const first = new Date(sel.getFullYear(), sel.getMonth(), 1), start = mon(first), last = new Date(sel.getFullYear(), sel.getMonth() + 1, 0);
       const weeks = Math.ceil((dd(iso(start), iso(last)) + 1) / 7);
-      const g = h("div", { class: "month" }, WD.map((w) => h("div", { class: "dn", text: w })));
-      for (let i = 0; i < weeks * 7; i++) { const d = iso(add(start, i)), dt = P(d); const st = stationOn(d), sp = stationOn(iso(add(dt, -1)));
-        g.append(h("button", { type: "button", class: "mc" + (dt.getMonth() !== sel.getMonth() ? " out" : "") + (d === t ? " today" : "") + (d === c.sel ? " sel" : "") + (st ? " trip" + (st.status === "offen" ? " open" : "") : ""), onclick: () => { c.sel = d; c.open = false; buzz(); renderCal(); }, "aria-label": fmt(d, { weekday: "long", day: "numeric", month: "long" }) },
-          h("span", { class: "d", text: dt.getDate() }), dots(d), st && (!sp || sp.id !== st.id) ? h("span", { class: "st", text: st.name }) : null)); }
+      const g = h("div", { class: "mgrid" }, WD.map((w) => h("div", { class: "mdn", text: w })));
+      for (let i = 0; i < weeks * 7; i++) {
+        const d = iso(add(start, i)), dt = P(d); const st = stationOn(d), sp = stationOn(iso(add(dt, -1)));
+        const items = [...evOn(d).map((e) => ["ev", e]), ...calTodos(d).map((x) => ["task", x])];
+        const cell = h("button", { type: "button", class: "mcell" + (dt.getMonth() !== sel.getMonth() ? " out" : "") + (d === t ? " today" : "") + (d === c.sel ? " sel" : "") + (st ? " trip" + (st.status === "offen" ? " open" : "") : ""), onclick: () => { c.sel = d; buzz(); renderCal(); }, "aria-label": fmt(d, { weekday: "long", day: "numeric", month: "long" }) + (items.length ? ", " + items.length + " Einträge" : "") },
+          h("span", { class: "mh" }, h("span", { class: "d", text: dt.getDate() }), st && (!sp || sp.id !== st.id) ? h("span", { class: "stn", text: st.name }) : null),
+          ...items.slice(0, 3).map(([k, x]) => h("span", { class: "mi " + (k === "task" ? "task" : isTrip(x) ? "trip" : areaOf(x) === "arbeit" ? "work" : "life"), }, k === "ev" && x.start ? h("span", { class: "mt", text: x.start + " " }) : null, x.title)),
+          items.length > 3 ? h("span", { class: "more", text: "+" + (items.length - 3) + " weitere" }) : null);
+        g.append(cell);
+      }
       top.append(g); swipe(g, (dir) => { c.sel = iso(new Date(sel.getFullYear(), sel.getMonth() + dir, 1)); renderCal(); });
-    } else {
-      const ws = mon(sel); const g = h("div", { class: "wstrip" });
-      for (let i = 0; i < 7; i++) { const d = iso(add(ws, i));
-        g.append(h("button", { class: "wd" + (d === t ? " today" : "") + (d === c.sel ? " sel" : "") + (i > 4 ? " we" : ""), type: "button", onclick: () => { c.sel = d; buzz(); renderCal(); }, "aria-label": fmt(d, { weekday: "long", day: "numeric", month: "long" }) }, h("span", { class: "n", text: WD[i] }), h("span", { class: "d", text: P(d).getDate() }), dots(d))); }
-      top.append(g); swipe(g, (dir) => { c.sel = iso(add(sel, 7 * dir)); renderCal(); });
+      const st = stationOn(c.sel);
+      body.append(h("div", { class: "card-h" }, h("h2", { text: fmt(c.sel, { weekday: "long", day: "numeric", month: "long" }) }), addBtns(c.sel)),
+        st ? h("div", { class: "small", style: "color:var(--trip);font-weight:700;display:flex;gap:6px;align-items:center" }, icon("plane"), st.name + (st.status === "offen" ? " · noch offen" : "")) : null,
+        h("div", { class: "agenda" }, dayBlock(c.sel, true)));
+      return;
     }
+    const ws = mon(sel); const g = h("div", { class: "wstrip" });
+    for (let i = 0; i < 7; i++) { const d = iso(add(ws, i));
+      g.append(h("button", { class: "wd" + (d === t ? " today" : "") + (d === c.sel ? " sel" : "") + (i > 4 ? " we" : ""), type: "button", onclick: () => { c.sel = d; buzz(); renderCal(); }, "aria-label": fmt(d, { weekday: "long", day: "numeric", month: "long" }) }, h("span", { class: "n", text: WD[i] }), h("span", { class: "d", text: P(d).getDate() }), dots(d))); }
+    top.append(g); swipe(g, (dir) => { c.sel = iso(add(sel, 7 * dir)); renderCal(); });
     const st = stationOn(c.sel);
     if (st) top.append(h("div", { class: "small", style: "color:var(--trip);font-weight:700;display:flex;gap:6px;align-items:center" }, icon("plane"), st.name + " · " + fmt(st.from, { day: "numeric", month: "short" }) + " – " + fmt(st.to, { day: "numeric", month: "short" }) + (st.status === "offen" ? " · noch offen" : "")));
-
-    const body = $("cBody"); body.replaceChildren();
     if (c.mode === "liste") {
       const ag = h("div", { class: "agenda" }); let shown = 0;
       for (let i = 0; i < 60 && shown < 14; i++) {
-        const d = iso(add(sel, i)); const evs = evOn(d); const tks = S.tasks.filter((x) => x.due === d && !x.done);
-        if (!evs.length && !tks.length && i !== 0) continue; shown++;
-        ag.append(h("div", { class: "dayhead" + (d === t ? " today" : "") }, rel(d), h("span", { class: "sub", text: fmt(d, { day: "numeric", month: "long" }) })));
-        if (!evs.length && !tks.length) ag.append(h("div", { class: "free", text: "Keine Termine" }));
-        evs.forEach((e) => ag.append(evRow(e, { keep: d !== t })));
-        tks.forEach((x) => ag.append(h("button", { class: "ev", type: "button", onclick: () => taskSheet(x) }, h("div", { class: "tm" }, h("span", { text: "To-do" })), h("div", { class: "bar", style: "background:var(--ink3)" }), h("div", {}, h("div", { class: "tt", text: x.title })))));
+        const d = iso(add(sel, i)); const has = evOn(d).length || calTodos(d).length;
+        if (!has && i !== 0) continue; shown++;
+        ag.append(h("div", { class: "dayhead" + (d === t ? " today" : "") }, rel(d), h("span", { class: "sub", text: fmt(d, { day: "numeric", month: "long" }) })), ...dayBlock(d, d !== t));
       }
-      body.append(h("div", { class: "card-h" }, h("h2", { text: "Termine" }), h("button", { class: "link", type: "button", onclick: () => eventSheet({ date: c.sel }) }, "+ Termin")), ag);
+      body.append(h("div", { class: "card-h" }, h("h2", { text: "Agenda" }), addBtns(c.sel)), ag);
     } else {
-      const evs = evOn(c.sel); const ad = evs.filter((e) => !e.start), timed = evs.filter((e) => e.start);
-      body.append(h("div", { class: "card-h" }, h("h2", { text: fmt(c.sel, { weekday: "long", day: "numeric", month: "long" }) }), h("button", { class: "link", type: "button", onclick: () => eventSheet({ date: c.sel }) }, "+ Termin")));
+      const evs = evOn(c.sel); const ad = evs.filter((e) => !e.start), timed = evs.filter((e) => e.start); const tks = calTodos(c.sel);
+      body.append(h("div", { class: "card-h" }, h("h2", { text: fmt(c.sel, { weekday: "long", day: "numeric", month: "long" }) }), addBtns(c.sel)));
       if (ad.length) body.append(h("div", { class: "allday" }, ad.map((e) => h("button", { type: "button", class: "adb" + (areaOf(e) === "arbeit" ? " work" : ""), onclick: () => eventSheet(e), text: e.title }))));
+      if (tks.length) body.append(h("div", { class: "subhead" }, icon("check"), "To-dos"), h("div", { class: "todos" }, tks.map(todoRow)));
       const line = h("div", { class: "dayline" });
       for (let i = 0; i < 24; i++) line.append(h("div", { class: "hrl", style: `grid-row:${i + 1}`, text: i ? pad(i) + ":00" : "" }));
       const col = h("div", { class: "hcol" }, Array.from({ length: 24 }, () => h("div", { class: "hr" })));
@@ -844,10 +889,10 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
   }
   function swipe(el, fn) { let x0 = null, y0 = null; el.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
     el.addEventListener("touchend", (e) => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) { buzz(); fn(dx < 0 ? 1 : -1); } }); }
-  function calShift(dir) { const c = S.cal, sel = P(c.sel || today()); c.sel = c.open ? iso(new Date(sel.getFullYear(), sel.getMonth() + dir, 1)) : c.mode === "tag" ? iso(add(sel, dir)) : iso(add(sel, 7 * dir)); renderCal(); }
+  function calShift(dir) { const c = S.cal, sel = P(c.sel || today()); c.sel = c.mode === "monat" ? iso(new Date(sel.getFullYear(), sel.getMonth() + dir, 1)) : c.mode === "tag" ? iso(add(sel, dir)) : iso(add(sel, 7 * dir)); renderCal(); }
   $("cPrev").onclick = () => calShift(-1); $("cNext").onclick = () => calShift(1);
   $("cToday").onclick = () => { S.cal.sel = today(); renderCal(); };
-  $("cTitle").onclick = () => { S.cal.open = !S.cal.open; renderCal(); };
+  $("cTitle").onclick = () => { S.cal.mode = S.cal.mode === "monat" ? "liste" : "monat"; renderCal(); };
   document.querySelectorAll("#cMode button").forEach((b) => b.onclick = () => { S.cal.mode = b.dataset.m; renderCal(); });
   document.addEventListener("keydown", (e) => { if (curView === "kalender" && !$("sheetRoot").children.length && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { if (e.key === "ArrowLeft") calShift(-1); if (e.key === "ArrowRight") calShift(1); } });
 
@@ -968,7 +1013,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 
   function taskSheet(x = {}) {
     const title = h("input", { class: "bigin", value: x.title || "", placeholder: "Was ist zu tun?", "aria-label": "Titel" });
-    const due = h("input", { type: "date", value: x.due || "" });
+    const due = h("input", { type: "date", value: x.id ? (x.due || "") : (x.due || today()) });
     const prio = selEl(x.prio || "mittel", [["hoch", "Wichtig"], ["mittel", "Normal"], ["niedrig", "Niedrig"]]);
     const area = selEl(areaOf(x), [["privat", "Privat"], ["arbeit", "Arbeit"]]);
     const pr = selEl(x.projectId, projOpts());
@@ -1074,7 +1119,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
     const findP = (r) => { if (!r) return null; const q = String(r).toLowerCase(); return S.projects.find((p) => p.id === r) || S.projects.find((p) => p.name.toLowerCase().includes(q)) || null; };
     const chg = (d) => Object.entries(d).map(([k, v]) => k + ": " + v).join(", ");
     return [
-      mk("add_task", "Aufgabe anlegen.", o({ title: s, due: { type: "string", description: "YYYY-MM-DD" }, prio: { type: "string", enum: ["hoch", "mittel", "niedrig"] }, area, project: s, notes: s }, ["title"]), async (i) => { const p = findP(i.project); const d = { title: String(i.title).slice(0, 300), due: i.due || null, prio: i.prio || "mittel", area: i.area || "privat", projectId: p ? p.id : null, notes: i.notes || null, done: false, createdAt: nowIso() }; await store.add("tasks", d); queueSync(d, "task", "neu" + (d.due ? ", fällig " + d.due : "")); acts.push("Aufgabe: " + d.title); }),
+      mk("add_task", "Aufgabe anlegen.", o({ title: s, due: { type: "string", description: "YYYY-MM-DD" }, prio: { type: "string", enum: ["hoch", "mittel", "niedrig"] }, area, project: s, notes: s }, ["title"]), async (i) => { const p = findP(i.project); const d = { title: String(i.title).slice(0, 300), due: i.due || today(), prio: i.prio || "mittel", area: i.area || "privat", projectId: p ? p.id : null, notes: i.notes || null, done: false, createdAt: nowIso() }; await store.add("tasks", d); queueSync(d, "task", "neu" + (d.due ? ", fällig " + d.due : "")); acts.push("Aufgabe: " + d.title); }),
       mk("update_task", "Aufgabe ändern oder abhaken (id aus Liste).", o({ id: s, title: s, due: s, prio: s, done: { type: "boolean" }, area, notes: s }, ["id"]), async (i) => { const x = S.tasks.find((t) => t.id === i.id); if (!x) throw new Error("nicht gefunden"); const d = {}; for (const k of ["title", "due", "prio", "done", "area", "notes"]) if (i[k] !== undefined) d[k] = i[k]; await store.update("tasks", x.id, d); queueSync(x, "task", chg(d)); acts.push((d.done ? "Erledigt: " : "Geändert: ") + x.title); }),
       mk("add_event", "Termin anlegen.", o({ title: s, date: { type: "string", description: "YYYY-MM-DD" }, start: { type: "string", description: "HH:MM, leer = ganztägig" }, end: s, location: s, area, project: s, notes: s }, ["title", "date"]), async (i) => { const p = findP(i.project); const d = { title: String(i.title).slice(0, 200), date: i.date, start: i.start || null, end: i.end || null, location: i.location || null, area: i.area || "privat", projectId: p ? p.id : null, notes: i.notes || null, source: "kommando", createdAt: nowIso() }; await store.add("events", d); queueSync(d, "event", "neu: " + d.date + (d.start ? " " + d.start : "")); acts.push("Termin: " + d.title + " " + d.date); }),
       mk("update_event", "Termin ändern (id aus Liste).", o({ id: s, title: s, date: s, start: s, end: s, location: s, area, notes: s }, ["id"]), async (i) => { const e = S.events.find((x) => x.id === i.id); if (!e) throw new Error("nicht gefunden"); const d = {}; for (const k of ["title", "date", "start", "end", "location", "area", "notes"]) if (i[k] !== undefined) d[k] = i[k]; await store.update("events", e.id, d); queueSync(e, "event", chg(d)); acts.push("Termin geändert: " + e.title); }),
@@ -1099,7 +1144,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
     const prompt = `Du bist die Kommandozentrale von „Nico OS“, Nicos persönlicher App für Kalender, To-dos und Projekte. Nico spricht oder schreibt kurz, oft per Sprache (Tippfehler möglich). Setze es mit den Werkzeugen um.
 Regeln:
 - Relative Angaben in absolute Daten (YYYY-MM-DD) und Uhrzeiten (HH:MM) umrechnen. Zeiten gelten in Nicos aktueller Ortszeit.
-- Termin = fester Zeitpunkt/Tag. Aufgabe = etwas zu erledigen. Mehrere Dinge in einer Nachricht einzeln anlegen.
+- Termin = fester Zeitpunkt/Tag. Aufgabe = etwas zu erledigen; ohne genanntes Datum fällig heute. Mehrere Dinge in einer Nachricht einzeln anlegen.
 - Bereich: "arbeit" für Job, Kunden, Calls, Arbeitsblöcke, sonst "privat".
 - Bestehendes ändern statt doppelt anlegen (ids in eckigen Klammern). Erledigtes abhaken.
 - Betrifft es ein Projekt (Reise, Baby …), auch dessen next/summary aktualisieren. Details fürs Artefakt (Unterkunft, Buchungsnummer, Route) mit note_for_artifact vormerken.
