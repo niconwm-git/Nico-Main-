@@ -1569,7 +1569,8 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
     <h2 class="ttl">So soll es aussehen</h2>
     <p class="muted">Greige matte Fronten, Sitzbank mit zwei Schuhschubladen, Eiche-Rückwand mit Baumkantenregal und schwarzen Haken, rechts ein Hochschrank mit schwarzem Griff, oben geschlossene Oberschränke und warmes Licht. Deko ist nur Visualisierung.</p>
     <div class="duo">
-      <figure class="figure"><img src="img/garderobe-ziel.jpg" alt="Referenzbild der Einbau-Garderobe" loading="lazy"><figcaption class="cap" style="padding:8px 12px">Referenz (verbindliche Optik)</figcaption></figure>
+      <figure class="figure"><img src="img/garderobe-spiegel.jpg" alt="Garderobe mit Spiegel auf der Hochschranktür" loading="lazy"><figcaption class="cap" style="padding:8px 12px">Version 1: mit Spiegel (bevorzugt)</figcaption></figure>
+      <figure class="figure"><img src="img/garderobe-ziel.jpg" alt="Referenzbild der Einbau-Garderobe" loading="lazy"><figcaption class="cap" style="padding:8px 12px">Version 2: ohne Spiegel, mit Griff</figcaption></figure>
       <figure class="figure"><img src="img/garderobe-heute.jpg" alt="Die Flurnische heute" loading="lazy"><figcaption class="cap" style="padding:8px 12px">Heute: 112 cm breit, 63 cm tief</figcaption></figure>
     </div>
   </div>
@@ -1682,9 +1683,9 @@ const DEF={
   eiche:{W:1450,H:2300,D:570,PL:60,CH:800,WT:40,CD:530,mods:[400,600,400],SH1:1270,SH2:1560,ST:40,SD:260,UB:1850,UH:400,UD:350},
   sitz:{W:1450,H:2300,D:570,PL:60,BH:330,STK:27,CD:530,mods:[700,700],SHU:1400,SHT:30,UB:1700,UH:580},
   bank:{W:1600,H:450,D:420,SW:40,ST:40,LI:180,A:100,BK:9},
-  garde:{W:1120,H:2300,D:630,TD:600,PL:60,BH:340,SB:25,TW:400,UH:600,GAP:10,SHT:1450,SD:280,ST:40,HK:1300}
+  garde:{W:1120,H:2300,D:630,TD:600,PL:60,BH:340,SB:25,TW:400,UH:600,GAP:10,SHT:1450,SD:280,ST:40,HK:1300,MIR:0}
 };
-const LIM_B={garde:{W:[800,1800],H:[1900,2800],D:[450,800],TD:[400,700],BH:[250,450],SB:[18,40],TW:[300,700],UH:[300,900],GAP:[0,100],SHT:[900,2200],SD:[150,400],ST:[20,60],HK:[900,1900]},bank:{W:[800,3000],H:[380,520],D:[320,600],SW:[30,70],ST:[30,60],LI:[80,500],A:[92,110],BK:[0,40]}};
+const LIM_B={garde:{MIR:[0,1],W:[800,1800],H:[1900,2800],D:[450,800],TD:[400,700],BH:[250,450],SB:[18,40],TW:[300,700],UH:[300,900],GAP:[0,100],SHT:[900,2200],SD:[150,400],ST:[20,60],HK:[900,1900]},bank:{W:[800,3000],H:[380,520],D:[320,600],SW:[30,70],ST:[30,60],LI:[80,500],A:[92,110],BK:[0,40]}};
 const limFor=(base,k)=> (LIM_B[base]&&LIM_B[base][k]) || LIM[k];
 const LIM={W:[900,2600],H:[1800,3000],D:[400,800],PL:[40,150],CH:[600,950],WT:[20,60],CD:[300,650],SH1:[900,2200],SH2:[1000,2500],ST:[20,60],SD:[150,400],UB:[1300,2600],UH:[250,900],UD:[250,600],BH:[250,500],STK:[18,40],SHU:[900,2200],SHT:[20,50],mod:[250,1200]};
 function DEFDIMS(base){ return JSON.parse(JSON.stringify(DEF[base])); }
@@ -1717,11 +1718,12 @@ function cutList(base,P){
       row('Oberschrank: Seitenwand',2,P.UH,c.CD,'ABS vorn','p18'), row('Oberschrank: Deckel',1,iw,c.CD,'ABS vorn','p18'), row('Oberschrank: Einlegeboden',1,iw,c.CD-30,'ABS vorn','p18')]);
     g('Sichtbare Korpusteile · Greige matt 18 mm', [row('Hochschrank: Seitenwand links (zur Nische)',1,c.tallH,c.CD,'ABS rundum greige','p18'), row('Oberschrank: Boden (von unten sichtbar)',1,iw,c.CD,'ABS vorn greige','p18')]);
     g('Rückwände · HDF weiß 3 mm', [row('Rückwand Bank',1,iw,P.BH-36,'innenliegend','hdf'), row('Rückwand Hochschrank',1,tw,c.tallH-36,'innenliegend, ggf. 2-teilig','hdf'), row('Rückwand Oberschrank',1,iw,P.UH-36,'innenliegend','hdf')]);
-    g('Fronten und Blenden · Greige matt 20 mm', [row('Schubladenfront',2,c.bankW-4,R(c.fh),'grifflos, Push-to-open','fr'), row('Hochschranktür unten',1,c.UB-P.PL-4,P.TW-4,'mit schwarzem Stangengriff','fr'), row('Tür Oberschrank Hochschrank',1,P.UH-4,P.TW-4,'grifflos','fr'),
+    g('Fronten und Blenden · Greige matt 20 mm', [row('Schubladenfront',2,c.bankW-4,R(c.fh),'grifflos, Push-to-open','fr'), row('Hochschranktür unten',1,c.UB-P.PL-4,P.TW-4,P.MIR?'Push-to-open, Spiegel aufgeklebt':'mit schwarzem Stangengriff','fr'), row('Tür Oberschrank Hochschrank',1,P.UH-4,P.TW-4,'grifflos','fr'),
       row('Tür Oberschrank Nische',2,P.UH-4,R(c.ud),'grifflos','fr'), row('Sitzplatte (25 mm)',1,c.bankW,P.TD,'Kanten vorn und seitlich','fr'), row('Wange links (zur Wand)',1,P.H-P.GAP,P.TD,'Übermaß, an Wand anreißen','fr'),
       row('Passleiste rechts',1,P.H-P.GAP,45,'Übermaß, auf ca. 20 einpassen','fr'), row('Sockelblende dunkel',1,P.W-c.WL-c.FR,P.PL-4,'zurückgesetzt','fr')]);
     g('Nische · Eiche', [row('Rückwand Eiche-Dekor 19 mm',1,c.bankW,c.UB-c.seatTop,'Maserung senkrecht','od'), row(`Regal Eiche massiv ${P.ST} mm, Baumkante`,1,c.bankW,P.SD,`Rohling ≥ ${c.bankW+50} × ${P.SD+30}`,'sh')]);
     g('Schubkästen · Multiplex 15 mm', [row('Seite',4,c.BD,c.bh,'Oberkante geschliffen','mp'), row('Vorder-/Rückstück',4,c.boxW-30,c.bh,'','mp'), row('Boden, Sperrholz 9 mm',2,c.boxW,c.BD,'untergesetzt, für Schuhe','mp')]);
+    if(P.MIR) g('Spiegel · 4 mm, Kanten geschliffen', [row('Spiegel auf Hochschranktür',1,c.UB-P.PL-34,P.TW-34,'mit Spiegelkleber, 15 mm Rand','mi')]);
     return G;
   }
   if(base==='bank'){
@@ -1763,6 +1765,7 @@ const COSTS={
 const DEFAREA={eiche:areas('eiche',DEF.eiche), sitz:areas('sitz',DEF.sitz), bank:areas('bank',DEF.bank), garde:areas('garde',DEF.garde)};
 function costs(base,P){ const a=areas(base,P), d=DEFAREA[base];
   const rows=COSTS[base].map(([n,lo,hi,cat])=>{ const f=cat&&d[cat]? a[cat]/d[cat] : 1; const r5=v=>Math.max(5,Math.round(v*f/5)*5); return [n,r5(lo),r5(hi)]; });
+  if(base==='garde'&&P.MIR) rows.push(['Spiegel 4 mm nach Maß, Spiegelkleber',45,110]);
   const lo=rows.reduce((s,r)=>s+r[1],0), hi=rows.reduce((s,r)=>s+r[2],0); return {rows,lo,hi}; }
 function validate(base,P){
   const c=calc(base,P), out=[]; const W=(m)=>out.push({lvl:'warn',m}), E=(m)=>out.push({lvl:'err',m});
@@ -1874,8 +1877,8 @@ function stepTexts(base,P){
        specs:[['Wange links',`${X(P.H-P.GAP,P.TD)} × 20 greige`],['Rückwand Eiche',`${X(c.bankW,c.UB-c.seatTop)} × 19`],['Befestigung','auf Leisten an der Wand, verdeckt verschraubt']]},
       {lead:`Das Baumkantenregal auf verdeckten Trägern montieren, Oberkante ${P.SHT} mm. Darunter vier schwarze Haken auf ${P.HK} mm Höhe in die Rückwand, mit Schrauben bis in die Leisten dahinter.`,
        specs:[['Regal',`${X(c.bankW,P.SD,P.ST)} Eiche massiv`],['Träger','3 verdeckte Regalträger ≥ 10 mm'],['Haken',`4 × schwarz auf ${P.HK} mm`],['Freiraum',`${P.SHT-P.ST-c.seatTop} mm über dem Sitz`]]},
-      {lead:'Türen montieren: unten die hohe Hochschranktür mit schwarzem Stangengriff, oben drei grifflose Türen mit Push-to-open. Dann rechts die Passleiste einpassen und die dunkle Sockelblende zurückgesetzt einclipsen.',
-       specs:[['Hochschranktür',`${X(P.TW-4,c.UB-P.PL-4)} × 20, ${c.UB-P.PL>1800?4:3} Scharniere`],['Oberschranktüren',`2 × ${X(R(c.ud),P.UH-4)} · 1 × ${X(P.TW-4,P.UH-4)}`],['Griff','1 × schwarz, ca. 320 mm'],['Passleiste',`rechts ca. ${c.FR} mm`]]},
+      {lead:(P.MIR?'Türen montieren: unten die hohe Hochschranktür, auf die ein Ganzkörperspiegel geklebt wird (Push-to-open, kein Griff), ':'Türen montieren: unten die hohe Hochschranktür mit schwarzem Stangengriff, ')+'oben drei grifflose Türen mit Push-to-open. Dann rechts die Passleiste einpassen und die dunkle Sockelblende zurückgesetzt einclipsen.',
+       specs:[['Hochschranktür',`${X(P.TW-4,c.UB-P.PL-4)} × 20, ${c.UB-P.PL>1800||P.MIR?4:3} Scharniere`],['Oberschranktüren',`2 × ${X(R(c.ud),P.UH-4)} · 1 × ${X(P.TW-4,P.UH-4)}`],P.MIR? ['Spiegel',`${X(c.UB-P.PL-34,P.TW-34)} × 4, Spiegelkleber`] : ['Griff','1 × schwarz, ca. 320 mm'],['Passleiste',`rechts ca. ${c.FR} mm`]]},
       {lead:'Akku-LED-Leisten vorn unter den Oberschrank und unter das Regal, warmweiß 2700 K. Sitzpolster und Kissen auflegen, Fronten nachstellen, Kipp- und Kindersicherungen prüfen.',
        specs:[['LED','2 Ebenen, Akku, 2700 K'],['Sitzpolster',`${X(c.bankW-10,P.TD-60,50)}, beige, Bezug abnehmbar`],['Kontrolle','Fugen 2–3 mm, alles fest an der Wand']]}
     ];
@@ -1999,7 +2002,7 @@ function build3D(host){
     carc:{color:0xf0ede7}, front:{color:0xf7f5f0}, hdf:{color:0xe7e1d6}, ply:{color:0xe3c99c},
     oakH:{color:0xffffff,map:oakH}, oakV:{color:0xffffff,map:oakV}, black:{color:0x2b2825}, metal:{color:0xa3a6aa},
     bark:{color:0x5e3f27}, led:'led',
-    grey:{color:0xc4c1ba}, greyD:{color:0x8f8c86}, fiH:{color:0xffffff,map:fiH}, fiV:{color:0xffffff,map:fiV},
+    grey:{color:0xc4c1ba}, greyD:{color:0x8f8c86}, mirror:{color:0xdfe6ea}, fiH:{color:0xffffff,map:fiH}, fiV:{color:0xffffff,map:fiV},
     cush:{color:0xe3ddd0}, kG1:{color:0x46523c}, kG2:{color:0xa4ae95}, kG3:{color:0x66724f}
   };
   function makeMat(key){
@@ -2340,7 +2343,8 @@ function build3D(host){
       for(let i=0;i<4;i++){ const hx=gc.WL+bW*(.17+i*.22); P({step:11,size:[12,60,40],pos:[hx-6,HK-30,z0+19],m:'black',off:[0,0,200],win:[.7+i*.05,.92+i*.02]}); }
       // Fronten
       P({step:12,size:[TW-4,UB-PL-4,20],pos:[tx+2,PL+2,fz],m:'grey',off:[0,0,340],win:[.04,.44]});
-      P({step:12,size:[12,320,22],pos:[tx+24,PL+(UB-PL)*.42,fz+20],m:'black',off:[0,0,180],win:[.42,.7]});
+      if(Pm.MIR) P({step:12,size:[TW-34,UB-PL-34,5],pos:[tx+17,PL+17,fz+20],m:'mirror',off:[0,0,180],win:[.42,.72]});
+      else P({step:12,size:[12,320,22],pos:[tx+24,PL+(UB-PL)*.42,fz+20],m:'black',off:[0,0,180],win:[.42,.7]});
       P({step:12,size:[TW-4,UH-4,20],pos:[tx+2,UB+2,fz],m:'grey',off:[0,0,340],win:[.18,.58]});
       [0,1].forEach(k=>P({step:12,size:[gc.ud,UH-4,20],pos:[gc.WL+2+k*(gc.ud+4),UB+2,fz],m:'grey',off:[0,0,340],win:[.26+k*.08,.66+k*.06]}));
       P({step:12,size:[gc.FR,top,20],pos:[W-gc.FR,0,D-20],m:'grey',off:[220,0,0],win:[.6,.9]});
@@ -2866,7 +2870,8 @@ function drawElevation(){
 const BUILTIN=[
   {id:'eiche', name:'Eiche & Baumkante', base:'eiche', front:'weiss', wood:'eiche', builtin:true, project:'wohnnische', sub:'Version 1'},
   {id:'sitz', name:'Sitznische grau', base:'sitz', front:'grau', wood:'fichte', builtin:true, project:'wohnnische', sub:'Version 2'},
-  {id:'garde', name:'Garderobe Greige', base:'garde', front:'greige', wood:'eiche', builtin:true, project:'garderobe', sub:'Version 1'},
+  {id:'gardeS', name:'Garderobe mit Spiegel', base:'garde', front:'greige', wood:'eiche', builtin:true, project:'garderobe', sub:'Version 1', def:{MIR:1}},
+  {id:'garde', name:'Garderobe Greige', base:'garde', front:'greige', wood:'eiche', builtin:true, project:'garderobe', sub:'Version 2'},
   {id:'bank', name:'Klappbank Nussbaum', base:'bank', front:'weiss', wood:'nuss', builtin:true, project:'klappbank', sub:'Version 1'},
 ];
 const FRONT_N={greige:'Greige', weiss:'Weiß', grau:'Grau', salbei:'Salbei', sand:'Sand', taube:'Taubenblau', anthrazit:'Anthrazit'};
@@ -2984,7 +2989,7 @@ try{ const raw=JSON.parse(localStorage.getItem('ww-variants')||'[]'); if(Array.i
     },()=>{});
     db.collection('dims').onSnapshot(snap=>{
       let changed=false;
-      snap.docs.forEach(d=>{ if(!/^(eiche|sitz|bank|garde|v[a-z0-9]+)$/.test(d.id)) return; const o=d.data()||{}; const j=JSON.stringify(o); if(JSON.stringify(savedDims[d.id])!==j){ savedDims[d.id]=o; changed=true; } });
+      snap.docs.forEach(d=>{ if(!/^(eiche|sitz|bank|garde|gardeS|v[a-z0-9]+)$/.test(d.id)) return; const o=d.data()||{}; const j=JSON.stringify(o); if(JSON.stringify(savedDims[d.id])!==j){ savedDims[d.id]=o; changed=true; } });
       if(changed&&!ed){ try{ localStorage.setItem('ww-dims', JSON.stringify(savedDims)); }catch(_){} const v=byId(activeId); if(viewer) viewer.show(v.base,dimsOf(v),{front:v.front,wood:v.wood}); applyContent(v); render(); drawThumbs(); }
     },()=>{});
   }catch(_){ db=null; }
@@ -2993,8 +2998,8 @@ try{ const raw=JSON.parse(localStorage.getItem('ww-variants')||'[]'); if(Array.i
 
 // =================== Maße: Zeichnung, Inhalte, Editor ===================
 let savedDims={};
-function dimsOf(v){ return sanitize(v.base, savedDims[v.id]); }
-function isCustomDims(v){ return !!savedDims[v.id] && JSON.stringify(dimsOf(v))!==JSON.stringify(DEF[v.base]); }
+function dimsOf(v){ return sanitize(v.base, savedDims[v.id] || v.def); }
+function isCustomDims(v){ return !!savedDims[v.id] && JSON.stringify(dimsOf(v))!==JSON.stringify(sanitize(v.base,v.def)); }
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 // Frontansicht als SVG (mm-Koordinaten, y nach oben). handles: Griffe zum Ziehen.
@@ -3015,7 +3020,7 @@ function elevSVG(base,P,opt={}){
     s+=r(c.WL,P.SHT-P.ST,c.bankW,P.ST,'o');
     for(let i=0;i<4;i++){ const hx=c.WL+c.bankW*(.17+i*.22); s+=r(hx-6,P.HK-30,12,60,'b'); }
     s+=r(c.WL+2,c.UB+2,ud,P.UH-4,G)+r(c.WL+6+ud,c.UB+2,ud,P.UH-4,G)+r(c.tx+2,c.UB+2,P.TW-4,P.UH-4,G)+r(c.tx+2,P.PL+2,P.TW-4,c.UB-P.PL-4,G);
-    s+=r(c.tx+18,P.PL+(c.UB-P.PL)*.42,12,320,'b');
+    if(P.MIR) s+=r(c.tx+17,P.PL+17,P.TW-34,c.UB-P.PL-34,'mi'); else s+=r(c.tx+18,P.PL+(c.UB-P.PL)*.42,12,320,'b');
   } else if(base==='bank'){
     const ang=8*Math.PI/180, yB=c.yRail-60, dx=c.legH*Math.tan(ang);
     [[P.LI,-1],[W-P.LI,1]].forEach(([jx,d])=>{ s+=`<polygon points="${jx-25},${Y(yB)} ${jx+25},${Y(yB)} ${jx+25+d*dx},${Y(0)} ${jx-25+d*dx},${Y(0)}" class="o"/>`; s+=r(jx-25,yB,50,60,'o'); });
@@ -3079,7 +3084,7 @@ function elevSVG(base,P,opt={}){
   return `<g>${s}</g><g class="handles">${hd}</g>`;
 }
 function svgWrap(inner,P,base){ return `<svg viewBox="${-60} ${-140} ${P.W+300} ${htop(base,P)+400}" role="img" aria-label="Frontansicht mit Maßen"><style>${ELEV_CSS}</style>${inner}</svg>`; }
-const ELEV_CSS='.g3{fill:#b7afa3;stroke:var(--ink);stroke-width:3}.o2{fill:#d8b58a;stroke:var(--ink);stroke-width:3}.c2{fill:#e3ddd0;stroke:var(--ink);stroke-width:2}.w{fill:var(--surface);stroke:var(--ink);stroke-width:3}.o{fill:#c79058;stroke:var(--ink);stroke-width:3}.b{fill:#2b2825}.g{fill:#c4c1ba;stroke:var(--ink);stroke-width:3}.g2{fill:#6f6c66}.f{fill:#e6cfa8;stroke:var(--ink);stroke-width:3}.c{fill:#a4ae95;stroke:var(--ink);stroke-width:2}.n{fill:none;stroke:var(--muted);stroke-width:4}.d{stroke:var(--oak);stroke-width:2.5;fill:none}.t{font:500 40px var(--f-mono,monospace);fill:var(--ink)}.tm{font:400 32px var(--f-mono,monospace);fill:var(--muted)}.hit{stroke:transparent}.hl{stroke:var(--oak);stroke-width:5;stroke-dasharray:14 10;opacity:.0}.hdl:hover .hl,.hdl.on .hl{opacity:1}.hd{fill:var(--oak);stroke:var(--surface);stroke-width:6}.hdt{fill:#fff;font-family:var(--f-body,sans-serif);font-weight:700;pointer-events:none}';
+const ELEV_CSS='.mi{fill:#dfe6ea;stroke:var(--ink);stroke-width:2}.g3{fill:#b7afa3;stroke:var(--ink);stroke-width:3}.o2{fill:#d8b58a;stroke:var(--ink);stroke-width:3}.c2{fill:#e3ddd0;stroke:var(--ink);stroke-width:2}.w{fill:var(--surface);stroke:var(--ink);stroke-width:3}.o{fill:#c79058;stroke:var(--ink);stroke-width:3}.b{fill:#2b2825}.g{fill:#c4c1ba;stroke:var(--ink);stroke-width:3}.g2{fill:#6f6c66}.f{fill:#e6cfa8;stroke:var(--ink);stroke-width:3}.c{fill:#a4ae95;stroke:var(--ink);stroke-width:2}.n{fill:none;stroke:var(--muted);stroke-width:4}.d{stroke:var(--oak);stroke-width:2.5;fill:none}.t{font:500 40px var(--f-mono,monospace);fill:var(--ink)}.tm{font:400 32px var(--f-mono,monospace);fill:var(--muted)}.hit{stroke:transparent}.hl{stroke:var(--oak);stroke-width:5;stroke-dasharray:14 10;opacity:.0}.hdl:hover .hl,.hdl.on .hl{opacity:1}.hd{fill:var(--oak);stroke:var(--surface);stroke-width:6}.hdt{fill:#fff;font-family:var(--f-body,sans-serif);font-weight:700;pointer-events:none}';
 
 function applyContent(v){
   const base=v.base, P=dimsOf(v), texts=stepTexts(base,P);
@@ -3130,7 +3135,7 @@ function applyContent(v){
 
 // ---- Editor
 const FIELDS={
-  garde:[['Nische',[['W','Breite'],['H','Höhe'],['D','Tiefe']]],['Möbel',[['TD','Möbeltiefe inkl. Fronten'],['PL','Sockel'],['TW','Hochschrank Breite']]],['Sitzbank',[['BH','Bankkorpus'],['SB','Sitzplatte']]],['Nische',[['SHT','Regal Oberkante'],['SD','Regaltiefe'],['ST','Regalstärke'],['HK','Hakenhöhe']]],['Oberschrank',[['UH','Höhe'],['GAP','Deckenluft']]]],
+  garde:[['Nische',[['W','Breite'],['H','Höhe'],['D','Tiefe']]],['Möbel',[['TD','Möbeltiefe inkl. Fronten'],['PL','Sockel'],['TW','Hochschrank Breite']]],['Sitzbank',[['BH','Bankkorpus'],['SB','Sitzplatte']]],['Nische',[['SHT','Regal Oberkante'],['SD','Regaltiefe'],['ST','Regalstärke'],['HK','Hakenhöhe']]],['Oberschrank',[['UH','Höhe'],['GAP','Deckenluft']]],['Hochschranktür',[['MIR','Spiegel (1 = ja, 0 = nein)']]]],
   bank:[['Bank',[['W','Länge'],['H','Sitzhöhe'],['D','Sitztiefe'],['LI','Beine vom Ende']]],['Lamellen',[['SW','Lamellenbreite'],['ST','Lamellenstärke'],['BK','Lehne: hochgeklappt'],['A','Lehnenwinkel']]]],
   eiche:[['Nische',[['W','Breite'],['H','Höhe'],['D','Tiefe']]],['Unterbau',[['PL','Sockel'],['CH','Korpushöhe'],['CD','Korpustiefe'],['WT','Arbeitsplatte'],['mods.0','Modul links'],['mods.1','Modul Mitte'],['mods.2','Modul rechts']]],
     ['Regale',[['SH1','Regal 1 Oberkante'],['SH2','Regal 2 Oberkante'],['SD','Regaltiefe'],['ST','Regalstärke']]],['Oberschrank',[['UB','Unterkante'],['UH','Höhe'],['UD','Tiefe']]]],
@@ -3139,9 +3144,9 @@ const FIELDS={
 };
 let ed=null; // {v, base, P}
 const getK=(P,k)=>k.startsWith('mods.')? P.mods[+k.slice(5)] : P[k];
-const STEPK={SW:1,ST:1,BK:1,A:1};
+const STEPK={SW:1,ST:1,BK:1,A:1,MIR:1};
 function setK(P,k,val,auto){
-  const stp=(ed&&ed.base==='bank'&&STEPK[k])||5; val=Math.round(val/stp)*stp;
+  const stp=(ed&&(ed.base==='bank'||k==='MIR')&&STEPK[k])||5; val=Math.round(val/stp)*stp;
   if(k.startsWith('mods.')){ const i=+k.slice(5); P.mods[i]=Math.max(LIM.mod[0],Math.min(LIM.mod[1],val)); return; }
   const lim=limFor(ed?ed.base:'eiche',k); if(lim) val=Math.max(lim[0],Math.min(lim[1],val));
   if(ed&&(ed.base==='bank'||ed.base==='garde')){ P[k]=val; return; }
@@ -3173,7 +3178,7 @@ function buildForm(){
     list.forEach(([k,label])=>{ const id='mf-'+k.replace('.','-'); const row=document.createElement('label'); row.className='mrow'; row.htmlFor=id;
       const sp=document.createElement('span'); sp.textContent=label; const wrap=document.createElement('span'); wrap.className='minp';
       const inp=document.createElement('input'); inp.type='number'; inp.id=id; inp.step='5'; inp.inputMode='numeric'; inp.dataset.k=k;
-      const u=document.createElement('i'); u.textContent= k==='BK'? 'Stk' : k==='A'? '°' : 'mm'; if(ed.base==='bank'&&STEPK[k]) inp.step='1'; wrap.append(inp,u); row.append(sp,wrap); fs.appendChild(row);
+      const u=document.createElement('i'); u.textContent= k==='BK'? 'Stk' : k==='A'? '°' : k==='MIR'? '' : 'mm'; if((ed.base==='bank'||k==='MIR')&&STEPK[k]) inp.step='1'; if(k==='MIR'){ inp.min='0'; inp.max='1'; } wrap.append(inp,u); row.append(sp,wrap); fs.appendChild(row);
       inp.addEventListener('change',()=>{ const v=+inp.value; if(Number.isFinite(v)){ setK(ed.P,k,v,$('#mAuto').checked); } edRefresh(true); });
     });
     f.appendChild(fs);
@@ -3223,7 +3228,7 @@ async function persistDims(id,base,P){
   try{ localStorage.setItem('ww-dims', JSON.stringify(savedDims)); }catch(_){}
   if(db&&canWrite){ try{ await db.collection('dims').doc(id).set({base, ...P}); }catch(_){ canWrite=false; toast('Nur auf diesem Gerät gespeichert'); } }
 }
-try{ const raw=JSON.parse(localStorage.getItem('ww-dims')||'{}'); if(raw&&typeof raw==='object') for(const id in raw){ if(/^(eiche|sitz|bank|garde|v[a-z0-9]+)$/.test(id)) savedDims[id]=raw[id]; } }catch(_){}
+try{ const raw=JSON.parse(localStorage.getItem('ww-dims')||'{}'); if(raw&&typeof raw==='object') for(const id in raw){ if(/^(eiche|sitz|bank|garde|gardeS|v[a-z0-9]+)$/.test(id)) savedDims[id]=raw[id]; } }catch(_){}
 
 
 // =================== Projekte ===================
@@ -3372,7 +3377,7 @@ Idee: """${idea.slice(0,4000)}"""`;
 
 
 // =================== Zielbild-Hero ===================
-const HERO={eiche:{src:'img/zielbild.jpg',pos:'50% 52%'}, bank:{src:'img/klappbank-inspiration.jpg',pos:'40% 68%'}, sitz:{src:'img/sitznische-ziel.jpg',pos:'50% 46%'}, garde:{src:'img/garderobe-ziel.jpg',pos:'50% 45%'}};
+const HERO={gardeS:{src:'img/garderobe-spiegel.jpg',pos:'50% 45%'}, eiche:{src:'img/zielbild.jpg',pos:'50% 52%'}, bank:{src:'img/klappbank-inspiration.jpg',pos:'40% 68%'}, sitz:{src:'img/sitznische-ziel.jpg',pos:'50% 46%'}, garde:{src:'img/garderobe-ziel.jpg',pos:'50% 45%'}};
 let heroOpen=true, heroAuto=true;
 function updateHero(v){
   const h=v.builtin&&HERO[v.id], img=$('#heroImg'), cv=$('#heroCv'), mi=$('#heroMiniImg');
