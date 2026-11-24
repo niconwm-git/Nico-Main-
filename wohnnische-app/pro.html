@@ -150,6 +150,40 @@ a{color:var(--oak)}
 .icon-btn{width:40px; height:40px; display:grid; place-items:center; border:0; background:transparent; color:var(--ink); border-radius:12px; cursor:pointer}
 .icon-btn:hover{background:var(--oak-soft)}
 .icon-btn svg{width:22px; height:22px}
+
+/* Projekte */
+.projrow{display:flex; align-items:center; height:24px; margin-top:2px}
+.proj{pointer-events:auto; display:inline-flex; align-items:center; gap:7px; border:0; background:transparent; padding:2px 4px 2px 0; cursor:pointer; color:var(--ink); font-size:13.5px; font-weight:600; letter-spacing:-.01em}
+.proj .pk{font-family:var(--f-mono); font-size:10px; font-weight:400; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.proj svg{width:15px; height:15px; color:var(--muted)}
+.proj:hover #projName{color:var(--oak)}
+.plist{display:grid; gap:10px}
+.pcard{display:flex; align-items:center; gap:10px; border:1px solid var(--line); border-radius:var(--r-md); background:var(--surface); padding:8px}
+.pcard.on{border-color:var(--oak); box-shadow:0 0 0 1px var(--oak) inset}
+.pmain{flex:1; min-width:0; display:flex; gap:12px; align-items:center; border:0; background:transparent; text-align:left; cursor:pointer; padding:0; color:var(--ink)}
+.pmain canvas{width:48px; height:60px; border-radius:12px; background:var(--stage); flex:none}
+.ptx{display:flex; flex-direction:column; gap:2px; min-width:0}
+.ptx b{font-size:15.5px; font-weight:600}
+.psb{font-family:var(--f-mono); font-size:11px; color:var(--muted)}
+.pid{font-size:13px; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.pdel{flex:none; font-size:12.5px; padding:7px 11px}
+.idea{display:grid; gap:8px; margin:10px 0 6px}
+#pIdea{font:inherit; font-size:16px; line-height:1.5; padding:12px 14px; border-radius:14px; border:1px solid var(--line); background:var(--surface); color:var(--ink); resize:vertical; min-height:120px; width:100%}
+#pIdea:focus,.tin:focus,.wdh input:focus,.wdh select:focus{outline:2px solid var(--oak); outline-offset:1px}
+.partial{margin:0; min-height:1.2em; font-size:14px; color:var(--muted); font-style:italic}
+.btn.mic.rec{background:#c0392b; border-color:#c0392b; color:#fff; animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.45)}50%{box-shadow:0 0 0 8px rgba(192,57,43,0)}}
+#pAiMsg{margin:0; color:var(--ink)}
+.tin{font:inherit; font-size:16px; padding:11px 13px; border-radius:12px; border:1px solid var(--line); background:var(--surface); color:var(--ink); width:100%}
+.wdh{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+.wdh.two{grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:6px}
+.wdh label{display:grid; gap:4px; font-size:12.5px; color:var(--muted)}
+.wdh input,.wdh select{font:500 15px var(--f-mono); padding:9px 10px; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.wdh select{font-family:var(--f-body)}
+.newtype{margin-top:26px; padding:14px 16px; border-radius:var(--r-md); background:var(--oak-soft); display:grid; gap:8px}
+.newtype p{margin:0; font-size:14px}
+.newtype .btn{justify-self:start}
+@media (prefers-reduced-motion: reduce){ .btn.mic.rec{animation:none} }
 /* Maß-Editor */
 .medit{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:22px; align-items:start; margin-top:12px}
 @media (max-width:700px){ .medit{grid-template-columns:1fr} }
@@ -324,6 +358,7 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
 <div class="edge-hint r" id="hintR"></div>
 
 <header class="hud">
+  <div class="projrow"><button class="proj" id="projBtn" aria-label="Projekt wechseln"><span class="pk">Projekt</span><span id="projName">Wohnnische</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div>
   <div class="bar">
     <div class="tabs" id="tabs" role="tablist" aria-label="Varianten"></div>
     <button class="glass-btn" id="menuBtn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
@@ -702,6 +737,7 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
   <div class="drawer-head"><span>Nico Möbelplaner</span>
     <button class="icon-btn" data-close-menu aria-label="Menü schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <ul class="menu-list">
+    <li><a href="#projekte" data-proj><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="4" width="7" height="7" rx="2"/><rect x="14" y="4" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="M17.5 14v7M14 17.5h7"/></svg>Projekte<small>neu anlegen</small></a></li>
     <li><a href="#mass" data-mass><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 17L17 3l4 4L7 21z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/></svg>Maße bearbeiten<small>pro Projekt</small></a></li>
     <li><a href="#animation" data-panel="animation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>Gesamtanimation<small id="mAnim">live</small></a></li>
     <li><a href="#zielbild" data-panel="zielbild"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/></svg>Zielbild</a></li>
@@ -1151,6 +1187,55 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
     <div id="mWarn" class="mwarn" role="status"></div>
     <div class="row mact"><button class="btn primary" id="mApply">Übernehmen</button><button class="btn" id="mReset">Standardmaße</button></div>
     <p class="small muted">Gespeichert wird pro Projekt (Reiter). Zuschnittliste, Mengen, Kosten, Schritte und 3D-Modell rechnen danach mit diesen Maßen.</p>
+  </div>
+</section>
+
+<section class="panel" id="p-projekte" data-panel-id="projekte" aria-label="Projekte">
+  <div class="panel-head"><span class="k">Projekte</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Deine Projekte</h2>
+    <p class="muted">Jedes Projekt hat eigene Varianten, Maße, Zuschnitt und Kosten.</p>
+    <div class="row" style="margin:12px 0 16px"><button class="btn primary" id="pNewBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Neues Projekt</button></div>
+    <div class="plist" id="projList"></div>
+  </div>
+</section>
+<section class="panel" id="p-projekt-neu" data-panel-id="projekt-neu" aria-label="Neues Projekt">
+  <div class="panel-head"><span class="k">Neues Projekt</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Was willst du bauen?</h2>
+    <p class="muted">Sprich oder tipp deine Idee: Raum, Maße, Stil, wofür es gedacht ist. Claude macht daraus Name, Bauweise und Maße.</p>
+    <div class="idea">
+      <label class="fl" for="pIdea">Idee</label>
+      <textarea id="pIdea" rows="5" maxlength="2000" placeholder="z. B. Im Flur eine Nische 120 cm breit, 2,40 m hoch, 40 cm tief. Unten Bank zum Schuhe anziehen mit Schubladen, oben Stauraum, helles Holz, Fronten salbeigrün."></textarea>
+      <p class="partial" id="pPartial" aria-live="polite"></p>
+      <div class="row">
+        <button class="btn mic" id="pMic" type="button" aria-pressed="false" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span id="pMicL">Idee einsprechen</span></button>
+        <button class="btn" id="pAI" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4z"/><path d="M19 14l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>Mit Claude ausfüllen</button>
+      </div>
+      <p class="small muted" id="pMicHint">Sprechen: Auf dem Handy das Mikrofon der Tastatur nutzen. Im Chrome-Browser und in der Claude-Desktop-App erscheint hier ein eigener Mikrofon-Knopf.</p>
+      <p class="small" id="pAiMsg" role="status"></p>
+    </div>
+    <div class="vgrid">
+      <div class="vfields">
+        <label class="fl" for="pName">Projektname</label>
+        <input id="pName" class="tin" maxlength="28" placeholder="z. B. Flur-Garderobe">
+        <span class="fl">Bauweise</span>
+        <div class="opts" id="pBase" role="radiogroup" aria-label="Bauweise">
+          <button type="button" class="opt" data-v="eiche" role="radio">Kommode &amp; Regale</button>
+          <button type="button" class="opt" data-v="sitz" role="radio">Sitznische</button>
+        </div>
+        <span class="fl">Nische in mm (leer = Standard)</span>
+        <div class="wdh"><label><span>Breite</span><input id="pW" type="number" inputmode="numeric" step="10" placeholder="1450"></label><label><span>Höhe</span><input id="pH" type="number" inputmode="numeric" step="10" placeholder="2300"></label><label><span>Tiefe</span><input id="pD" type="number" inputmode="numeric" step="10" placeholder="570"></label></div>
+        <div class="wdh two"><label><span>Fronten</span><select id="pFront"><option value="weiss">Weiß</option><option value="grau">Grau</option><option value="salbei">Salbei</option><option value="sand">Sand</option><option value="taube">Taubenblau</option><option value="anthrazit">Anthrazit</option></select></label><label><span>Holz</span><select id="pWood"><option value="eiche">Eiche</option><option value="fichte">Fichte</option><option value="nuss">Nussbaum</option><option value="esche">Esche</option></select></label></div>
+      </div>
+      <div class="vprev"><canvas id="pPrev" width="360" height="460" aria-label="Vorschau des Projekts"></canvas></div>
+    </div>
+    <div class="row vactions"><button class="btn primary" id="pSave" type="button">Projekt anlegen</button><span class="small muted" id="pMsg" role="status"></span></div>
+    <div class="newtype">
+      <b>Ganz andere Möbelart?</b>
+      <p>Die App kennt zwei Bauweisen. Für etwas Neues, etwa einen Kleiderschrank oder ein TV-Board, kopiere die Idee als Auftrag und füge ihn in einer neuen Claude-Code-Session ein. Das neue Projekt landet dann hier in derselben App.</p>
+      <button class="btn" id="pCopy" type="button">Auftrag für Claude Code kopieren</button>
+    </div>
   </div>
 </section>
 <div class="toast" id="toast" role="status"></div>
@@ -1977,7 +2062,7 @@ drawer.querySelector('[data-close-menu]').addEventListener('click',closeMenu);
 
 // Panels
 let openId=null, lastFocus=null;
-const PANELS=['animation','zielbild','masse','zuschnitt','einkauf','kosten','werkzeug','sicherheit','neu','mass'];
+const PANELS=['animation','zielbild','masse','zuschnitt','einkauf','kosten','werkzeug','sicherheit','neu','mass','projekte','projekt-neu'];
 function openPanel(id){
   const p=document.querySelector(`[data-panel-id="${id}"][data-base="${curBase}"]`)||document.querySelector(`[data-panel-id="${id}"]:not([data-base])`); if(!p) return;
   closeMenu(); document.querySelectorAll('.panel.open').forEach(x=>{ if(x!==p) x.classList.remove('open'); });
@@ -2081,8 +2166,8 @@ function drawElevation(){
 
 // =================== Varianten ===================
 const BUILTIN=[
-  {id:'eiche', name:'Eiche & Baumkante', base:'eiche', front:'weiss', wood:'eiche', builtin:true},
-  {id:'sitz', name:'Sitznische grau', base:'sitz', front:'grau', wood:'fichte', builtin:true},
+  {id:'eiche', name:'Eiche & Baumkante', base:'eiche', front:'weiss', wood:'eiche', builtin:true, project:'wohnnische'},
+  {id:'sitz', name:'Sitznische grau', base:'sitz', front:'grau', wood:'fichte', builtin:true, project:'wohnnische'},
 ];
 const FRONT_N={weiss:'Weiß', grau:'Grau', salbei:'Salbei', sand:'Sand', taube:'Taubenblau', anthrazit:'Anthrazit'};
 const WOOD_N={eiche:'Eiche', fichte:'Fichte', nuss:'Nussbaum', esche:'Esche'};
@@ -2090,13 +2175,13 @@ const BASE_N={eiche:'Kommode & Regale', sitz:'Sitznische'};
 const BASE_INFO={eiche:{cut:'45 Teile', cost:'1.150–1.400 €'}, sitz:{cut:'63 Teile', cost:'915 €–1.940 €'}};
 let custom=[], activeId='eiche', db=null, canWrite=true;
 function clean(d,id){ const o=d||{}; const name=String(o.name||'').slice(0,32).trim()||'Variante';
-  return {id, name, base:o.base==='sitz'?'sitz':'eiche', front:FRONT_N[o.front]?o.front:'weiss', wood:WOOD_N[o.wood]?o.wood:'eiche', createdAt:+o.createdAt||0}; }
+  return {id, name, base:o.base==='sitz'?'sitz':'eiche', front:FRONT_N[o.front]?o.front:'weiss', wood:WOOD_N[o.wood]?o.wood:'eiche', project:/^(wohnnische|p[a-z0-9]+)$/.test(String(o.project))? String(o.project) : 'wohnnische', createdAt:+o.createdAt||0}; }
 function all(){ return BUILTIN.concat(custom); }
 function byId(id){ return all().find(v=>v.id===id)||BUILTIN[0]; }
 const tabsEl=$('#tabs');
 function renderTabs(){
   tabsEl.textContent='';
-  all().forEach(v=>{
+  inProj().forEach(v=>{
     const b=document.createElement('button'); b.type='button'; b.className='tab'; b.setAttribute('role','tab'); b.setAttribute('aria-selected',String(v.id===activeId)); b.dataset.id=v.id;
     const cv=document.createElement('canvas'); cv.width=64; cv.height=80; cv.setAttribute('aria-hidden','true');
     const tx=document.createElement('span'); tx.className='tx';
@@ -2112,7 +2197,7 @@ function renderTabs(){
   drawThumbs();
 }
 function drawThumbs(){ if(!viewer) return; const act=byId(activeId);
-  all().forEach(v=>{ if(v._cv) viewer.thumb(v.base,dimsOf(v),{front:v.front,wood:v.wood},v._cv); });
+  inProj().forEach(v=>{ if(v._cv) viewer.thumb(v.base,dimsOf(v),{front:v.front,wood:v.wood},v._cv); });
   viewer.show(act.base,dimsOf(act),{front:act.front,wood:act.wood}); render(); }
 function switchTo(id, opt={}){
   const v=byId(id); activeId=v.id; hideHint();
@@ -2160,7 +2245,7 @@ function openEditor(v){
 async function persist(list){ try{ localStorage.setItem('ww-variants', JSON.stringify(list.map(({_cv,...r})=>r))); }catch(_){} }
 $('#vform').addEventListener('submit',async e=>{
   e.preventDefault(); const name=$('#vName').value.trim(); if(!name){ $('#vName').focus(); return; }
-  const data={name:name.slice(0,32), base:form.base, front:form.front, wood:form.wood, createdAt: editing? editing.createdAt : Date.now()};
+  const data={name:name.slice(0,32), base:form.base, front:form.front, wood:form.wood, project: editing? editing.project : activeProject, createdAt: editing? editing.createdAt : Date.now()};
   const id= editing? editing.id : 'v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
   const local=()=>{ const v=clean(data,id); custom=custom.filter(x=>x.id!==id).concat(v).sort((a,b)=>a.createdAt-b.createdAt); persist(custom); renderTabs(); };
   $('#vSave').disabled=true;
@@ -2173,7 +2258,7 @@ $('#vDel').addEventListener('click',async()=>{
   if(btn.dataset.confirm!=='1'){ btn.dataset.confirm='1'; btn.textContent='Wirklich löschen?'; setTimeout(()=>{ btn.dataset.confirm=''; btn.textContent='Löschen'; },3000); return; }
   const id=editing.id; btn.dataset.confirm=''; btn.textContent='Löschen';
   if(db&&canWrite){ try{ await db.collection('variants').doc(id).delete(); }catch(_){ toast('Löschen nicht möglich'); return; } }
-  custom=custom.filter(x=>x.id!==id); persist(custom); delete savedDims[id]; try{ localStorage.setItem('ww-dims', JSON.stringify(savedDims)); }catch(_){} if(db&&canWrite) db.collection('dims').doc(id).delete().catch(()=>{}); closePanel(); switchTo('eiche'); renderTabs();
+  custom=custom.filter(x=>x.id!==id); persist(custom); delete savedDims[id]; try{ localStorage.setItem('ww-dims', JSON.stringify(savedDims)); }catch(_){} if(db&&canWrite) db.collection('dims').doc(id).delete().catch(()=>{}); closePanel(); setProject(activeProject,{instant:true});
 });
 
 // Gespeicherte Varianten: gemeinsam über die Datenbank, sonst lokal
@@ -2187,9 +2272,16 @@ try{ const raw=JSON.parse(localStorage.getItem('ww-variants')||'[]'); if(Array.i
       const localOnly=custom.filter(c=>!list.some(l=>l.id===c.id));
       if(localOnly.length&&canWrite){ localOnly.forEach(c=>{ const {id,_cv,...r}=c; db.collection('variants').doc(id).set(r).catch(()=>{ canWrite=false; }); }); }
       custom=list.concat(canWrite?[]:localOnly).sort((a,b)=>a.createdAt-b.createdAt);
-      if(!all().some(v=>v.id===activeId)){ activeId='eiche'; switchTo('eiche',{instant:true}); }
+      if(!all().some(v=>v.id===activeId)){ setProject(activeProject,{instant:true}); }
       renderTabs();
     },()=>{ db=null; });
+    db.collection('projects').onSnapshot(snap=>{
+      const list=snap.docs.filter(d=>/^p[a-z0-9]+$/.test(d.id)).map(d=>cleanProj(d.data(),d.id));
+      const localOnly=projects.filter(q=>!list.some(l=>l.id===q.id));
+      if(localOnly.length&&canWrite) localOnly.forEach(q=>{ const {id,...r}=q; db.collection('projects').doc(id).set(r).catch(()=>{ canWrite=false; }); });
+      projects=list.concat(canWrite?[]:localOnly).sort((a,b)=>a.createdAt-b.createdAt); persistProj();
+      if(!allProj().some(q=>q.id===activeProject)) setProject('wohnnische',{instant:true}); else $('#projName').textContent=projById(activeProject).name;
+    },()=>{});
     db.collection('dims').onSnapshot(snap=>{
       let changed=false;
       snap.docs.forEach(d=>{ if(!/^(eiche|sitz|v[a-z0-9]+)$/.test(d.id)) return; const o=d.data()||{}; const j=JSON.stringify(o); if(JSON.stringify(savedDims[d.id])!==j){ savedDims[d.id]=o; changed=true; } });
@@ -2397,6 +2489,146 @@ async function persistDims(id,base,P){
   if(db&&canWrite){ try{ await db.collection('dims').doc(id).set({base, ...P}); }catch(_){ canWrite=false; toast('Nur auf diesem Gerät gespeichert'); } }
 }
 try{ const raw=JSON.parse(localStorage.getItem('ww-dims')||'{}'); if(raw&&typeof raw==='object') for(const id in raw){ if(/^(eiche|sitz|v[a-z0-9]+)$/.test(id)) savedDims[id]=raw[id]; } }catch(_){}
+
+
+// =================== Projekte ===================
+const BUILTIN_PROJ={id:'wohnnische', name:'Wohnnische', idea:'Einbau in die Nische 1450 × 2300 × 570 mm: Eiche & Baumkante oder Sitznische grau.', builtin:true, createdAt:0};
+let projects=[], activeProject='wohnnische';
+function cleanProj(d,id){ const o=d||{}; return {id, name:String(o.name||'').slice(0,28).trim()||'Projekt', idea:String(o.idea||'').slice(0,2000), createdAt:+o.createdAt||0}; }
+function allProj(){ return [BUILTIN_PROJ].concat(projects); }
+function projById(id){ return allProj().find(p=>p.id===id)||BUILTIN_PROJ; }
+function inProj(){ return all().filter(v=>v.project===activeProject); }
+function persistProj(){ try{ localStorage.setItem('ww-projects', JSON.stringify(projects)); }catch(_){} }
+try{ const raw=JSON.parse(localStorage.getItem('ww-projects')||'[]'); if(Array.isArray(raw)) projects=raw.filter(r=>r&&/^p[a-z0-9]+$/.test(String(r.id))).map(r=>cleanProj(r,String(r.id))); }catch(_){}
+function setProject(id, opt={}){
+  activeProject=projById(id).id; $('#projName').textContent=projById(activeProject).name;
+  const list=inProj(); const target= opt.variant&&list.some(v=>v.id===opt.variant)? opt.variant : (list[0]&&list[0].id);
+  renderTabs(); if(target) switchTo(target,{instant:opt.instant});
+}
+// Projektliste
+function renderProjects(){
+  const box=$('#projList'); box.textContent='';
+  allProj().forEach(pr=>{
+    const vs=all().filter(v=>v.project===pr.id);
+    const card=document.createElement('div'); card.className='pcard'+(pr.id===activeProject?' on':'');
+    const open=document.createElement('button'); open.type='button'; open.className='pmain';
+    const cv=document.createElement('canvas'); cv.width=96; cv.height=120; cv.setAttribute('aria-hidden','true');
+    const tx=document.createElement('span'); tx.className='ptx';
+    const nm=document.createElement('b'); nm.textContent=pr.name;
+    const sb=document.createElement('span'); sb.className='psb'; sb.textContent=`${vs.length} ${vs.length===1?'Variante':'Varianten'}`+(vs[0]? ` · ${fmtN(dimsOf(vs[0]).W)} × ${fmtN(dimsOf(vs[0]).H)} mm`:'');
+    const id=document.createElement('span'); id.className='pid'; id.textContent=pr.idea;
+    tx.append(nm,sb,id); open.append(cv,tx); card.appendChild(open);
+    open.addEventListener('click',()=>{ closePanel(); setProject(pr.id); });
+    if(!pr.builtin){ const del=document.createElement('button'); del.type='button'; del.className='btn pdel'; del.textContent='Löschen';
+      del.addEventListener('click',async()=>{ if(del.dataset.c!=='1'){ del.dataset.c='1'; del.textContent='Wirklich löschen?'; setTimeout(()=>{ del.dataset.c=''; del.textContent='Löschen'; },3000); return; } await deleteProject(pr.id); renderProjects(); });
+      card.appendChild(del); }
+    box.appendChild(card);
+    if(viewer&&vs[0]) viewer.thumb(vs[0].base,dimsOf(vs[0]),{front:vs[0].front,wood:vs[0].wood},cv);
+  });
+  if(viewer){ const a=byId(activeId); viewer.show(a.base,dimsOf(a),{front:a.front,wood:a.wood}); render(); }
+}
+async function deleteProject(id){
+  const vs=all().filter(v=>v.project===id);
+  custom=custom.filter(v=>v.project!==id); persist(custom);
+  vs.forEach(v=>{ delete savedDims[v.id]; }); try{ localStorage.setItem('ww-dims', JSON.stringify(savedDims)); }catch(_){}
+  projects=projects.filter(p=>p.id!==id); persistProj();
+  if(db&&canWrite){ try{ await Promise.all([db.collection('projects').doc(id).delete(), ...vs.map(v=>db.collection('variants').doc(v.id).delete()), ...vs.map(v=>db.collection('dims').doc(v.id).delete())]); }catch(_){ toast('Löschen nur auf diesem Gerät'); } }
+  if(activeProject===id) setProject('wohnnische',{instant:true}); else renderTabs();
+}
+// Maße aus Breite/Höhe/Tiefe ableiten (Module mitziehen, Oberschrank an der Decke halten)
+function fitDims(base,W,H,D){
+  const P=DEFDIMS(base), lim=k=>v=>Math.round(Math.min(LIM[k][1],Math.max(LIM[k][0],v)));
+  if(W){ P.W=lim('W')(W); const target=P.W-50, s=P.mods.reduce((a,b)=>a+b,0); let acc=0; P.mods=P.mods.map((w,i,arr)=>{ if(i===arr.length-1) return Math.round(target-acc); const n=Math.round(w*target/s/5)*5; acc+=n; return n; }); }
+  if(H){ const h=lim('H')(H); P.UB+=h-P.H; P.H=h; }
+  if(D){ P.D=lim('D')(D); P.CD=Math.min(P.CD,P.D-40); if(base==='eiche') P.UD=Math.min(P.UD,P.D-150); }
+  return sanitize(base,P);
+}
+// Neues Projekt
+let np={base:'eiche', front:'weiss', wood:'eiche'}, aiCtl=null;
+function npSync(){
+  document.querySelectorAll('#pBase .opt').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.v===np.base)));
+  $('#pFront').value=np.front; $('#pWood').value=np.wood;
+  const W=+$('#pW').value||0, H=+$('#pH').value||0, D=+$('#pD').value||0;
+  if(viewer){ viewer.thumb(np.base, fitDims(np.base,W,H,D), {front:np.front,wood:np.wood}, $('#pPrev')); const a=byId(activeId); viewer.show(a.base,dimsOf(a),{front:a.front,wood:a.wood}); render(); }
+}
+function openNewProject(){
+  $('#pIdea').value=''; $('#pName').value=''; $('#pW').value=''; $('#pH').value=''; $('#pD').value=''; $('#pMsg').textContent=''; $('#pAiMsg').textContent=''; $('#pPartial').textContent='';
+  np={base:'eiche', front:'weiss', wood:'eiche'}; openPanel('projekt-neu'); npSync();
+}
+document.querySelectorAll('#pBase .opt').forEach(b=>b.addEventListener('click',()=>{ np.base=b.dataset.v; npSync(); }));
+$('#pFront').addEventListener('change',()=>{ np.front=$('#pFront').value; npSync(); });
+$('#pWood').addEventListener('change',()=>{ np.wood=$('#pWood').value; npSync(); });
+['#pW','#pH','#pD'].forEach(s=>$(s).addEventListener('change',npSync));
+$('#projBtn').addEventListener('click',()=>{ openPanel('projekte'); renderProjects(); });
+$('#pNewBtn').addEventListener('click',openNewProject);
+document.querySelectorAll('[data-proj]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); closeMenu(); openPanel('projekte'); renderProjects(); }));
+$('#pSave').addEventListener('click',async()=>{
+  const name=$('#pName').value.trim(); if(!name){ $('#pName').focus(); $('#pMsg').textContent='Gib dem Projekt einen Namen.'; return; }
+  const pid='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,5), vid='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  const pr={name:name.slice(0,28), idea:$('#pIdea').value.trim().slice(0,2000), createdAt:Date.now()};
+  const v={name:'Version 1', base:np.base, front:np.front, wood:np.wood, project:pid, createdAt:Date.now()};
+  const P=fitDims(np.base, +$('#pW').value||0, +$('#pH').value||0, +$('#pD').value||0);
+  projects.push(cleanProj(pr,pid)); persistProj();
+  custom.push(clean(v,vid)); persist(custom);
+  savedDims[vid]=P; try{ localStorage.setItem('ww-dims', JSON.stringify(savedDims)); }catch(_){}
+  $('#pSave').disabled=true;
+  if(db&&canWrite){ try{ await db.collection('projects').doc(pid).set(pr); await db.collection('variants').doc(vid).set(v); await db.collection('dims').doc(vid).set({base:np.base,...P}); }catch(_){ canWrite=false; toast('Nur auf diesem Gerät gespeichert'); } }
+  $('#pSave').disabled=false; closePanel(); setProject(pid,{variant:vid}); toast(`Projekt „${pr.name}“ angelegt`);
+});
+// Auftrag für Claude Code kopieren
+$('#pCopy').addEventListener('click',()=>{
+  const idea=$('#pIdea').value.trim()||'[Idee hier beschreiben]', name=$('#pName').value.trim()||'[Name]';
+  const txt=`Branch claude/wizardly-meitner-irdhmt auschecken. Im Nico Möbelplaner (wohnnische-app/pro.html, Link https://claude.ai/artifact/4ThtEofZEhEbia8wSTHfjq) ein neues Projekt „${name}“ mit eigener Bauweise hinzufügen. Bestehende Projekte nicht verändern, gleiches Design und gleiche Funktionen (Schritte, Maß-Editor, Zuschnitt, Kosten). Danach unter demselben Link veröffentlichen und pushen.\n\nIdee:\n${idea}`;
+  const fb=()=>{ const ta=$('#pIdea'); ta.focus(); ta.select(); toast('Kopieren nicht möglich – Text der Idee ist markiert'); };
+  try{ navigator.clipboard.writeText(txt).then(()=>toast('Auftrag kopiert – in einer neuen Claude-Code-Session einfügen'),fb); }catch(_){ fb(); }
+});
+// Sprache: Diktat über die Plattform, sonst Tastatur-Diktat
+let dict=null;
+(async()=>{
+  try{ if(!window.claude||!claude.use) throw 0; dict=await claude.use('dictation'); }catch(_){ dict=null; }
+  const mic=$('#pMic');
+  if(!dict){ mic.hidden=true; $('#pMicHint').hidden=false; return; }
+  mic.hidden=false; $('#pMicHint').hidden=true;
+  dict.onPartial(({text})=>{ $('#pPartial').textContent=text; });
+  dict.onFinal(({text})=>{ const ta=$('#pIdea'); ta.value=(ta.value? ta.value+text : text.trimStart()); $('#pPartial').textContent=''; });
+  dict.onState(({state,reason})=>{
+    const on=state!=='idle'; mic.classList.toggle('rec',on); mic.setAttribute('aria-pressed',String(on)); $('#pMicL').textContent= state==='listening'? 'Zuhören … tippen zum Stoppen' : state==='starting'? 'Mikrofon startet …' : state==='finishing'? 'Letzte Worte …' : 'Idee einsprechen';
+    if(state==='idle'&&reason==='unavailable'){ mic.hidden=true; $('#pMicHint').hidden=false; }
+    if(state==='idle'&&(reason==='not_granted')){ $('#pAiMsg').textContent='Mikrofon nicht erlaubt. Du kannst die Idee auch tippen.'; }
+    if(state==='idle'&&reason==='rate_limited'){ $('#pAiMsg').textContent='Diktat gerade belegt. Gleich nochmal versuchen.'; }
+  });
+  mic.addEventListener('click',()=>{
+    if(dict.active()){ dict.stop().catch(()=>{}); return; }
+    dict.start().catch(e=>{ if(e&&e.code==='unavailable'){ mic.hidden=true; $('#pMicHint').hidden=false; } else if(e&&e.code==='not_granted'){ $('#pAiMsg').textContent='Mikrofon nicht erlaubt. Du kannst die Idee auch tippen.'; } });
+  });
+})();
+// Claude füllt die Felder aus der Idee
+let sampleFn=null;
+(async()=>{ try{ if(!window.claude||!claude.use) throw 0; sampleFn=await claude.use('sample'); }catch(_){ sampleFn=null; } $('#pAI').hidden=!sampleFn; })();
+$('#pAI').addEventListener('click',async()=>{
+  const idea=$('#pIdea').value.trim(); if(!idea){ $('#pAiMsg').textContent='Erst die Idee einsprechen oder tippen.'; return; }
+  if(!sampleFn) return; const btn=$('#pAI'); btn.disabled=true; $('#pAiMsg').textContent='Claude liest die Idee …';
+  const prompt=`Du hilfst beim Planen von Einbaumöbeln in einer Wohnung. Es gibt genau zwei Bauweisen:
+"eiche" = Kommode aus 3 Modulen (außen Türen, Mitte 3 Schubladen) mit Holz-Arbeitsplatte, darüber zwei offene Wandregale und oben zwei Oberschränke mit Klappen.
+"sitz" = Sitzbank mit 4 Schubladen, darüber eine mit Holz verkleidete Sitznische mit Regalboden als Deckel und Bücherfach, oben Oberschränke mit Türen bis zur Decke.
+Lies die Idee und antworte nur mit einem JSON-Objekt dieser Form:
+{"name": "kurzer deutscher Projektname, max. 28 Zeichen", "base": "eiche" oder "sitz", "W": Breite in mm oder null, "H": Höhe in mm oder null, "D": Tiefe in mm oder null, "front": "weiss"|"grau"|"salbei"|"sand"|"taube"|"anthrazit", "wood": "eiche"|"fichte"|"nuss"|"esche", "fit": true wenn eine der beiden Bauweisen gut passt, sonst false, "summary": "ein Satz, was gebaut werden soll"}
+Rechne Maße in cm oder m in mm um. Erfinde keine Maße, die nicht genannt sind (dann null).
+Idee: """${idea.slice(0,4000)}"""`;
+  try{
+    const r=await sampleFn.json(prompt,{modelTier:'quick'});
+    const o=r&&typeof r==='object'? r : {};
+    if(typeof o.name==='string'&&o.name.trim()) $('#pName').value=o.name.trim().slice(0,28);
+    if(o.base==='eiche'||o.base==='sitz') np.base=o.base;
+    if(FRONT_N[o.front]) np.front=o.front; if(WOOD_N[o.wood]) np.wood=o.wood;
+    [['W','#pW'],['H','#pH'],['D','#pD']].forEach(([k,s])=>{ const v=Number(o[k]); if(Number.isFinite(v)&&v>0) $(s).value=String(Math.round(v)); });
+    npSync();
+    $('#pAiMsg').textContent=(typeof o.summary==='string'? o.summary.slice(0,240)+' ' : '')+(o.fit===false? 'Keine der beiden Bauweisen passt richtig: Für eine neue Möbelart den Auftrag für Claude Code kopieren.' : 'Felder ausgefüllt – prüfen und anlegen.');
+  }catch(e){
+    const c=e&&e.code; $('#pAiMsg').textContent= c==='not_granted'||c==='sampling_disabled'? 'Claude ist hier nicht freigegeben. Felder bitte selbst ausfüllen.' : c==='rate_limited'? 'Gerade zu viele Anfragen. Gleich nochmal versuchen.' : c==='cancelled'? '' : 'Das hat nicht geklappt. Nochmal versuchen oder selbst ausfüllen.';
+    if(c==='not_granted'||c==='sampling_disabled') btn.hidden=true;
+  }finally{ btn.disabled=false; }
+});
 
 // Start: immer bei Schritt 1
 window.addEventListener('hashchange',()=>{ const h=(location.hash||'').slice(1); if(PANELS.includes(h)&&openId!==h) openPanel(h); else if(!h&&openId) closePanel(); });
