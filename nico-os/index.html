@@ -45,7 +45,7 @@ a { color: inherit; text-decoration: none; }
 svg.i { width: 20px; height: 20px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -.025em; }
 .app { max-width: 1120px; margin: 0 auto; padding-block: 8px 140px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.view { display: flex; flex-direction: column; gap: 14px; }
+.view { display: flex; flex-direction: column; gap: 12px; }
 .view[hidden] { display: none !important; }
 .view.enter { animation: viewIn .32s var(--ease); }
 @keyframes viewIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -55,12 +55,16 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 .topbar.on { opacity: 1; transform: none; pointer-events: auto; }
 
 /* Kopf */
-.hdr { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding-top: 10px; }
+.hdr { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 6px; }
 .hdr .l { min-width: 0; }
 .eyebrow { font-size: 13px; font-weight: 600; color: var(--ink2); }
-.big { font-size: 34px; font-weight: 800; line-height: 1.06; }
+.big { font-size: 27px; font-weight: 800; line-height: 1.1; }
+.subline { font-size: 13px; color: var(--ink2); font-weight: 500; display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.subline svg.i { width: 14px; height: 14px; color: var(--trip); }
+.subline b { color: var(--ink); font-weight: 600; }
+.subline .sep { color: var(--ink3); }
 .hdr-act { display: flex; gap: 8px; align-items: center; flex: none; }
-.round { width: 40px; height: 40px; border-radius: 50%; background: var(--card); box-shadow: var(--shadow); display: grid; place-items: center; color: var(--ink); }
+.round { width: 36px; height: 36px; border-radius: 50%; background: var(--card); box-shadow: var(--shadow); display: grid; place-items: center; color: var(--ink); }
 .round.ink { background: var(--accent); color: var(--accent-ink); font-family: var(--f-display); font-weight: 800; box-shadow: none; }
 .ring { position: relative; width: 40px; height: 40px; }
 .ring > svg { width: 40px; height: 40px; transform: rotate(-90deg); }
@@ -80,7 +84,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 /* Raster & Karten */
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 .col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-@media (min-width: 900px) { .grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); align-items: start; } .big { font-size: 38px; } }
+@media (min-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } .big { font-size: 30px; } }
 .card { background: var(--card); border-radius: var(--r); padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .card-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 28px; flex-wrap: wrap; }
 .card-h h2 { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
@@ -219,7 +223,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 .dots i.t { background: var(--trip); }
 .dots i.k { background: var(--ink3); }
 .calhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.mtitle { display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-display); font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.06; }
+.mtitle { display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-display); font-size: 27px; font-weight: 800; letter-spacing: -.025em; line-height: 1.06; }
 .mtitle svg.i { width: 22px; height: 22px; color: var(--today); transition: transform .25s; stroke-width: 2.4; }
 .mtitle[aria-expanded="true"] svg.i { transform: rotate(180deg); }
 .month { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 2px; touch-action: pan-y; animation: viewIn .25s var(--ease); }
@@ -274,6 +278,36 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 .mi.task::before { content: "○ "; }
 .mcell .more { font-size: 10px; color: var(--ink3); padding-left: 2px; }
 @media (max-width: 600px) { .mi .mt { display: none; } .mi { font-size: 9.5px; padding: 1px 3px; } .mi.task::before { content: ""; } .mi.task { border-left: 2px solid var(--ink3); } .mcell { padding: 3px 2px; } .mcell .more { font-size: 9px; } }
+
+
+/* Überblick + Als-Nächstes-Leiste */
+.ov { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.ovt { background: var(--card); border-radius: 16px; padding: 10px 11px 9px; text-align: left; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 1px; min-width: 0; transition: transform .15s; }
+.ovt:active { transform: scale(.96); }
+.ovt b { font-family: var(--f-display); font-size: 22px; font-weight: 800; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ovt span { font-size: 11.5px; font-weight: 600; color: var(--ink2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ovt.alert b { color: var(--warn); }
+.ovt.acc b { color: var(--accent); }
+.ovt.trip b { color: var(--trip); }
+.nextbar { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; background: var(--hero); border-radius: 18px; padding: 10px 12px 10px 10px; text-align: left; width: 100%; box-shadow: var(--shadow), inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent); }
+.nextbar .nb-t { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); border-radius: 12px; padding: 6px 9px; text-align: center; min-width: 58px; }
+.nextbar .nb-t b { display: block; font-family: var(--f-display); font-size: 15px; font-weight: 800; line-height: 1.1; }
+.nextbar .nb-t small { font-size: 10.5px; font-weight: 700; opacity: .85; }
+.nextbar .nb-k { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; }
+.nextbar .nb-x { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nextbar .nb-s { font-size: 12.5px; color: var(--ink2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nextbar > svg.i { color: var(--ink3); }
+/* Als nächstes tun */
+.focus { background: var(--hero); border-radius: 20px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--shadow), inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent); }
+.focus .k { font-size: 11px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .07em; }
+.focus .tt { font-family: var(--f-display); font-size: 19px; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.focus .nt { font-size: 13px; color: var(--ink2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.focus .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+.focus .row button { padding: 8px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; background: var(--card2); display: inline-flex; gap: 6px; align-items: center; }
+.focus .row button svg.i { width: 16px; height: 16px; }
+.focus .row .go { background: var(--accent); color: var(--accent-ink); }
+.fbtn .n { font-size: 11.5px; font-weight: 800; opacity: .7; }
+.fsep { width: 1px; background: var(--line); flex: none; margin: 4px 2px; }
 
 /* Reise */
 .trip-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; }
@@ -441,30 +475,26 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 
   <section class="view" id="v-heute" aria-label="Heute">
     <header class="hdr">
-      <div class="l"><div class="eyebrow" id="hDate">&nbsp;</div><h1 class="big" id="hHello">Hallo Nico</h1></div>
-      <div class="hdr-act">
-        <button class="ring" id="hRing" type="button" aria-label="Fortschritt heute"></button>
-        <button class="round" type="button" data-search aria-label="Suchen"></button>
-        <a class="round ink" href="#menu" aria-label="Menü">N</a>
-      </div>
+      <div class="l"><h1 class="big" id="hHello">Hallo, Nico</h1><div class="subline" id="hSub">&nbsp;</div></div>
+      <div class="hdr-act"><button class="round" type="button" data-search aria-label="Suchen"></button><a class="round ink" href="#menu" aria-label="Menü">N</a></div>
     </header>
-    <div class="ctx" id="hCtx"><span class="chip"><span class="sk" style="width:90px"></span></span><span class="chip"><span class="sk" style="width:60px"></span></span></div>
+    <div class="ov" id="hOv"><span class="ovt"><span class="sk" style="width:60%"></span></span><span class="ovt"><span class="sk" style="width:60%"></span></span><span class="ovt"><span class="sk" style="width:60%"></span></span><span class="ovt"><span class="sk" style="width:60%"></span></span></div>
+    <button class="nextbar" id="hNext" type="button" hidden></button>
     <div class="grid">
-      <div class="col">
-        <button class="hero" id="hHero" type="button"><span class="sk" style="width:40%;opacity:.25"></span><span class="sk" style="width:85%;height:24px;opacity:.25"></span><span class="sk" style="width:30%;opacity:.25"></span></button>
-        <div class="card">
-          <div class="card-h"><h2>Agenda</h2>
-            <div class="seg" id="hArea" role="group" aria-label="Bereich"><button type="button" data-a="alle" aria-pressed="true">Alle</button><button type="button" data-a="arbeit" aria-pressed="false">Arbeit</button><button type="button" data-a="privat" aria-pressed="false">Privat</button></div>
-          </div>
-          <div class="agenda" id="hAgenda"><span class="sk" style="width:70%"></span></div>
-        </div>
-      </div>
       <div class="col">
         <div class="card">
           <div class="card-h"><h2>Fokus <span class="cnt" id="hTodoCnt"></span></h2><a class="link" href="#todo">Alle</a></div>
           <div class="todos" id="hTodos"><span class="sk" style="width:80%"></span></div>
           <form class="addrow" id="hAdd"><input id="hAddIn" placeholder="Aufgabe hinzufügen …" autocomplete="off" aria-label="Neue Aufgabe"><button type="submit" aria-label="Hinzufügen"></button></form>
           <div class="tokens" id="hTok"></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-h"><h2>Agenda</h2>
+            <div class="seg" id="hArea" role="group" aria-label="Bereich"><button type="button" data-a="alle" aria-pressed="true">Alle</button><button type="button" data-a="arbeit" aria-pressed="false">Arbeit</button><button type="button" data-a="privat" aria-pressed="false">Privat</button></div>
+          </div>
+          <div class="agenda" id="hAgenda"><span class="sk" style="width:70%"></span></div>
         </div>
         <div class="card" id="hTripCard" hidden>
           <div class="card-h"><h2>Reise</h2><a class="link" href="#projekt-reise">Details</a></div>
@@ -491,13 +521,13 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 
   <section class="view" id="v-todo" hidden aria-label="To-dos">
     <header class="hdr">
-      <div class="l"><div class="eyebrow" id="tSub">&nbsp;</div><h1 class="big">To-dos</h1></div>
+      <div class="l"><h1 class="big">To-dos</h1><div class="subline" id="tSub">&nbsp;</div></div>
       <div class="hdr-act"><button class="round" type="button" data-search aria-label="Suchen"></button><a class="round ink" href="#menu" aria-label="Menü">N</a></div>
     </header>
-    <div class="smart" id="tSmart"></div>
     <form class="addrow raised" id="tAdd"><input id="tAddIn" placeholder="Neue Aufgabe … „morgen“, „Fr“, „12.12.“, „!“, „#arbeit“" autocomplete="off" aria-label="Neue Aufgabe"><button type="submit" aria-label="Hinzufügen"></button></form>
     <div class="tokens" id="tTok"></div>
     <div class="filters" id="tFilter"></div>
+    <div id="tNext"></div>
     <div class="card"><div class="todos" id="tList"></div><div class="gesture-hint">Nach rechts wischen: erledigt · nach links: morgen oder löschen</div></div>
   </section>
 
@@ -587,7 +617,7 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
 
   /* ---------- Daten ---------- */
   const COLS = ["tasks", "events", "projects", "log", "sync", "meta"];
-  const S = { tasks: [], events: [], projects: [], log: [], sync: [], meta: [], loaded: false, area: "alle", cal: { mode: "liste", sel: null }, tf: null, ta: "alle" };
+  const S = { tasks: [], events: [], projects: [], log: [], sync: [], meta: [], loaded: false, area: "alle", cal: { mode: "liste", sel: null }, tf: "alle", ta: "alle" };
   let db = null; const mem = Object.fromEntries(COLS.map((c) => [c, new Map()]));
   const store = {
     async add(col, data) { if (db) return (await db.collection(col).add(data)).id; const id = Math.random().toString(36).slice(2, 9); mem[col].set(id, data); pull(col); return id; },
@@ -742,37 +772,38 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
   /* ---------- HEUTE ---------- */
   function renderHome() {
     const w = whereNow(); TZ = w.tz; const ln = localNow(TZ); const t = ln.date, hr = ln.h;
-    $("hDate").textContent = fmt(t, { weekday: "short", day: "numeric", month: "long" }) + " · KW " + kw(P(t));
     $("hHello").textContent = (hr < 5 ? "Gute Nacht" : hr < 11 ? "Guten Morgen" : hr < 18 ? "Hallo" : "Guten Abend") + ", Nico";
-    const dueToday = S.tasks.filter((x) => x.due && (x.done ? x.due === t : x.due <= t));
-    const doneN = dueToday.filter((x) => x.done).length, tot = dueToday.length; const C = 2 * Math.PI * 16;
-    const ring = $("hRing"); ring.innerHTML = `<svg viewBox="0 0 40 40" aria-hidden="true"><circle class="bgc" cx="20" cy="20" r="16"/><circle class="fgc" cx="20" cy="20" r="16" stroke-dasharray="${C}" stroke-dashoffset="${tot ? C * (1 - doneN / tot) : 0}"/></svg>`;
-    ring.append(tot - doneN ? h("span", { text: tot - doneN }) : h("span", {}, icon("tick"))); ring.setAttribute("aria-label", tot ? `${tot - doneN} von ${tot} Aufgaben für heute offen` : "Heute nichts offen"); ring.onclick = () => { S.tf = null; location.hash = "todo"; };
-
     const nowT = meta("now"); const fresh = nowT && nowT.at && (Date.now() - new Date(nowT.at)) < 12 * 36e5 && nowT.place === w.place;
-    $("hCtx").replaceChildren(
-      h("span", { class: "chip" + (w.st ? " trip" : "") }, icon(w.st ? "plane" : "pin"), w.place, w.st && w.st.sub ? h("span", { class: "sub", text: w.st.sub.split("·")[0].trim() }) : null),
-      h("span", { class: "chip" }, icon("clock"), ln.hm, w.tz !== "Europe/Berlin" ? h("span", { class: "sub", text: "DE " + timeIn("Europe/Berlin") }) : null),
-      fresh ? h("span", { class: "chip" }, icon("sun"), nowT.temp, h("span", { class: "sub", text: nowT.cond || "" })) : w.clim ? h("span", { class: "chip", title: "Typische Tageshöchstwerte" }, icon(hr >= 19 || hr < 6 ? "moon" : "sun"), w.clim, h("span", { class: "sub", text: "typisch" })) : null,
-      w.st ? h("span", { class: "chip" }, icon("cal"), "noch " + dd(t, w.st.to) + " Nächte") : null);
+    const sep = () => h("span", { class: "sep", text: "·" });
+    $("hSub").replaceChildren(h("span", { text: fmt(t, { weekday: "short", day: "numeric", month: "short" }) }), sep(), w.st ? icon("plane") : null, h("b", { text: w.place }), h("span", { text: ln.hm }), (fresh || w.clim) ? sep() : null, fresh ? h("span", { text: nowT.temp }) : w.clim ? h("span", { title: "typische Tageshöchstwerte", text: w.clim }) : null);
 
-    // Hero
+    // Überblick
+    const open = S.tasks.filter((x) => !x.done).sort(sortT);
+    const evToday = evOn(t); const tdToday = open.filter((x) => x.due === t || !x.due).length; const over = open.filter((x) => x.due && x.due < t).length;
+    const tr = trip(); const onTrip = tr && t >= tr.from && t <= tr.to;
+    const ovt = (cls, val, lbl, fn) => h("button", { class: "ovt " + cls, type: "button", onclick: fn }, h("b", { text: val }), h("span", { text: lbl }));
+    $("hOv").setAttribute("aria-label", "Überblick heute");
+    $("hOv").replaceChildren(
+      ovt(evToday.length ? "acc" : "", evToday.length, evToday.length === 1 ? "Termin" : "Termine", () => { S.cal.sel = t; S.cal.mode = "liste"; location.hash = "kalender"; }),
+      ovt(tdToday ? "acc" : "", tdToday, "To-dos", () => { S.tf = "heute"; location.hash = "todo"; }),
+      ovt(over ? "alert" : "", over, "Überfällig", () => { S.tf = "heute"; location.hash = "todo"; }),
+      onTrip ? ovt("trip", String(dd(tr.from, t) + 1), "Reisetag", () => { location.hash = "projekt-reise"; }) : ovt("", String(kw(P(t))), "Woche", () => { S.cal.mode = "monat"; location.hash = "kalender"; }));
+
+    // Als Nächstes (schmal)
     const upcoming = S.events.filter((e) => e.date > t || (e.date === t && (!e.start || e.start >= ln.hm))).sort(sortEv);
     const nx = upcoming.find((e) => e.start || e.date > t) || upcoming[0];
-    const hero = $("hHero"); hero.style.setProperty("--glow", "var(--accent)");
-    const todayEv = evOn(t).filter((e) => e.start);
-    const rail = h("div", { class: "rail", "aria-hidden": "true" }, h("div", { class: "base" }));
-    const X = (hm) => { const [H, M] = hm.split(":").map(Number); return Math.max(0, Math.min(100, ((H * 60 + M) - 360) / (18 * 60) * 100)); };
-    todayEv.forEach((e) => { const a = X(e.start), b = X(e.end || pad(Math.min(23, +e.start.slice(0, 2) + 1)) + e.start.slice(2)); rail.append(h("i", { class: "blk" + (areaOf(e) === "arbeit" ? " w" : ""), style: `left:${a}%;width:${Math.max(1.2, b - a)}%` })); });
-    [6, 12, 18].forEach((H) => rail.append(h("span", { class: "lb", style: `left:${(H - 6) / 18 * 100}%`, text: pad(H) + ":00" })));
-    if (hr >= 6) rail.append(h("span", { class: "now", style: `left:${X(ln.hm)}%` }));
+    const nb = $("hNext"); nb.hidden = !nx;
     if (nx) {
-      const days = dd(t, nx.date); let when;
-      if (days === 0 && nx.start) { const [H, M] = nx.start.split(":").map(Number); const mins = H * 60 + M - (hr * 60 + ln.m); when = mins < 60 ? "in " + mins + " Min" : mins < 300 ? "in " + Math.floor(mins / 60) + " Std" + (mins % 60 ? " " + (mins % 60) + " Min" : "") : "heute " + nx.start; }
-      else when = days === 0 ? "heute" : days === 1 ? "morgen" + (nx.start ? " · " + nx.start : "") : "in " + days + " Tagen · " + fmt(nx.date, { weekday: "short", day: "numeric", month: "short" }) + (nx.start ? " · " + nx.start : "");
-      hero.replaceChildren(h("span", { class: "k" }, h("span", { text: "Als Nächstes" }), h("span", { text: todayEv.length ? todayEv.length + " Termine heute" : "Heute frei" })), h("div", {}, h("div", { class: "t", text: nx.title }), h("div", { class: "m", text: [nx.location, proj(nx.projectId) ? proj(nx.projectId).name : null].filter(Boolean).join(" · ") })), h("span", { class: "cd" }, icon("clock"), when), rail);
-      hero.onclick = () => eventSheet(nx);
-    } else { hero.replaceChildren(h("span", { class: "k" }, h("span", { text: "Als Nächstes" })), h("div", { class: "t", text: "Nichts geplant" }), h("div", { class: "m", text: "Tipp auf Plus und sag, was ansteht." }), rail); hero.onclick = () => openCompose(); }
+      const days = dd(t, nx.date); let big, small;
+      if (days === 0 && nx.start) { const [H, M] = nx.start.split(":").map(Number); const mins = H * 60 + M - (hr * 60 + ln.m); if (mins < 60) { big = mins + " Min"; small = "noch"; } else { big = nx.start; small = "heute"; } }
+      else if (days === 0) { big = "Heute"; small = "ganztags"; }
+      else if (days === 1) { big = nx.start || "Morgen"; small = nx.start ? "morgen" : "ganztags"; }
+      else { big = "in " + days + " T"; small = fmt(nx.date, { weekday: "short", day: "numeric", month: "numeric" }); }
+      nb.replaceChildren(h("span", { class: "nb-t" }, h("b", { text: big }), h("small", { text: small })),
+        h("span", { style: "min-width:0" }, h("div", { class: "nb-k", text: "Als Nächstes" }), h("div", { class: "nb-x", text: nx.title }), h("div", { class: "nb-s", text: [days > 1 && nx.start ? nx.start : null, nx.location, proj(nx.projectId) ? shortName(proj(nx.projectId)) : null].filter(Boolean).join(" · ") })),
+        icon("chevR"));
+      nb.onclick = () => eventSheet(nx);
+    }
 
     // Agenda
     const ag = $("hAgenda"); ag.replaceChildren();
@@ -790,15 +821,14 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
     if (later.length) { ag.append(h("div", { class: "dayhead" }, "Demnächst")); later.forEach((e) => ag.append(evRow(e, { day: true }))); }
 
     // Fokus
-    const open = S.tasks.filter((x) => !x.done).sort(sortT);
-    const soon = open.filter((x) => x.due && x.due <= iso(add(P(t), 3)));
+    const soon = open.filter((x) => !x.due || x.due <= iso(add(P(t), 3)));
     const list = [...soon, ...open.filter((x) => !soon.includes(x) && x.prio === "hoch"), ...open.filter((x) => !soon.includes(x) && x.prio !== "hoch")].slice(0, 5);
     $("hTodoCnt").textContent = open.length ? open.length + " offen" : "";
     const td = $("hTodos"); td.replaceChildren(...list.map(todoRow));
     if (!list.length) td.append(h("div", { class: "done-state" }, h("span", { class: "big-ck" }, icon("tick")), h("b", { text: "Alles erledigt" }), h("span", { class: "small", text: "Neue Aufgabe einfach unten eintippen." })));
 
-    const tr = trip(); const card = $("hTripCard");
-    if (tr && t >= tr.from && t <= tr.to) { card.hidden = false; $("hTrip").replaceChildren(...tripWidget(tr, 3)); } else card.hidden = true;
+    const card = $("hTripCard");
+    if (onTrip) { card.hidden = false; $("hTrip").replaceChildren(...tripWidget(tr, 3)); } else card.hidden = true;
     $("hProjects").replaceChildren(...sortedProjects().map(projCard), h("button", { class: "pc add", type: "button", onclick: () => projectSheet() }, icon("plus"), "Projekt"));
   }
   function projCard(p) {
@@ -901,25 +931,42 @@ h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; lette
     const t = today(), wEnd = iso(add(mon(P(t)), 6));
     const all = S.tasks.filter((x) => S.ta === "alle" || areaOf(x) === S.ta || x.projectId === S.ta);
     const open = all.filter((x) => !x.done);
-    const F = { heute: open.filter((x) => x.due && x.due <= t), geplant: open.filter((x) => x.due), wichtig: open.filter((x) => x.prio === "hoch"), alle: open, erledigt: all.filter((x) => x.done) };
-    if (!S.tf) S.tf = F.heute.length ? "heute" : "geplant";
-    $("tSub").textContent = open.length + " offen · " + F.heute.length + " für heute";
-    const SM = [["heute", "Heute", "sunrise", "var(--today)"], ["geplant", "Geplant", "cal", "var(--accent)"], ["wichtig", "Wichtig", "flag", "var(--warn)"], ["alle", "Alle", "inbox", "var(--ink2)"], ["erledigt", "Erledigt", "tick", "var(--ok)"]];
-    $("tSmart").replaceChildren(...SM.map(([k, l, ic, c]) => h("button", { class: "sl", type: "button", style: `--sc:${c}`, "aria-pressed": S.tf === k ? "true" : "false", onclick: () => { S.tf = k; buzz(); renderTodo(); } }, h("div", { class: "top" }, h("span", { class: "ic" }, icon(ic)), h("span", { class: "n", text: F[k].length })), h("span", { class: "lb", text: l }))));
-    const projF = sortedProjects().filter((p) => S.tasks.some((x) => x.projectId === p.id));
-    $("tFilter").replaceChildren(...[["alle", "Alles"], ["arbeit", "Arbeit"], ["privat", "Privat"]].map(([k, l]) => h("button", { class: "fbtn", type: "button", "aria-pressed": S.ta === k ? "true" : "false", onclick: () => { S.ta = k; renderTodo(); } }, l)),
-      ...projF.map((p) => h("button", { class: "fbtn", type: "button", style: `--pc:${pcolor(p)}`, "aria-pressed": S.ta === p.id ? "true" : "false", onclick: () => { S.ta = p.id; renderTodo(); } }, h("span", { class: "dot" }), shortName(p))));
-    const box = $("tList"); box.replaceChildren();
+    const F = { alle: open, heute: open.filter((x) => !x.due || x.due <= t), geplant: open.filter((x) => x.due && x.due > t), wichtig: open.filter((x) => x.prio === "hoch"), erledigt: all.filter((x) => x.done) };
+    if (!S.tf || !F[S.tf]) S.tf = "alle";
+    const over = open.filter((x) => x.due && x.due < t).length;
+    $("tSub").textContent = open.length + " offen" + (F.heute.length ? " · " + F.heute.length + " für heute" : "") + (over ? " · " + over + " überfällig" : "");
+    $("tFilter").replaceChildren(
+      ...[["alle", "Alle"], ["heute", "Heute"], ["geplant", "Geplant"], ["wichtig", "Wichtig"], ["erledigt", "Erledigt"]].map(([k, l]) => h("button", { class: "fbtn", type: "button", "aria-pressed": S.tf === k ? "true" : "false", onclick: () => { S.tf = k; buzz(); renderTodo(); } }, l, k !== "erledigt" ? h("span", { class: "n", text: F[k].length }) : null)),
+      h("span", { class: "fsep" }),
+      ...[["alle", "Alles"], ["arbeit", "Arbeit"], ["privat", "Privat"]].map(([k, l]) => h("button", { class: "fbtn", type: "button", "aria-pressed": S.ta === k ? "true" : "false", onclick: () => { S.ta = k; renderTodo(); } }, l)),
+      ...sortedProjects().filter((p) => S.tasks.some((x) => x.projectId === p.id)).map((p) => h("button", { class: "fbtn", type: "button", style: `--pc:${pcolor(p)}`, "aria-pressed": S.ta === p.id ? "true" : "false", onclick: () => { S.ta = p.id; renderTodo(); } }, h("span", { class: "dot" }), shortName(p))));
     const list = F[S.tf].slice();
+    const nextBox = $("tNext"); nextBox.replaceChildren();
+    const box = $("tList"); box.replaceChildren();
     if (S.tf === "erledigt") { list.sort((a, b) => (b.doneAt || "").localeCompare(a.doneAt || "")); box.append(...list.slice(0, 60).map(todoRow)); }
     else {
-      list.sort(sortT);
-      const groups = [["over", "Überfällig", (x) => x.due && x.due < t], ["today", "Heute", (x) => x.due === t], ["", "Morgen", (x) => x.due === iso(add(P(t), 1))], ["", "Diese Woche", (x) => x.due && x.due <= wEnd], ["", "Später", (x) => !!x.due], ["", "Ohne Datum", () => true]];
-      const used = new Set();
-      for (const [k, l, fn] of groups) { const g = list.filter((x) => !used.has(x.id) && fn(x)); if (!g.length) continue; g.forEach((x) => used.add(x.id));
+      list.sort((a, b) => { const ua = (a.due && a.due <= t) || !a.due ? 0 : 1, ub = (b.due && b.due <= t) || !b.due ? 0 : 1; return ua - ub || (prioN[a.prio || "mittel"] - prioN[b.prio || "mittel"]) || sortT(a, b); });
+      const top = list[0];
+      if (top) {
+        const p = proj(top.projectId);
+        const card = h("div", { class: "focus" },
+          h("div", { class: "k", text: "Als Nächstes" }), h("div", { class: "tt", text: top.title }),
+          h("div", { class: "meta" }, top.prio === "hoch" ? h("span", { class: "flag", text: "!!" }) : null, dueTag(top), p ? h("span", { class: "tag", style: `--pc:${pcolor(p)}` }, h("span", { class: "dot" }), shortName(p)) : null),
+          top.notes ? h("div", { class: "nt", text: top.notes }) : null,
+          h("div", { class: "row" },
+            h("button", { class: "go", type: "button", onclick: () => { card.style.opacity = ".4"; toggleTask(top, card, null); } }, icon("tick"), "Erledigt"),
+            h("button", { type: "button", onclick: () => snooze(top, card) }, icon("sunrise"), "Morgen"),
+            h("button", { type: "button", onclick: () => taskSheet(top) }, icon("edit"), "Details")));
+        nextBox.append(card);
+      }
+      const rest = list.slice(1);
+      const groups = [["over", "Überfällig", (x) => x.due && x.due < t], ["today", "Heute", (x) => x.due === t || !x.due], ["", "Morgen", (x) => x.due === iso(add(P(t), 1))], ["", "Diese Woche", (x) => x.due && x.due <= wEnd], ["", "Später", () => true]];
+      const used = new Set(); const sorted = rest.slice().sort(sortT);
+      for (const [k, l, fn] of groups) { const g = sorted.filter((x) => !used.has(x.id) && fn(x)); if (!g.length) continue; g.forEach((x) => used.add(x.id));
         box.append(h("div", { class: "group-h " + k }, h("span", { text: l }), h("span", { text: g.length })), ...g.map(todoRow)); }
     }
-    if (!box.children.length) box.append(h("div", { class: "done-state" }, h("span", { class: "big-ck" }, icon("tick")), h("b", { text: S.tf === "heute" ? "Für heute ist alles erledigt" : "Nichts hier" }), h("span", { class: "small", text: S.tf === "heute" ? "Gönn dir was." : "Neue Aufgabe oben eintippen." })));
+    box.parentElement.hidden = !box.children.length && !!nextBox.children.length;
+    if (!box.children.length && !nextBox.children.length) { box.parentElement.hidden = false; box.append(h("div", { class: "done-state" }, h("span", { class: "big-ck" }, icon("tick")), h("b", { text: S.tf === "erledigt" ? "Noch nichts erledigt" : "Alles erledigt" }), h("span", { class: "small", text: "Neue Aufgabe oben eintippen." }))); }
   }
 
   /* ---------- PROJEKTE ---------- */
