@@ -1,0 +1,1250 @@
+<title>wohnwerk. Sitznische</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Variante Sitznische: graue grifflose Fronten, Sitzbank mit Schubladen, Holznische aus Fichte, Eichenregal und Oberschränke bis zur Decke.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* Layout: Vollbild-Studio. 3D-Szene füllt den Screen, oben Zeitleiste nach Bauphasen, unten ein ziehbares Sheet (Desktop: Seitenpanel). Wischen auf der Szene = Montage vor- und zurückspulen. */
+:root{
+  --bg:#f2efea; --surface:#fbfaf8; --stage:#ebe5dc; --stage-a:#faf8f4; --stage-b:#e2dace;
+  --ink:#1c1916; --muted:#6c645b; --line:rgba(28,25,22,.10); --oak:#ad6f3a; --oak-soft:#f0e3d3;
+  --glass:rgba(251,250,248,.74); --glass-line:rgba(255,255,255,.65); --shadow:0 20px 50px -20px rgba(60,40,20,.28);
+  --warn:#93561d; --scrim:rgba(20,16,12,.32);
+  --f-display:"Geist", "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Geist", "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r-lg:28px; --r-md:16px; --r-sm:10px; --header-h:56px; --peek:212px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12100e; --surface:#1b1815; --stage:#221d18; --stage-a:#2d2620; --stage-b:#0f0d0b;
+  --ink:#f3eee8; --muted:#a39888; --line:rgba(243,238,232,.10); --oak:#dba26b; --oak-soft:#33271c;
+  --glass:rgba(27,24,21,.74); --glass-line:rgba(255,255,255,.08); --shadow:0 20px 50px -20px rgba(0,0,0,.6);
+  --warn:#e3a568; --scrim:rgba(0,0,0,.55); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#12100e; --surface:#1b1815; --stage:#221d18; --stage-a:#2d2620; --stage-b:#0f0d0b;
+  --ink:#f3eee8; --muted:#a39888; --line:rgba(243,238,232,.10); --oak:#dba26b; --oak-soft:#33271c;
+  --glass:rgba(27,24,21,.74); --glass-line:rgba(255,255,255,.08); --shadow:0 20px 50px -20px rgba(0,0,0,.6);
+  --warn:#e3a568; --scrim:rgba(0,0,0,.55); color-scheme:dark }
+
+*{box-sizing:border-box}
+html,body{background:var(--bg); color:var(--ink)}
+body{font-family:var(--f-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden}
+.js, .js body{height:100%; overflow:hidden; overscroll-behavior:none}
+button{font:inherit; color:inherit}
+a{color:var(--oak)}
+:focus-visible{outline:2px solid var(--oak); outline-offset:2px; border-radius:8px}
+.mono{font-family:var(--f-mono); font-variant-numeric:tabular-nums}
+
+/* Bühne */
+.stage{display:none}
+.js .stage{display:block; position:fixed; inset:0; background:radial-gradient(90% 70% at 50% 35%, var(--stage-a), var(--stage-b)); touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none}
+.stage.dragging{cursor:grabbing}
+.stage::after{content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(80% 60% at 50% 40%, rgba(80,52,28,.55), rgba(18,13,9,.92)); opacity:var(--eve,0)}
+.live{position:absolute; inset:0; z-index:1}
+.live canvas{display:block; position:absolute; inset:0; width:100%!important; height:100%!important}
+.labels{position:absolute; inset:0; pointer-events:none; overflow:hidden}
+.lbl{position:absolute; left:0; top:0; transform:translate(-50%,-50%); font-family:var(--f-mono); font-size:11px; font-weight:500; line-height:1;
+  padding:4px 7px; border-radius:7px; background:rgba(255,253,250,.94); color:#2a241e; box-shadow:0 1px 2px rgba(0,0,0,.08);
+  white-space:nowrap; opacity:0; font-variant-numeric:tabular-nums}
+.lbl.mark{transform:translate(0,-115%); background:rgba(250,247,242,.85); box-shadow:none; padding:2px 5px; color:#4f4132; font-size:10.5px}
+.lbl.tag{background:#1f1a15; color:#fbf7f1}
+.edge-hint{position:fixed; top:46%; z-index:2; font-size:12.5px; font-weight:500; color:var(--ink); padding:8px 12px; border-radius:999px;
+  background:var(--glass); -webkit-backdrop-filter:blur(14px) saturate(1.4); backdrop-filter:blur(14px) saturate(1.4); border:1px solid var(--glass-line);
+  pointer-events:none; opacity:0; transition:opacity .25s; white-space:nowrap; max-width:42vw; overflow:hidden; text-overflow:ellipsis}
+.edge-hint.l{left:max(12px, env(safe-area-inset-left,0px))} .edge-hint.r{right:max(12px, env(safe-area-inset-right,0px))}
+.stage.dragging ~ .edge-hint.on{opacity:1}
+
+/* Kopfzeile + Zeitleiste */
+.hud{display:none}
+.js .hud{display:block; position:fixed; top:0; left:0; right:0; z-index:5; padding:calc(env(safe-area-inset-top,0px) + 8px) max(16px, env(safe-area-inset-right,0px)) 0 max(16px, env(safe-area-inset-left,0px)); pointer-events:none}
+.bar{display:flex; align-items:center; gap:12px; height:44px}
+.brand{font-family:var(--f-display); font-weight:700; font-size:19px; letter-spacing:-.035em; color:var(--ink); text-decoration:none; pointer-events:auto}
+.brand span{color:var(--oak)}
+.studio{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); padding:4px 8px; border-radius:999px; border:1px solid var(--line)}
+.glass-btn{margin-left:auto; pointer-events:auto; width:42px; height:42px; display:grid; place-items:center; border-radius:999px; border:1px solid var(--glass-line); cursor:pointer;
+  background:var(--glass); -webkit-backdrop-filter:blur(16px) saturate(1.4); backdrop-filter:blur(16px) saturate(1.4); box-shadow:0 4px 18px -8px rgba(0,0,0,.25); transition:transform .2s}
+.glass-btn:active{transform:scale(.94)}
+.glass-btn svg{width:20px; height:20px}
+.timeline{pointer-events:auto; position:relative; display:flex; gap:3px; height:26px; align-items:center; margin-top:6px; touch-action:none; cursor:pointer}
+.tseg{flex:1 1 0; height:3px; border-radius:2px; background:color-mix(in srgb, var(--ink) 12%, transparent); position:relative; overflow:hidden; transition:height .2s}
+.tseg i{position:absolute; inset:0; width:100%; transform-origin:left; transform:scaleX(0); background:var(--oak); border-radius:2px}
+.tseg.gap{margin-left:7px}
+.timeline:hover .tseg, .timeline.active .tseg{height:5px}
+.phase-row{position:relative; height:14px; display:block; font-family:var(--f-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:2px}
+.phase-row span{position:absolute; top:0; white-space:nowrap; transition:color .3s}
+.phase-row span.on{color:var(--oak)}
+@media (max-width:600px){ .phase-row span{opacity:0; transition:opacity .3s, color .3s} .phase-row span.on{opacity:1} }
+
+/* Steuerung */
+.ctrl{display:none}
+.js .ctrl{display:flex; position:fixed; z-index:4; left:50%; transform:translateX(-50%); bottom:calc(var(--peek) + env(safe-area-inset-bottom,0px) + 14px); gap:4px; padding:5px;
+  border-radius:999px; background:var(--glass); -webkit-backdrop-filter:blur(16px) saturate(1.4); backdrop-filter:blur(16px) saturate(1.4); border:1px solid var(--glass-line); box-shadow:0 10px 30px -14px rgba(0,0,0,.35)}
+.ctrl button{width:40px; height:40px; border-radius:999px; border:0; background:transparent; display:grid; place-items:center; cursor:pointer; transition:background .2s, transform .15s}
+.ctrl button:hover{background:color-mix(in srgb, var(--ink) 7%, transparent)}
+.ctrl button:active{transform:scale(.92)}
+.ctrl button[disabled]{opacity:.28; pointer-events:none}
+.ctrl svg{width:19px; height:19px}
+.ctrl .count{white-space:nowrap; font-family:var(--f-mono); font-size:12px; font-variant-numeric:tabular-nums; align-self:center; padding:0 6px; color:var(--muted); min-width:66px; text-align:center}
+.hint{display:none}
+.js .hint{display:flex; position:fixed; z-index:4; left:50%; transform:translateX(-50%); bottom:calc(var(--peek) + env(safe-area-inset-bottom,0px) + 72px); align-items:center; gap:8px;
+  font-size:13px; font-weight:500; padding:8px 14px; border-radius:999px; background:var(--ink); color:var(--bg); white-space:nowrap; pointer-events:none; transition:opacity .4s, transform .4s}
+.hint.gone{opacity:0; transform:translate(-50%,6px)}
+.hint svg{width:18px; height:18px; animation:swipe 1.8s ease-in-out infinite}
+@keyframes swipe{0%,100%{transform:translateX(5px)}50%{transform:translateX(-5px)}}
+
+/* Sheet */
+.sheet-wrap{padding:24px max(16px, env(safe-area-inset-right,0px)) 40px max(16px, env(safe-area-inset-left,0px))}
+.js .sheet-wrap{position:fixed; z-index:6; left:0; right:0; bottom:0; height:min(86svh, 760px); padding:0; border-radius:var(--r-lg) var(--r-lg) 0 0;
+  background:var(--glass); -webkit-backdrop-filter:blur(22px) saturate(1.5); backdrop-filter:blur(22px) saturate(1.5); border-top:1px solid var(--glass-line); box-shadow:0 -10px 40px -20px rgba(0,0,0,.3);
+  transform:translateY(calc(100% - var(--peek) - env(safe-area-inset-bottom,0px))); transition:transform .45s cubic-bezier(.2,.8,.2,1); display:flex; flex-direction:column}
+.js .sheet-wrap.open{transform:translateY(0)}
+.js .sheet-wrap.dragging{transition:none}
+.grab{display:none}
+.js .grab{display:block; flex:none; height:22px; cursor:grab; touch-action:none; position:relative}
+.js .grab::before{content:""; position:absolute; left:50%; top:9px; width:38px; height:5px; margin-left:-19px; border-radius:3px; background:color-mix(in srgb, var(--ink) 22%, transparent)}
+.sheet-body{flex:1; min-height:0; padding:0 max(20px, env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 28px) max(20px, env(safe-area-inset-left,0px))}
+.js .sheet-body{overflow:hidden}
+.js .sheet-wrap.open .sheet-body{overflow-y:auto; overscroll-behavior:contain}
+.step{display:grid; grid-template-columns:auto minmax(0,1fr); column-gap:14px; align-items:end; max-width:640px; padding-block:6px 26px}
+.js .step{display:none}
+.js .step.active{display:grid}
+.step::before{content:attr(data-num); grid-row:1 / span 2; font-family:var(--f-display); font-weight:600; font-size:52px; line-height:.82; letter-spacing:-.06em; font-variant-numeric:tabular-nums; color:var(--ink)}
+.step > *{grid-column:1 / -1}
+.step .eyebrow{grid-column:2; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--oak); margin:0 0 4px}
+.step h1{grid-column:2; font-family:var(--f-display); font-weight:600; font-size:22px; line-height:1.12; letter-spacing:-.03em; margin:0; text-wrap:balance}
+.step .lead{margin:16px 0 0; font-size:15.5px; line-height:1.55; color:color-mix(in srgb, var(--ink) 88%, transparent)}
+.js .sheet-wrap:not(.open) .step .lead{display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.more{display:none}
+.js .more{display:flex; align-items:center; gap:6px; margin-top:10px; font-size:13px; font-weight:500; color:var(--muted); border:0; background:transparent; padding:4px 0; cursor:pointer}
+.js .more svg{width:15px; height:15px; transition:transform .3s}
+.js .sheet-wrap.open .more svg{transform:rotate(180deg)}
+.label{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:500; margin:24px 0 6px}
+.specs{margin:0; display:grid; border-radius:var(--r-md); background:color-mix(in srgb, var(--surface) 70%, transparent); border:1px solid var(--line); overflow:hidden}
+.specs div{display:grid; grid-template-columns:minmax(0,8.5em) minmax(0,1fr); gap:12px; padding:11px 14px; border-bottom:1px solid var(--line)}
+.specs div:last-child{border-bottom:0}
+.specs dt{color:var(--muted); font-size:13.5px}
+.specs dd{margin:0; font-family:var(--f-mono); font-size:13px; font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+.note{display:flex; gap:10px; font-size:14px; line-height:1.5; background:var(--oak-soft); border-radius:var(--r-md); padding:12px 14px; margin:14px 0 0}
+.note b{color:var(--warn); font-weight:600; white-space:nowrap}
+.step noscript img{display:block; width:100%; max-width:380px; border-radius:var(--r-md); margin:16px 0 0}
+
+@media (min-width:960px){
+  :root{--peek:0px}
+  .js .sheet-wrap{left:auto; right:20px; top:calc(env(safe-area-inset-top,0px) + 112px); bottom:20px; height:auto; width:400px; border-radius:var(--r-lg); border:1px solid var(--glass-line); transform:none; box-shadow:var(--shadow)}
+  .js .grab, .js .more{display:none}
+  .js .sheet-body{overflow-y:auto; padding-top:22px}
+  .js .sheet-wrap .step .lead{display:block; -webkit-line-clamp:unset}
+  .js .ctrl{left:calc((100% - 440px) / 2); bottom:28px}
+  .js .hint{left:calc((100% - 440px) / 2); bottom:90px}
+  .edge-hint.r{right:452px}
+  .step::before{font-size:64px}
+  .step h1{font-size:26px}
+}
+
+/* Übernommene Menü- und Panel-Stile */
+/* Menu drawer */
+.scrim{position:fixed; inset:0; background:var(--scrim); z-index:40; opacity:0; transition:opacity .25s}
+.scrim.on{opacity:1}
+.drawer{position:fixed; top:0; right:0; bottom:0; width:min(340px, 88vw); background:var(--surface); z-index:41; transform:translateX(100%);
+  transition:transform .3s cubic-bezier(.2,.7,.2,1); display:flex; flex-direction:column;
+  padding:calc(env(safe-area-inset-top,0px) + 10px) max(16px, env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 16px) 18px; overflow-y:auto}
+.drawer.on{transform:none}
+.drawer-head{display:flex; align-items:center; justify-content:space-between; height:46px; margin-bottom:6px}
+.drawer-head span{font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.menu-list{list-style:none; margin:0; padding:0; display:grid}
+.menu-list a{display:flex; align-items:center; gap:12px; padding:12px 6px; text-decoration:none; color:var(--ink); border-bottom:1px solid var(--line); font-weight:500}
+.menu-list a:hover{color:var(--oak)}
+.menu-list svg{width:20px; height:20px; flex:none; color:var(--oak)}
+.menu-list small{margin-left:auto; color:var(--muted); font-family:var(--f-mono); font-size:11px; font-weight:400}
+.menu-steps{margin-top:18px}
+.menu-steps h3{font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:500; margin:0 0 6px}
+.menu-steps ol{list-style:none; margin:0; padding:0; display:grid}
+.menu-steps button{width:100%; text-align:left; border:0; background:transparent; padding:7px 6px; border-radius:8px; cursor:pointer; display:flex; gap:10px; font-size:14px}
+.menu-steps button:hover, .menu-steps button[aria-current="step"]{background:var(--oak-soft)}
+.menu-steps .mono{color:var(--muted); font-size:12px; padding-top:1px}
+
+/* Panels */
+.panel{padding-block:24px; border-top:1px solid var(--line)}
+.no-panels-hint{display:none}
+.js .panel{position:fixed; inset:0; z-index:45; background:var(--bg); overflow-y:auto; overscroll-behavior:contain; display:none; border:0; padding:0}
+.js .panel.open{display:block; animation:panelIn .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes panelIn{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
+.panel-head{display:none}
+.js .panel-head{position:sticky; top:0; z-index:2; display:flex; align-items:center; gap:10px; background:var(--bg);
+  padding:calc(env(safe-area-inset-top,0px) + 8px) max(16px, env(safe-area-inset-right,0px)) 8px max(16px, env(safe-area-inset-left,0px)); border-bottom:1px solid var(--line)}
+.panel-head .k{font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.panel-head .icon-btn{margin-left:auto}
+.panel-body{max-width:780px; margin:0 auto; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); padding-block:20px calc(env(safe-area-inset-bottom,0px) + 48px)}
+.panel-body > p{max-width:64ch}
+.panel h3{font-family:var(--f-display); font-weight:650; font-size:19px; letter-spacing:-.01em; margin:28px 0 10px}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.table-wrap{overflow-x:auto; margin:0 -4px; padding:0 4px}
+table{border-collapse:collapse; width:100%; font-size:14px; min-width:520px}
+th{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:500; text-align:left; padding:8px 10px 8px 0; border-bottom:1px solid var(--ink)}
+td{padding:9px 10px 9px 0; border-bottom:1px solid var(--line); vertical-align:top}
+td.num, th.num{text-align:right; font-family:var(--f-mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+td.dim{font-family:var(--f-mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
+.grp td{padding-top:18px; font-family:var(--f-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--oak); border-bottom:1px solid var(--line)}
+.btn{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:9px 15px; cursor:pointer; font-weight:500; font-size:14px; text-decoration:none; color:var(--ink)}
+.btn:hover{border-color:var(--oak)}
+.btn.primary{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.btn svg{width:16px; height:16px}
+.row{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+.totals{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:10px; margin:6px 0 22px}
+.total{border:1px solid var(--line); border-radius:var(--r-md); padding:14px 16px; background:var(--surface)}
+.total .k{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.total .v{font-family:var(--f-display); font-weight:650; font-size:22px; white-space:nowrap; letter-spacing:-.02em; font-variant-numeric:tabular-nums; margin-top:4px}
+.shop{display:grid; gap:0}
+.shop-item{display:grid; grid-template-columns:minmax(0,1fr); gap:6px; padding:14px 0; border-bottom:1px solid var(--line)}
+.shop-item h4{margin:0; font-size:15.5px; font-weight:600; display:flex; gap:10px; align-items:baseline; flex-wrap:wrap}
+.shop-item h4 .mono{font-size:12px; color:var(--muted); font-weight:400}
+.shop-item p{margin:0; font-size:14px; color:var(--muted)}
+.links{display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:4px}
+.links a{font-size:13px; text-decoration:none; padding:5px 10px; border-radius:999px; background:var(--oak-soft); color:var(--ink)}
+.links a:hover{outline:1px solid var(--oak)}
+.links a::after{content:" ↗"; color:var(--oak)}
+.checklist{list-style:none; margin:0; padding:0; display:grid; gap:0}
+.checklist li{padding:10px 0 10px 22px; border-bottom:1px solid var(--line); position:relative; font-size:15px}
+.checklist li::before{content:""; position:absolute; left:2px; top:18px; width:8px; height:8px; border-radius:2px; background:var(--oak)}
+.cols{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:0 28px}
+.figure{margin:0; border-radius:var(--r-lg); overflow:hidden; background:var(--stage)}
+.figure img{display:block; width:100%; height:auto}
+.cap{font-size:13px; color:var(--muted); margin:8px 0 0}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:3px; background:var(--surface); margin:0 0 12px}
+.seg button{border:0; background:transparent; padding:7px 14px; border-radius:999px; cursor:pointer; font-size:14px; font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--ink); color:var(--bg)}
+.compare{position:relative; max-width:460px; aspect-ratio:9/16; border-radius:var(--r-lg); overflow:hidden; background:var(--stage)}
+.compare img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:opacity .5s ease}
+.compare img.off{opacity:0}
+.duo{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:22px; align-items:start}
+.video{width:100%; max-width:540px; aspect-ratio:3/4; border-radius:var(--r-lg); background:var(--stage); display:block}
+.svgwrap{overflow-x:auto; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:12px}
+.svgwrap svg{display:block; width:100%; min-width:420px; max-width:620px; height:auto; margin:0 auto}
+.toast{position:fixed; left:50%; bottom:calc(env(safe-area-inset-bottom,0px) + 18px); transform:translateX(-50%); z-index:60; background:var(--ink); color:var(--bg); padding:9px 16px; border-radius:999px; font-size:14px; opacity:0; transition:opacity .25s; pointer-events:none}
+.toast.on{opacity:1}
+@media (min-width:960px){
+  .js .panel{left:auto; width:min(820px, 92vw); box-shadow:-20px 0 60px rgba(0,0,0,.12)}
+}
+
+
+/* Studio-Overrides für Menü & Panels */
+.drawer{background:var(--glass); -webkit-backdrop-filter:blur(24px) saturate(1.5); backdrop-filter:blur(24px) saturate(1.5); border-left:1px solid var(--glass-line); width:min(380px, 92vw)}
+.menu-list a{font-size:17px; font-weight:500; letter-spacing:-.01em; padding:14px 6px}
+.panel h2.ttl{font-family:var(--f-display); font-weight:600; font-size:clamp(28px, 7vw, 40px); letter-spacing:-.04em; line-height:1.05; margin:0 0 10px}
+.js .panel{background:var(--bg)}
+.no-js-note{display:block}
+.js .no-js-note{display:none}
+@media (prefers-reduced-motion: reduce){ .hint svg{animation:none} .js .sheet-wrap{transition:none} }
+</style>
+
+<div class="stage" id="stage" aria-label="3D-Montage. Nach links wischen baut den nächsten Schritt, nach rechts geht es zurück. Tippen spielt den Schritt erneut ab." role="application">
+  <div class="live" id="live"><div class="labels" id="labels"></div></div>
+</div>
+<div class="edge-hint l" id="hintL"></div>
+<div class="edge-hint r" id="hintR"></div>
+
+<header class="hud">
+  <div class="bar">
+    <a class="brand" href="#" data-home>wohn<span>werk.</span></a>
+    <span class="studio">Sitznische</span>
+    <button class="glass-btn" id="menuBtn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
+  </div>
+  <div class="timeline" id="timeline" role="slider" tabindex="0" aria-label="Montagefortschritt" aria-valuemin="1" aria-valuemax="13" aria-valuenow="1"></div>
+  <div class="phase-row" id="phaseRow"><span>Vorbereitung</span><span>Unterbau</span><span>Sitzbank</span><span>Oberbau</span><span>Fertig</span></div>
+</header>
+
+<div class="hint" id="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V6.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0v3.5a6 6 0 0 1-6 6h-.6a5 5 0 0 1-3.9-1.9L4.8 15a1.5 1.5 0 0 1 2.3-1.9L9 15"/></svg>Wischen baut die Nische</div>
+
+<div class="ctrl" id="ctrl">
+  <button id="prevBtn" aria-label="Vorheriger Schritt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <span class="count" id="count">01 / 13</span>
+  <button id="replayBtn" aria-label="Schritt erneut abspielen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/></svg></button>
+  <button id="nextBtn" aria-label="Nächster Schritt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+</div>
+
+<section class="sheet-wrap" id="sheet" aria-label="Anleitung zum Schritt">
+  <div class="grab" id="grab" role="button" tabindex="0" aria-label="Details ein- oder ausklappen"></div>
+  <div class="sheet-body" id="sheetBody">
+    <p class="no-js-note muted">Die 3D-Montage braucht JavaScript. Hier alle Schritte als Bilder.</p>
+    <article class="step" data-step="1" data-phase="Vorbereitung">
+      <p class="eyebrow">Vorbereitung</p>
+      <h1>Nische prüfen und anzeichnen</h1>
+      <p class="lead">Breite unten, auf Sitzhöhe und oben messen, Höhe links und rechts, Tiefe mit Fußleiste. Es zählt das kleinste Maß. Leitungen orten, Wände auf Lot prüfen und alle Höhenlinien auf die Rückwand übertragen.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Nische B × H × T</dt><dd>1450 × 2300 × 570 mm</dd></div>
+        <div><dt>Höhenlinien</dt><dd>Sockel 60 · Sitz OK 417 · Regal 1400–1430 · Oberschrank 1700–2280</dd></div>
+        <div><dt>Deckenluft</dt><dd>20 mm, Türen schlagen nach vorn auf</dd></div>
+        <div><dt>Werkzeug</dt><dd>Maßband, Wasserwaage 120 cm, Ortungsgerät</dd></div>
+      </dl>
+      <p class="note"><b>Wichtig</b><span>Fußleiste im Bereich der Bank abnehmen. Fichte und Eiche als Rohling mit Übermaß kaufen und vor Ort einpassen.</span></p>
+    </article>
+    <article class="step" data-step="2" data-phase="Vorbereitung">
+      <p class="eyebrow">Vorbereitung</p>
+      <h1>Zuschnitt bestellen und Teile sortieren</h1>
+      <p class="lead">Korpusplatten, graue Fronten und Schubladenteile beim Zuschnittservice bestellen. Dreischichtplatten Fichte und den Eichen-Regalboden mit Übermaß kaufen. Jedes Teil mit Modul und Position beschriften.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Möbelbauplatte 18</dt><dd>22 Teile weiß, Kante vorn</dd></div>
+        <div><dt>Fronten grau 20 mm</dt><dd>8 Fronten · 4 Passleisten · Sockelblende</dd></div>
+        <div><dt>Multiplex 15 mm</dt><dd>16 Teile + 4 Böden 6 mm</dd></div>
+        <div><dt>Fichte Dreischicht</dt><dd>Sitzplatte 27 mm · 4 Teile 19 mm</dd></div>
+        <div><dt>Eiche 30 mm</dt><dd>Regalboden ≥ 1450 × 560</dd></div>
+      </dl>
+      <p class="note"><b>Tipp</b><span>Die komplette Liste mit allen Maßen steht im Menü unter Zuschnittliste.</span></p>
+    </article>
+    <article class="step" data-step="3" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Zwei Bankkorpusse montieren</h1>
+      <p class="lead">Je Korpus zwei durchgehende Seiten, Boden und Deckel dazwischen. Rechtwinklig spannen, vorbohren, mit Konfirmat verschrauben. Rückwand aus HDF innen einsetzen, wenn die Diagonalen stimmen.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Module</dt><dd>2 × 700 × 330 × 530</dd></div>
+        <div><dt>Seiten</dt><dd>4 × 330 × 530 × 18</dd></div>
+        <div><dt>Boden/Deckel</dt><dd>4 × 664 × 530 × 18</dd></div>
+        <div><dt>Rückwand</dt><dd>2 × 664 × 294 × 3</dd></div>
+        <div><dt>Verbinder</dt><dd>ca. 16 Konfirmat 7 × 50</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="4" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Füße setzen, Bank ausrichten</h1>
+      <p class="lead">Je Korpus vier verstellbare Sockelfüße. Beide Korpusse in die Nische stellen, auf gleiche Höhe bringen, miteinander verschrauben und mit Winkeln an der Wand sichern. Links und rechts bleiben je 25 mm für Passleisten.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Sockelfüße</dt><dd>8 × 60 mm, verstellbar</dd></div>
+        <div><dt>Bank OK</dt><dd>390 mm über Boden</dd></div>
+        <div><dt>Wandabstand</dt><dd>je Seite ca. 25 mm</dd></div>
+        <div><dt>Befestigung</dt><dd>2 Korpusverbinder · 2 Wandwinkel</dd></div>
+      </dl>
+      <p class="note"><b>Warum so stabil</b><span>Auf der Bank sitzt man, und sie trägt später die Holznische und die Oberschränke mit. Füße fest anziehen, nichts darf wackeln.</span></p>
+    </article>
+    <article class="step" data-step="5" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Vier Schubladenkästen bauen</h1>
+      <p class="lead">Außenbreite = 664 − 2 × 12,5 = 639 mm. Die Seiten laufen durch, Vorder- und Rückstück liegen dazwischen. Verleimen, schrauben, Diagonalen prüfen. Der Boden wird untergesetzt.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Kästen</dt><dd>4 × 639 × 500 × 100 (+ 6 Boden)</dd></div>
+        <div><dt>Seiten</dt><dd>8 × 500 × 100 × 15</dd></div>
+        <div><dt>Vorder/Rück</dt><dd>8 × 609 × 100 × 15</dd></div>
+        <div><dt>Böden</dt><dd>4 × 639 × 500 × 6</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="6" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Auszüge einbauen und testen</h1>
+      <p class="lead">Vier Paar Vollauszüge 500 mm mit Push-to-open, Einbauluft 12,5 mm je Seite. Bohrbild nur aus der Herstelleranleitung. Kästen ohne Front einschieben und Lauf, Rückstand und Öffnen per Druck prüfen.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Vollauszüge</dt><dd>4 Paar, 500 mm, mit Push-to-open</dd></div>
+        <div><dt>Einbauluft</dt><dd>12,5 mm je Seite</dd></div>
+        <div><dt>Kasten-OK</dt><dd>ca. 25 mm unter Front-OK</dd></div>
+      </dl>
+      <p class="note"><b>Prüfen</b><span>Viele Auszüge brauchen 12,7 mm. Dann die Kästen 1 mm schmaler bauen.</span></p>
+    </article>
+    <article class="step" data-step="7" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Graue Fronten, Sockel, Passleisten</h1>
+      <p class="lead">Schubladenfronten mit doppelseitigem Klebeband ansetzen, ausrichten und von innen verschrauben. Grifflos: Öffnen per Druck. Dann die zurückgesetzte dunkelgraue Sockelblende und links und rechts die Passleisten nach Wandverlauf.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Schubladenfronten</dt><dd>4 × 696 × 161 × 20 grau matt</dd></div>
+        <div><dt>Fugen</dt><dd>2 + 161 + 4 + 161 + 2 = 330</dd></div>
+        <div><dt>Sockelblende</dt><dd>1446 × 56 × 19 dunkelgrau</dd></div>
+        <div><dt>Passleisten</dt><dd>2 × 330 × ca. 25</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="8" data-phase="Sitzbank">
+      <p class="eyebrow">Sitzbank</p>
+      <h1>Sitzplatte aus Fichte montieren</h1>
+      <p class="lead">Dreischichtplatte auf Nischenmaß einpassen, Kanten runden, schleifen bis Korn 180 und lackieren oder ölen. Von unten durch die Korpusdeckel verschrauben. Vorn steht sie 10 mm über die Fronten.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Sitzplatte</dt><dd>ca. 1446 × 560 × 27 Fichte</dd></div>
+        <div><dt>Höhe</dt><dd>60 + 330 + 27 = 417 mm</dd></div>
+        <div><dt>Mit Polster</dt><dd>ca. 477 mm Sitzhöhe</dd></div>
+        <div><dt>Oberfläche</dt><dd>Wasserlack farblos matt oder Hartwachsöl</dd></div>
+      </dl>
+      <p class="note"><b>Ausführung</b><span>Fichte ist weich. Ein Lack mit hoher Abriebfestigkeit hält auf der Sitzfläche länger als Öl.</span></p>
+    </article>
+    <article class="step" data-step="9" data-phase="Sitzbank">
+      <p class="eyebrow">Sitzbank</p>
+      <h1>Holznische verkleiden</h1>
+      <p class="lead">Seitenwände aus Fichte nach Wandverlauf anreißen und einpassen, auf die Sitzplatte stellen und an der Wand verschrauben. Dann die Rückwand unten und oben einsetzen. Die Seiten tragen später Regal und Oberschränke mit.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Seiten</dt><dd>2 × 1283 × 550 × 19</dd></div>
+        <div><dt>Rückwand unten</dt><dd>1412 × 983 × 19</dd></div>
+        <div><dt>Rückwand oben</dt><dd>1412 × 270 × 19</dd></div>
+        <div><dt>Befestigung</dt><dd>je Seite 4 Wandanker, Rückwand auf Leisten</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="10" data-phase="Sitzbank">
+      <p class="eyebrow">Sitzbank</p>
+      <h1>Eichenregal als Nischendeckel</h1>
+      <p class="lead">Tragleisten links und rechts auf 1370 bis 1400 mm verschrauben, den Eichenboden auflegen und von unten verschrauben. Er schließt die Sitznische nach oben ab und ist zugleich Regal für Bücher und Deko darüber.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Regalboden</dt><dd>1412 × 550 × 30 Eiche massiv</dd></div>
+        <div><dt>Höhe</dt><dd>UK 1400 · OK 1430</dd></div>
+        <div><dt>Freiraum Sitzen</dt><dd>983 mm über der Sitzplatte</dd></div>
+        <div><dt>Tragleisten</dt><dd>2 × 480 × 30 × 19</dd></div>
+      </dl>
+      <p class="note"><b>Komfort</b><span>Kein Regal auf Kopfhöhe: Wer sich anlehnt, hat freien Raum bis 1400 mm.</span></p>
+    </article>
+    <article class="step" data-step="11" data-phase="Oberbau">
+      <p class="eyebrow">Oberbau</p>
+      <h1>Zwei Oberschränke bauen</h1>
+      <p class="lead">Gleiches Prinzip wie unten, nur höher: Seiten durchgehend, Boden und Deckel dazwischen, Rückwand innen, ein Einlegeboden je Schrank.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Module</dt><dd>2 × 700 × 580 × 530</dd></div>
+        <div><dt>Seiten</dt><dd>4 × 580 × 530 × 18</dd></div>
+        <div><dt>Boden/Deckel</dt><dd>4 × 664 × 530 × 18</dd></div>
+        <div><dt>Einlegeboden</dt><dd>2 × 664 × 500 × 18</dd></div>
+        <div><dt>Rückwand</dt><dd>2 × 664 × 544 × 3</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="12" data-phase="Oberbau">
+      <p class="eyebrow">Oberbau</p>
+      <h1>Oberschränke setzen, Türen montieren</h1>
+      <p class="lead">Die Schränke stehen auf den Holzseiten und werden zusätzlich an die Wand geschraubt. Untereinander verbinden, dann je Schrank zwei graue Türen mit Push-to-open. Oben bleiben 20 mm Luft.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Höhe</dt><dd>UK 1700 · OK 2280</dd></div>
+        <div><dt>Türen</dt><dd>4 × 346 × 576 × 20 grau</dd></div>
+        <div><dt>Scharniere</dt><dd>8 Topfscharniere + Push-to-open</dd></div>
+        <div><dt>Passleisten</dt><dd>2 × 580 × ca. 25</dd></div>
+      </dl>
+      <p class="note"><b>Wand</b><span>Bei Trockenbau die Befestigung von einer Fachperson prüfen lassen.</span></p>
+    </article>
+    <article class="step" data-step="13" data-phase="Abschluss">
+      <p class="eyebrow">Abschluss</p>
+      <h1>Licht, Polster und Endkontrolle</h1>
+      <p class="lead">Zwei Akku-LED-Leisten: unter dem Regalboden für die Sitznische, unter den Oberschränken fürs Bücherfach. Sitzpolster und Kissen auflegen. Fronten nachstellen, Kindersicherungen setzen, alle Wandbefestigungen prüfen.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>LED</dt><dd>2 Ebenen, Akku, 2700–3000 K</dd></div>
+        <div><dt>Sitzpolster</dt><dd>ca. 1400 × 500 × 60, Bezug abnehmbar</dd></div>
+        <div><dt>Kissen</dt><dd>3 × ca. 45 × 45, Cord grün</dd></div>
+        <div><dt>Sicherungen</dt><dd>4 Schubladen + 4 Türen</dd></div>
+      </dl>
+      <p class="note"><b>Fertig</b><span>Zielbild, Kosten und Einkaufsliste findest du im Menü.</span></p>
+    </article>
+  </div>
+</section>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Menü">
+  <div class="drawer-head"><span>Projekt</span>
+    <button class="icon-btn" data-close-menu aria-label="Menü schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <ul class="menu-list">
+    <li><a href="#animation" data-panel="animation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>Gesamtanimation<small>live</small></a></li>
+    <li><a href="#zielbild" data-panel="zielbild"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/></svg>Zielbild</a></li>
+    <li><a href="#masse" data-panel="masse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V4M4 4l-2 2M4 4l2 2M8 20h12M20 20l-2-2M20 20l-2 2"/><rect x="8" y="5" width="11" height="11" rx="1"/></svg>Maßzeichnung</a></li>
+    <li><a href="#zuschnitt" data-panel="zuschnitt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Zuschnittliste<small>63 Teile</small></a></li>
+    <li><a href="#einkauf" data-panel="einkauf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Einkaufsliste</a></li>
+    <li><a href="#kosten" data-panel="kosten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M15 9.2a3.5 3.5 0 1 0 0 5.6M7.5 11h6M7.5 13.2h6"/></svg>Kosten<small>915 €–1.940 €</small></a></li>
+    <li><a href="#werkzeug" data-panel="werkzeug"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3z"/><path d="M14.5 6.5L17 4l3 3-2.5 2.5"/></svg>Werkzeug</a></li>
+    <li><a href="#sicherheit" data-panel="sicherheit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Sicherheit</a></li>
+    <li><a href="https://claude.ai/artifact/4ThtEofZEhEbia8wSTHfjq" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17L17 7"/></svg>Variante Eiche &amp; Baumkante<small>andere Seite</small></a></li>
+  </ul>
+  <div class="menu-steps"><h3>Alle Schritte</h3><ol id="menuSteps"></ol></div>
+</aside>
+
+<!-- Panels -->
+<section class="panel" id="p-animation" data-panel-id="animation" aria-label="Gesamtanimation">
+  <div class="panel-head"><span class="k">Gesamtanimation</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Die ganze Sitznische in 34 Sekunden</h2>
+    <p class="muted">Alle 13 Schritte am Stück, ohne Deko, live in 3D auf der Zeichnung.</p>
+    <div class="row" style="margin:14px 0 18px"><button class="btn primary" id="liveBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Live in 3D abspielen</button></div>
+  </div>
+</section>
+
+<section class="panel" id="p-zielbild" data-panel-id="zielbild" aria-label="Zielbild">
+  <div class="panel-head"><span class="k">Zielbild</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">So soll es aussehen</h2>
+    <p class="muted">Graue, grifflose Fronten wie beim IKEA-Platsa-Look, eine Sitzbank mit vier Schubladen, die Sitznische mit Fichte ausgekleidet, ein Eichenregal als Deckel mit Bücherfach darüber und Oberschränke bis unter die Decke. Kissen und Deko sind nur Visualisierung.</p>
+    <figure class="figure" style="max-width:560px"><img src="img/sitznische-ziel.jpg" alt="3D-Visualisierung der Sitznische im grauen Stil" loading="lazy" width="1080" height="1620"></figure>
+    <p class="cap">3D-Visualisierung in den echten Nischenmaßen, kein Foto.</p>
+  </div>
+</section>
+
+<section class="panel" id="p-masse" data-panel-id="masse" aria-label="Maßzeichnung">
+  <div class="panel-head"><span class="k">Maßzeichnung</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Frontansicht mit allen Höhen</h2>
+    <p class="muted">Alle Maße in mm. Montageschema, keine Bohrschablone.</p>
+    <div class="svgwrap" id="elevation"></div>
+    <h3>Höhenkette</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Ebene</th><th class="num">von</th><th class="num">bis</th><th class="num">Höhe</th></tr></thead>
+      <tbody>
+        <tr><td>Sockel (Füße, Blende dunkelgrau)</td><td class="num">0</td><td class="num">60</td><td class="num">60</td></tr>
+        <tr><td>Bank mit 4 Schubladen</td><td class="num">60</td><td class="num">390</td><td class="num">330</td></tr>
+        <tr><td>Sitzplatte Fichte</td><td class="num">390</td><td class="num">417</td><td class="num">27</td></tr>
+        <tr><td>Sitznische (Polster 60 mm)</td><td class="num">417</td><td class="num">1400</td><td class="num">983</td></tr>
+        <tr><td>Regalboden Eiche</td><td class="num">1400</td><td class="num">1430</td><td class="num">30</td></tr>
+        <tr><td>Bücherfach</td><td class="num">1430</td><td class="num">1700</td><td class="num">270</td></tr>
+        <tr><td>Oberschrank</td><td class="num">1700</td><td class="num">2280</td><td class="num">580</td></tr>
+        <tr><td>Deckenluft</td><td class="num">2280</td><td class="num">2300</td><td class="num">20</td></tr>
+      </tbody></table></div>
+    <h3>Unterschiede zur Variante Eiche &amp; Baumkante</h3>
+    <ul class="checklist">
+      <li>Statt Kommode mit Arbeitsplatte eine Sitzbank: 4 flache Schubladen statt 2 Türen und 3 Schubladen.</li>
+      <li>Die Holzseiten der Nische tragen Regal und Oberschränke mit; die Last geht bis auf den Boden.</li>
+      <li>Oberschränke mit 4 Türen bis unter die Decke statt 2 Klappen: rund 25 % mehr Stauraum oben.</li>
+      <li>Ein Regal statt zwei Baumkantenregalen, dafür eine gemütliche Sitzecke mit eigenem Licht.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="p-zuschnitt" data-panel-id="zuschnitt" aria-label="Zuschnittliste">
+  <div class="panel-head"><span class="k">Zuschnittliste</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Zuschnittliste</h2>
+    <p class="muted">Fertigmaße L × B in mm. Fichte und Eiche als Rohling kaufen und vor Ort einpassen.</p>
+    <div class="row" style="margin:12px 0 6px"><button class="btn" id="copyCut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Liste kopieren</button></div>
+    <div class="table-wrap"><table id="cutTable">
+      <thead><tr><th>Teil</th><th class="num">Stk</th><th>L × B</th><th>Kante / Hinweis</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="4">Bank · Möbelbauplatte weiß 18 mm</td></tr>
+        <tr><td>Seitenwand</td><td class="num">4</td><td class="dim">330 × 530</td><td>ABS vorn</td></tr>
+        <tr><td>Boden/Deckel</td><td class="num">4</td><td class="dim">664 × 530</td><td>ABS vorn</td></tr>
+        <tr class="grp"><td colspan="4">Oberschrank · Möbelbauplatte weiß 18 mm</td></tr>
+        <tr><td>Seitenwand</td><td class="num">4</td><td class="dim">580 × 530</td><td>ABS vorn + unten</td></tr>
+        <tr><td>Boden/Deckel</td><td class="num">4</td><td class="dim">664 × 530</td><td>ABS vorn</td></tr>
+        <tr><td>Einlegeboden</td><td class="num">2</td><td class="dim">664 × 500</td><td>ABS vorn</td></tr>
+        <tr class="grp"><td colspan="4">Rückwände · HDF weiß 3 mm</td></tr>
+        <tr><td>Rückwand Bank</td><td class="num">2</td><td class="dim">664 × 294</td><td>innenliegend</td></tr>
+        <tr><td>Rückwand Oberschrank</td><td class="num">2</td><td class="dim">664 × 544</td><td>innenliegend</td></tr>
+        <tr class="grp"><td colspan="4">Fronten · grau matt 20 mm</td></tr>
+        <tr><td>Schubladenfront</td><td class="num">4</td><td class="dim">696 × 161</td><td>rundum, grifflos</td></tr>
+        <tr><td>Tür Oberschrank</td><td class="num">4</td><td class="dim">576 × 346</td><td>rundum, grifflos</td></tr>
+        <tr><td>Passleiste unten</td><td class="num">2</td><td class="dim">330 × 50</td><td>Übermaß, auf ca. 25 einpassen</td></tr>
+        <tr><td>Passleiste oben</td><td class="num">2</td><td class="dim">580 × 50</td><td>Übermaß, auf ca. 25 einpassen</td></tr>
+        <tr><td>Sockelblende dunkelgrau 19 mm</td><td class="num">1</td><td class="dim">1446 × 56</td><td>nach Aufmaß kürzen</td></tr>
+        <tr class="grp"><td colspan="4">Schubladen · Multiplex 15 mm</td></tr>
+        <tr><td>Seite</td><td class="num">8</td><td class="dim">500 × 100</td><td>Oberkante geschliffen</td></tr>
+        <tr><td>Vorder-/Rückstück</td><td class="num">8</td><td class="dim">609 × 100</td><td></td></tr>
+        <tr><td>Boden, Sperrholz 6 mm</td><td class="num">4</td><td class="dim">639 × 500</td><td>untergesetzt</td></tr>
+        <tr class="grp"><td colspan="4">Holznische · Dreischichtplatte Fichte</td></tr>
+        <tr><td>Sitzplatte 27 mm</td><td class="num">1</td><td class="dim">≈ 1446 × 560</td><td>Rohling ≥ 1500 × 600</td></tr>
+        <tr><td>Seitenwand 19 mm</td><td class="num">2</td><td class="dim">≈ 1283 × 550</td><td>nach Wandverlauf einpassen</td></tr>
+        <tr><td>Rückwand unten 19 mm</td><td class="num">1</td><td class="dim">1412 × 983</td><td></td></tr>
+        <tr><td>Rückwand oben 19 mm</td><td class="num">1</td><td class="dim">1412 × 270</td><td></td></tr>
+        <tr><td>Tragleiste 19 mm</td><td class="num">2</td><td class="dim">480 × 30</td><td></td></tr>
+        <tr class="grp"><td colspan="4">Massivholz · Eiche 30 mm</td></tr>
+        <tr><td>Regalboden / Nischendeckel</td><td class="num">1</td><td class="dim">1412 × 550</td><td>Rohling ≥ 1450 × 560</td></tr>
+        <tr class="sum"><td>Summe Teile</td><td class="num">63</td><td></td><td></td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<section class="panel" id="p-einkauf" data-panel-id="einkauf" aria-label="Einkaufsliste">
+  <div class="panel-head"><span class="k">Einkaufsliste</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Einkaufsliste</h2>
+    <p class="muted">Links führen zu Händlern oder deren Suche. Preise vor dem Kauf immer im Shop prüfen.</p>
+    <h3>Neu kaufen</h3>
+    <div class="shop">
+      <div class="shop-item"><h4>Plattenzuschnitt komplett <span class="mono">≈ 280–550 €</span></h4>
+        <p>Korpusplatten weiß, HDF-Rückwände und alle grauen 20-mm-Fronten. Grau matt gibt es foliert oder lackiert, Farbe vor Ort am Muster prüfen.</p>
+        <div class="links"><a href="https://www.bauhaus.info/moebelbau/c/10000758" target="_blank" rel="noopener">Bauhaus Möbelbau-Zuschnitt</a><a href="https://sklopko.com/de/kostenrechner/" target="_blank" rel="noopener">sklopko Kostenrechner</a></div></div>
+      <div class="shop-item"><h4>Dreischichtplatte Fichte <span class="mono">19 + 27 mm</span></h4>
+        <p>Für Sitzplatte, Seiten und Rückwände der Nische. A/B-Qualität mit wenigen, festen Ästen.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/dreischichtplatte%20fichte" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.bauhaus.info/suche/produkte?text=dreischichtplatte%20fichte" target="_blank" rel="noopener">Suche bei Bauhaus</a></div></div>
+      <div class="shop-item"><h4>Eiche massiv 30 mm <span class="mono">1 Regalboden</span></h4>
+        <p>Leimholz, durchgehende Lamelle, Rohling ≥ 1450 × 560 mm.</p>
+        <div class="links"><a href="https://www.hornbach.de/c/baustoffe-holz-fenster-tueren/moebelbau/leimholzplatten/S13937" target="_blank" rel="noopener">Hornbach Leimholz</a></div></div>
+      <div class="shop-item"><h4>Vollauszüge mit Push-to-open <span class="mono">4 Paar</span></h4>
+        <p>500 mm, ≥ 30 kg pro Paar, mit Öffnen per Druck. Einbaubreite prüfen: oft 12,7 statt 12,5 mm.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/vollauszug%20push%20to%20open" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.obi.de/search/vollauszug%20push%20to%20open/" target="_blank" rel="noopener">Suche bei OBI</a></div></div>
+      <div class="shop-item"><h4>Topfscharniere und Türöffner <span class="mono">8 + 4</span></h4>
+        <p>Topfscharniere 35 mm ohne Feder oder mit Push-Variante, dazu 4 Push-to-open-Stößel für die Türen.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/topfscharnier" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.obi.de/search/push%20to%20open/" target="_blank" rel="noopener">Suche bei OBI</a></div></div>
+      <div class="shop-item"><h4>Sockelfüße, Wandwinkel, Kleinteile <span class="mono">8 Füße</span></h4>
+        <p>Verstellbare Füße 60 mm, Wandwinkel, Konfirmat 7 × 50, Holzleim, Bodenträger.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/sockelf%C3%BC%C3%9Fe%20verstellbar" target="_blank" rel="noopener">Sockelfüße</a><a href="https://www.hornbach.de/s/konfirmat" target="_blank" rel="noopener">Konfirmat</a></div></div>
+      <div class="shop-item"><h4>Akku-LED warmweiß <span class="mono">2 Ebenen</span></h4>
+        <p>Magnetisch, mit Bewegungs- oder Fernschalter, 2700–3000 K.</p>
+        <div class="links"><a href="https://www.lidl.de/p/livarno-akku-unterbauleuchte-2er-set/p800014143" target="_blank" rel="noopener">Lidl Livarno 2er-Set</a><a href="https://www.obi.de/search/akku%20unterbauleuchte%20warmwei%C3%9F/" target="_blank" rel="noopener">Suche bei OBI</a></div></div>
+      <div class="shop-item"><h4>Sitzpolster nach Maß <span class="mono">1400 × 500 × 60</span></h4>
+        <p>Schaumstoff RG 35, Bezug abnehmbar und waschbar. Dazu 3 Kissen in Cord.</p>
+        <div class="links"><a href="https://www.google.com/search?q=sitzpolster+nach+ma%C3%9F+bezug+abnehmbar" target="_blank" rel="noopener">Websuche Sitzpolster nach Maß</a></div></div>
+      <div class="shop-item"><h4>Oberfläche <span class="mono">Lack · Öl</span></h4>
+        <p>Wasserlack farblos matt für Fichte, Hartwachsöl für die Eiche, Schleifpapier 80 / 120 / 180.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/m%C3%B6bellack%20farblos%20matt" target="_blank" rel="noopener">Suche bei Hornbach</a></div></div>
+    </div>
+    <h3>Gebraucht prüfen</h3>
+    <div class="links"><a href="https://www.kleinanzeigen.de/s-dreischichtplatte/k0" target="_blank" rel="noopener">Kleinanzeigen: Dreischichtplatte</a><a href="https://www.kleinanzeigen.de/s-vollauszug/k0" target="_blank" rel="noopener">Kleinanzeigen: Vollauszug</a><a href="https://www.kleinanzeigen.de/s-ikea-platsa/k0" target="_blank" rel="noopener">Kleinanzeigen: IKEA Platsa (Fronten)</a></div>
+  </div>
+</section>
+
+<section class="panel" id="p-kosten" data-panel-id="kosten" aria-label="Kosten">
+  <div class="panel-head"><span class="k">Kosten</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Kostenrahmen</h2>
+    <p class="muted">Schätzung inkl. MwSt., ohne Werkzeug, Versand und Deko. Keine Warenkorbpreise.</p>
+    <div class="totals">
+      <div class="total"><div class="k">Realistisch</div><div class="v">1.200–1.450 €</div></div>
+      <div class="total"><div class="k">Summe Positionen</div><div class="v">915 €–1.940 €</div></div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Bereich</th><th class="num">von</th><th class="num">bis</th></tr></thead>
+      <tbody>
+        <tr><td>18-mm-Platten Bank und Oberschränke, HDF, Zuschnitt</td><td class="num">160 €</td><td class="num">290 €</td></tr>
+        <tr><td>Graue 20-mm-Fronten, Passleisten, Sockelblende</td><td class="num">120 €</td><td class="num">260 €</td></tr>
+        <tr><td>4 Schubladenkästen</td><td class="num">60 €</td><td class="num">120 €</td></tr>
+        <tr><td>4 Paar Vollauszüge mit Push-to-open</td><td class="num">90 €</td><td class="num">220 €</td></tr>
+        <tr><td>Topfscharniere und Push-to-open für Türen</td><td class="num">50 €</td><td class="num">120 €</td></tr>
+        <tr><td>Dreischichtplatten Fichte</td><td class="num">140 €</td><td class="num">260 €</td></tr>
+        <tr><td>Regalboden Eiche 30 mm</td><td class="num">60 €</td><td class="num">130 €</td></tr>
+        <tr><td>Füße, Wandwinkel, Schrauben, Leim</td><td class="num">60 €</td><td class="num">130 €</td></tr>
+        <tr><td>Akku-LED, 2 Ebenen</td><td class="num">30 €</td><td class="num">80 €</td></tr>
+        <tr><td>Sitzpolster nach Maß und 3 Kissen</td><td class="num">120 €</td><td class="num">280 €</td></tr>
+        <tr><td>Lack, Öl, Schleifmittel</td><td class="num">25 €</td><td class="num">50 €</td></tr>
+        <tr class="sum"><td>Summe</td><td class="num">915 €</td><td class="num">1.940 €</td></tr>
+      </tbody></table></div>
+    <h3>So wird es günstiger</h3>
+    <ul class="checklist">
+      <li>Graue Fronten foliert statt lackiert bestellen.</li>
+      <li>Fronten gebraucht von IKEA Platsa oder Metod nehmen und die Korpusse daran anpassen.</li>
+      <li>Sitzpolster aus Standardmaß (2 × 70 cm) statt Maßanfertigung.</li>
+      <li>Statt Eiche den Regalboden ebenfalls aus Fichte-Dreischicht.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="p-werkzeug" data-panel-id="werkzeug" aria-label="Werkzeug">
+  <div class="panel-head"><span class="k">Werkzeug</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Werkzeug</h2>
+    <p class="muted">Alles, was du für die 13 Schritte brauchst. Leihen geht für Laser, Kreissäge und Schleifer gut.</p>
+    <div class="cols">
+      <div><h3>Messen und Anzeichnen</h3><ul class="checklist"><li>Maßband und Zollstock</li><li>Wasserwaage 60 und 120 cm</li><li>Kreuzlinienlaser (optional)</li><li>Anschlagwinkel, Bleistift</li><li>Ortungsgerät für Leitungen</li></ul></div>
+      <div><h3>Bohren und Schrauben</h3><ul class="checklist"><li>Akkuschrauber mit Bits</li><li>Schlagbohrmaschine für die Wand</li><li>Forstnerbohrer 35 mm</li><li>Holzbohrer 3–8 mm, Senker</li><li>Stufenbohrer für Konfirmat</li></ul></div>
+      <div><h3>Sägen und Schleifen</h3><ul class="checklist"><li>Handkreissäge mit Führungsschiene</li><li>Stichsäge für Wandverlauf</li><li>Exzenterschleifer, Korn 80 / 120 / 180</li><li>Hobel oder Schleifklotz für Passleisten</li></ul></div>
+      <div><h3>Spannen und Schutz</h3><ul class="checklist"><li>4 Schraubzwingen, 2 Eckspanner</li><li>Schutzbrille, Gehörschutz</li><li>Staubmaske FFP2</li><li>Handschuhe zum Ölen</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-sicherheit" data-panel-id="sicherheit" aria-label="Sicherheit">
+  <div class="panel-head"><span class="k">Sicherheit</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Sicherheit</h2>
+    <p class="muted">Hier wohnt ein Baby. Diese Punkte gehören zur Montage dazu.</p>
+    <ul class="checklist">
+      <li>Vor jedem Bohrloch Leitungen orten. Nie senkrecht über oder unter Steckdosen und Schaltern bohren.</li>
+      <li>Wandtyp bestimmen (Beton, Kalksandstein, Gipskarton) und zugelassene Dübel für die Last wählen.</li>
+      <li>Unterschrank mit Kippsicherung an die Wand. Auch wenn die Platte schwer ist.</li>
+      <li>Kindersicherungen an Türen und Schubladen, Akkus und Ladekabel außer Reichweite.</li>
+      <li>Regale nur mit der freigegebenen Traglast belasten. Schweres nach unten.</li>
+      <li>Massivholz über Langlöcher befestigen, nicht flächig verleimen.</li>
+      <li>Öllappen ausgebreitet trocknen lassen oder in Wasser legen: Sie können sich selbst entzünden.</li>
+      <li>Beim Schleifen Staubmaske tragen, Holzstaub reizt die Atemwege.</li>
+      <li>Kinder klettern gern: Oberschränke und Holzseiten müssen fest an der Wand verankert sein, nicht nur aufgestellt.</li>
+    </ul>
+  </div>
+</section>
+
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const reduced=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+const stepEls=[...document.querySelectorAll('.step')];
+const N=stepEls.length;
+const titles=stepEls.map(a=>a.querySelector('h1').textContent);
+const phases=stepEls.map(a=>a.dataset.phase);
+const pad=n=>String(n).padStart(2,'0');
+const REC=false;
+try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(_){}
+stepEls.forEach((a,i)=>a.dataset.num=pad(i+1));
+
+/* =================== 3D-Modell =================== */
+// Maße in mm. Achsen: x nach rechts (0 = linke Nischenwand), y nach oben (0 = Boden), z zum Betrachter (0 = Rückwand).
+const STEP_MS=2600;
+let viewer=null;
+
+function seeded(seed){return function(){seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296;};}
+
+function build3D(host){
+  const T=THREE;
+  const renderer=new T.WebGLRenderer({antialias:true, alpha:true, preserveDrawingBuffer:REC});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  renderer.setClearColor(0x000000,0);
+  renderer.shadowMap.enabled=true; renderer.shadowMap.type=T.PCFSoftShadowMap;
+  host.insertBefore(renderer.domElement, host.firstChild);
+  const scene=new T.Scene();
+  const camera=new T.OrthographicCamera(-1,1,1,-1,100,20000);
+  const DIR=new T.Vector3(0.46,0.34,1).normalize();
+
+  const hemi=new T.HemisphereLight(0xfffaf2,0xbfae96,0.72); scene.add(hemi);
+  const sun=new T.DirectionalLight(0xfff4e6,0.56); sun.position.set(-700,3900,2900); sun.target.position.set(725,900,250);
+  sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
+  Object.assign(sun.shadow.camera,{left:-2000,right:2000,top:2000,bottom:-2000,near:500,far:9000});
+  sun.shadow.bias=-0.0006; sun.shadow.normalBias=1.5;
+  scene.add(sun); scene.add(sun.target);
+  const amb=new T.AmbientLight(0xffffff,0.07); scene.add(amb);
+
+  // ---- Texturen
+  const rnd=seeded(7);
+  function oakTex(vertical, base='#c58d55', dk='112,66,28', lt='238,196,138', knots=0){
+    const w=1024,h=256,c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d');
+    x.fillStyle=base; x.fillRect(0,0,w,h);
+    for(let i=0;i<150;i++){ let y=rnd()*h; const a=.04+rnd()*.17, dark=rnd()<.68;
+      x.strokeStyle=dark?`rgba(${dk},${a})`:`rgba(${lt},${a})`; x.lineWidth=.6+rnd()*2.4; x.beginPath(); x.moveTo(0,y);
+      for(let px=0;px<=w;px+=24){ y+=(rnd()-.5)*1.4; x.lineTo(px, y+Math.sin(px/150+i)*2.2);} x.stroke(); }
+    for(let i=0;i<2200;i++){ x.fillStyle=`rgba(90,52,22,${.08+rnd()*.12})`; x.fillRect(rnd()*w, rnd()*h, 2+rnd()*6, .8); }
+    for(let k=0;k<knots;k++){ const kx=rnd()*w, ky=rnd()*h, rr=3+rnd()*5; const g=x.createRadialGradient(kx,ky,0,kx,ky,rr*2.4); g.addColorStop(0,`rgba(${dk},.7)`); g.addColorStop(1,`rgba(${dk},0)`); x.fillStyle=g; x.beginPath(); x.ellipse(kx,ky,rr*2.6,rr*1.3,0,0,7); x.fill(); }
+    let src=c;
+    if(vertical){ const v=document.createElement('canvas'); v.width=h; v.height=w; const vx=v.getContext('2d'); vx.translate(h,0); vx.rotate(Math.PI/2); vx.drawImage(c,0,0); src=v; }
+    const t=new T.CanvasTexture(src); t.anisotropy=4; return t;
+  }
+  function glowTex(){
+    const c=document.createElement('canvas'); c.width=256; c.height=256; const x=c.getContext('2d');
+    let g=x.createLinearGradient(0,0,0,256); g.addColorStop(0,'rgba(255,196,120,1)'); g.addColorStop(.35,'rgba(255,170,90,.45)'); g.addColorStop(1,'rgba(255,150,70,0)');
+    x.fillStyle=g; x.fillRect(0,0,256,256); x.globalCompositeOperation='destination-in';
+    g=x.createLinearGradient(0,0,256,0); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(.12,'rgba(0,0,0,1)'); g.addColorStop(.88,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,0)');
+    x.fillStyle=g; x.fillRect(0,0,256,256); return new T.CanvasTexture(c);
+  }
+  function floorTex(){
+    const c=document.createElement('canvas'); c.width=512; c.height=512; const x=c.getContext('2d');
+    x.fillStyle='#d9c4a4'; x.fillRect(0,0,512,512);
+    for(let i=0;i<14;i++){ x.fillStyle=`rgba(${150+rnd()*40|0},${115+rnd()*30|0},80,.10)`; x.fillRect(0,i*37,512,37); x.fillStyle='rgba(120,90,60,.18)'; x.fillRect(0,i*37,512,1); }
+    return new T.CanvasTexture(c);
+  }
+  function fadeAlpha(){
+    const c=document.createElement('canvas'); c.width=256; c.height=256; const x=c.getContext('2d');
+    const g=x.createRadialGradient(128,90,10,128,110,150); g.addColorStop(0,'#fff'); g.addColorStop(.55,'#fff'); g.addColorStop(1,'#000');
+    x.fillStyle=g; x.fillRect(0,0,256,256); return new T.CanvasTexture(c);
+  }
+  const oakH=oakTex(false), oakV=oakTex(true);
+  const fiH=oakTex(false,'#e6cfa8','140,96,52','250,232,200',9), fiV=oakTex(true,'#e6cfa8','140,96,52','250,232,200',9);
+  const oakCap=oakH.clone(); oakCap.needsUpdate=true; oakCap.wrapS=oakCap.wrapT=T.RepeatWrapping; oakCap.repeat.set(1/1440,1/280);
+
+  const M={
+    carc:{color:0xf0ede7}, front:{color:0xf7f5f0}, hdf:{color:0xe7e1d6}, ply:{color:0xe3c99c},
+    oakH:{color:0xffffff,map:oakH}, oakV:{color:0xffffff,map:oakV}, black:{color:0x2b2825}, metal:{color:0xa3a6aa},
+    bark:{color:0x5e3f27}, led:'led',
+    grey:{color:0xc4c1ba}, greyD:{color:0x8f8c86}, fiH:{color:0xffffff,map:fiH}, fiV:{color:0xffffff,map:fiV},
+    cush:{color:0xe3ddd0}, kG1:{color:0x46523c}, kG2:{color:0xa4ae95}, kG3:{color:0x66724f}
+  };
+  function makeMat(key){
+    if(key==='led') return new T.MeshBasicMaterial({color:0xffe1b0, transparent:true});
+    if(key==='shelf') return [new T.MeshLambertMaterial({color:0xffffff,map:oakCap,transparent:true}), new T.MeshLambertMaterial({color:0x6a4529,transparent:true})];
+    return new T.MeshLambertMaterial(Object.assign({transparent:true}, M[key]));
+  }
+
+  // ---- Raum
+  const room=new T.Group(); scene.add(room);
+  const wallMat=new T.MeshLambertMaterial({color:0xf3efe9});
+  const back=new T.Mesh(new T.BoxGeometry(1530,2300,40), wallMat); back.position.set(725,1150,-20); back.receiveShadow=true; room.add(back);
+  const lw=new T.Mesh(new T.BoxGeometry(40,2300,570), new T.MeshLambertMaterial({color:0xe6e1da})); lw.position.set(-20,1150,285); lw.receiveShadow=true; room.add(lw);
+  const rw=new T.Mesh(new T.BoxGeometry(40,2300,570), new T.MeshLambertMaterial({color:0xe6e1da, transparent:true, opacity:.16, depthWrite:false})); rw.position.set(1470,1150,285); rw.renderOrder=20; room.add(rw);
+  const wallEdge=new T.LineBasicMaterial({color:0x8a7a68, transparent:true, opacity:.35});
+  [back,lw,rw].forEach(m=>m.add(new T.LineSegments(new T.EdgesGeometry(m.geometry), wallEdge)));
+  const floorM=new T.MeshLambertMaterial({map:floorTex(), alphaMap:fadeAlpha(), transparent:true, depthWrite:true});
+  const floor=new T.Mesh(new T.PlaneGeometry(3400,2600), floorM); floor.rotation.x=-Math.PI/2; floor.position.set(725,0,900); floor.receiveShadow=true; floor.renderOrder=-1; room.add(floor);
+  const skirt=new T.Mesh(new T.BoxGeometry(1450,60,12), new T.MeshLambertMaterial({color:0xd9c7ad})); skirt.position.set(725,30,6);
+  room.add(skirt); // Fußleiste, verschwindet ab Schritt 2 (abgenommen)
+
+  // ---- Teile & Gruppen
+  const parts=[], groups={};
+  const ghostMat=new T.MeshLambertMaterial({color:0xe6e0d6, transparent:true});
+  function G(id, keys){ const g=new T.Group(); scene.add(g); groups[id]={obj:g, keys}; return id; }
+  function P(o){
+    let geo=o.geo;
+    if(!geo){ geo=o.cyl? new T.CylinderGeometry(o.cyl,o.cyl,o.size[1],20) : new T.BoxGeometry(o.size[0],o.size[1],o.size[2]); }
+    const mat=makeMat(o.m);
+    const mesh=new T.Mesh(geo, mat);
+    mesh.castShadow=o.m!=='led'; mesh.receiveShadow=!!o.recv;
+    const em=new T.LineBasicMaterial({color:0x4a3b2e, transparent:true, opacity:.55});
+    if(o.m!=='led'){ const e=new T.LineSegments(new T.EdgesGeometry(geo, 25), em); mesh.add(e); }
+    const s=o.size;
+    o.c=o.geo? [o.pos[0],o.pos[1],o.pos[2]] : [o.pos[0]+s[0]/2, o.pos[1]+s[1]/2, o.pos[2]+s[2]/2];
+    o.real=mat; o.ghost=Array.isArray(mat)?[ghostMat,ghostMat]:(o.m==='led'?mat:ghostMat);
+    o.obj=mesh; o.mats=Array.isArray(mat)?mat:[mat]; o.em=em; o.off=o.off||[0,0,0];
+    (o.g? groups[o.g].obj : scene).add(mesh);
+    parts.push(o); return o;
+  }
+
+  const PL=60, CH=330, TT=18, CD=530;
+  const MODS=[{x:25,w:700,g:'L',sx:-90},{x:725,w:700,g:'R',sx:90}];
+  const ST_Z=680;
+  MODS.forEach((m,i)=>{
+    const st=[m.sx,-PL,ST_Z];
+    G(m.g,[{s:3,track:[[0,st]]},{s:4,track:[[.06,st],[.32,[m.sx,0,ST_Z]],[.86,[0,0,0]]]}]);
+    const inner=m.w-36, d=i*.1;
+    P({step:3,g:m.g,size:[TT,CH,CD],pos:[m.x,PL,0],m:'carc',off:[-260,0,0],win:[.04+d,.42+d]});
+    P({step:3,g:m.g,size:[TT,CH,CD],pos:[m.x+m.w-TT,PL,0],m:'carc',off:[260,0,0],win:[.1+d,.48+d]});
+    P({step:3,g:m.g,size:[inner,TT,CD],pos:[m.x+TT,PL,0],m:'carc',off:[0,0,340],win:[.2+d,.58+d]});
+    P({step:3,g:m.g,size:[inner,TT,CD],pos:[m.x+TT,PL+CH-TT,0],m:'carc',off:[0,300,0],win:[.28+d,.66+d]});
+    P({step:3,g:m.g,size:[inner,CH-36,3],pos:[m.x+TT,PL+TT,8],m:'hdf',off:[0,0,-360],win:[.42+d,.82+d]});
+    [[m.x+30,40],[m.x+m.w-60,40],[m.x+30,450],[m.x+m.w-60,450]].forEach(([fx,fz])=>P({step:4,g:m.g,size:[30,PL,30],cyl:15,pos:[fx,0,fz],m:'black',off:[0,-50,0],win:[0,.26]}));
+  });
+  // Schubladenkästen: 2 je Korpus
+  const BOX=[]; MODS.forEach(m=>[{yb:90},{yb:255}].forEach(b=>BOX.push({x:m.x+TT+12.5, yb:b.yb, g:m.g})));
+  BOX.forEach((b,i)=>{
+    const gid='D'+i, st=[0,0,640];
+    G(gid,[{s:5,track:[[0,st]]},{s:6,track:[[.26+i*.08,st],[.66+i*.08,[0,0,0]]]}]);
+    const d=i*.09, h=100, tb=6, W=639;
+    P({step:5,g:gid,size:[W,tb,500],pos:[b.x,b.yb,15],m:'ply',off:[0,-160,0],win:[.02+d,.42+d]});
+    P({step:5,g:gid,size:[15,h,500],pos:[b.x,b.yb+tb,15],m:'ply',off:[-220,0,0],win:[.08+d,.48+d]});
+    P({step:5,g:gid,size:[15,h,500],pos:[b.x+W-15,b.yb+tb,15],m:'ply',off:[220,0,0],win:[.12+d,.52+d]});
+    P({step:5,g:gid,size:[W-30,h,15],pos:[b.x+15,b.yb+tb,15],m:'ply',off:[0,0,-220],win:[.16+d,.56+d]});
+    P({step:5,g:gid,size:[W-30,h,15],pos:[b.x+15,b.yb+tb,500],m:'ply',off:[0,0,220],win:[.2+d,.6+d]});
+    P({step:6,g:b.g,size:[12.5,35,500],pos:[b.x-12.5,b.yb+30,15],m:'metal',off:[-110,0,0],win:[.02+i*.05,.26+i*.05]});
+    P({step:6,g:b.g,size:[12.5,35,500],pos:[b.x+W,b.yb+30,15],m:'metal',off:[110,0,0],win:[.02+i*.05,.26+i*.05]});
+  });
+  // Fronten grau, grifflos
+  MODS.forEach((m,i)=>{ [[62,161],[227,161]].forEach(([y,h],k)=>P({step:7,size:[696,h,20],pos:[m.x+2,y,530],m:'grey',off:[0,0,330],win:[.06+i*.12+k*.06,.5+i*.12+k*.06]})); });
+  P({step:7,size:[1446,56,19],pos:[2,2,482],m:'greyD',off:[0,0,360],win:[.62,.9]});
+  P({step:7,size:[25,330,20],pos:[0,PL,530],m:'grey',off:[-200,0,0],win:[.66,.94]});
+  P({step:7,size:[25,330,20],pos:[1425,PL,530],m:'grey',off:[200,0,0],win:[.66,.94]});
+  // Sitzplatte Fichte
+  P({step:8,size:[1446,27,560],pos:[2,390,0],m:'fiH',off:[0,420,0],win:[.05,.7],recv:true});
+  // Holzverkleidung: Seiten und Rückwände
+  P({step:9,size:[19,1283,550],pos:[0,417,0],m:'fiV',off:[-260,0,0],win:[.04,.46]});
+  P({step:9,size:[19,1283,550],pos:[1431,417,0],m:'fiV',off:[260,0,0],win:[.1,.52]});
+  P({step:9,size:[1412,983,19],pos:[19,417,0],m:'fiV',off:[0,0,420],win:[.3,.72],recv:true});
+  P({step:9,size:[1412,270,19],pos:[19,1430,0],m:'fiV',off:[0,0,420],win:[.42,.84],recv:true});
+  // Eichenregal als Nischendeckel, auf Tragleisten
+  P({step:10,size:[19,30,480],pos:[19,1370,20],m:'fiH',off:[-160,0,0],win:[.04,.34]});
+  P({step:10,size:[19,30,480],pos:[1412,1370,20],m:'fiH',off:[160,0,0],win:[.04,.34]});
+  P({step:10,size:[1412,30,550],pos:[19,1400,0],m:'oakH',off:[0,0,520],win:[.32,.86],recv:true});
+  // Oberschränke bis unter die Decke
+  const UB=1700, UH=580;
+  [25,725].forEach((x0,i)=>{
+    const gid='U'+i, st=[0,0,460];
+    G(gid,[{s:11,track:[[0,st]]},{s:12,track:[[.12+i*.08,st],[.5+i*.08,[0,0,0]]]}]);
+    const d=i*.1;
+    P({step:11,g:gid,size:[TT,UH,530],pos:[x0,UB,0],m:'carc',off:[-240,0,0],win:[.04+d,.46+d]});
+    P({step:11,g:gid,size:[TT,UH,530],pos:[x0+682,UB,0],m:'carc',off:[240,0,0],win:[.1+d,.52+d]});
+    P({step:11,g:gid,size:[664,TT,530],pos:[x0+TT,UB,0],m:'carc',off:[0,-240,0],win:[.18+d,.6+d]});
+    P({step:11,g:gid,size:[664,TT,530],pos:[x0+TT,UB+UH-TT,0],m:'carc',off:[0,240,0],win:[.24+d,.66+d]});
+    P({step:11,g:gid,size:[664,UH-36,3],pos:[x0+TT,UB+TT,8],m:'hdf',off:[0,0,-300],win:[.34+d,.76+d]});
+    P({step:11,g:gid,size:[664,TT,500],pos:[x0+TT,UB+281,14],m:'carc',off:[0,0,380],win:[.44+d,.86+d]});
+    [0,1].forEach(k=>P({step:12,size:[346,576,20],pos:[x0+2+k*350,UB+2,530],m:'grey',off:[0,0,320],win:[.56+i*.1+k*.05,.9+i*.04+k*.03]}));
+  });
+  P({step:12,size:[25,UH,20],pos:[0,UB,530],m:'grey',off:[-200,0,0],win:[.7,1]});
+  P({step:12,size:[25,UH,20],pos:[1425,UB,530],m:'grey',off:[200,0,0],win:[.7,1]});
+  // LED, Polster
+  [[1693,505],[1393,505]].forEach(([y,z],k)=>P({step:13,size:[1380,6,12],pos:[35,y,z],m:'led',off:[0,-60,0],win:[.02+k*.06,.3+k*.06]}));
+  P({step:13,size:[1400,60,500],pos:[25,417,30],m:'cush',off:[0,260,0],win:[.18,.55]});
+  P({step:13,size:[450,450,150],pos:[70,477,30],m:'kG1',off:[0,0,420],win:[.32,.68]});
+  P({step:13,size:[430,430,140],pos:[420,477,60],m:'kG2',off:[0,0,420],win:[.38,.74]});
+  P({step:13,size:[450,450,150],pos:[930,477,30],m:'kG3',off:[0,0,420],win:[.44,.8]});
+  const gt=glowTex(), glows=[];
+  function glow(w,h,pos,rotX){ const m=new T.MeshBasicMaterial({map:gt,transparent:true,opacity:0,blending:T.AdditiveBlending,depthWrite:false});
+    const g=new T.Mesh(new T.PlaneGeometry(w,h),m); g.position.set(...pos); if(rotX) g.rotation.x=rotX; g.renderOrder=5; g.visible=false; scene.add(g); glows.push(g); }
+  glow(1400,560,[725,1120,20.5]); glow(1400,262,[725,1565,20.5]); glow(1400,0.1,[725,0,0]);
+  glow(1380,300,[725,478,190],-Math.PI/2); glow(1380,260,[725,1431,150],-Math.PI/2); glow(10,10,[0,0,0]);
+  // Schritt 2: Plattenstapel
+  for(let i=0;i<8;i++) P({step:2,only:2,size:[700,18,530],pos:[30,i*18.5,20],m:'carc',off:[0,520,0]});
+  for(let i=0;i<5;i++) P({step:2,only:2,size:[600,20,420],pos:[800,i*20.5,20],m:'grey',off:[0,520,0]});
+  for(let i=0;i<3;i++) P({step:2,only:2,size:[560,19,420],pos:[810,103+i*19.5,30],m:'fiH',off:[0,520,0]});
+  for(let i=0;i<5;i++) P({step:2,only:2,size:[500,15,100],pos:[60,150+i*15.5,420],m:'ply',off:[0,520,0]});
+  for(let i=0;i<2;i++) P({step:2,only:2,size:[564,764,3],pos:[860,0,i*4+2],m:'hdf',off:[0,0,-0.1],win:[.0,.25]});
+  // Standard-Zeitfenster (gestaffelt) für Teile ohne eigenes Fenster
+  for(let s=1;s<=N;s++){ const ps=parts.filter(p=>p.step===s&&!p.win); ps.forEach((p,i)=>{ const a=.04+.5*(i/Math.max(1,ps.length-1)); p.win=[a,a+.36]; }); }
+
+  // ---- Bemaßung & Beschriftung je Schritt
+  const V=(a)=>new T.Vector3(a[0],a[1],a[2]);
+  const annGroups={}, labelDefs={};
+  const lineMat=new T.LineBasicMaterial({color:0x7a4a22, transparent:true, opacity:0});
+  const markMat=new T.LineDashedMaterial({color:0x8a5a30, dashSize:26, gapSize:18, transparent:true, opacity:0});
+  function annG(s){ if(!annGroups[s]){ const g=new T.Group(); g.visible=false; scene.add(g); annGroups[s]=g; labelDefs[s]=[]; } return annGroups[s]; }
+  function dim(s,a,b,o,t){ const g=annG(s), A=V(a), B=V(b), O=V(o);
+    const A2=A.clone().add(O), B2=B.clone().add(O), O2=O.clone().multiplyScalar(1.18);
+    const pts=[A,A.clone().add(O2),B,B.clone().add(O2),A2,B2];
+    const dirv=B2.clone().sub(A2).normalize().multiplyScalar(22), on=O.clone().normalize().multiplyScalar(22);
+    pts.push(A2.clone().sub(dirv).sub(on),A2.clone().add(dirv).add(on),B2.clone().sub(dirv).sub(on),B2.clone().add(dirv).add(on));
+    g.add(new T.LineSegments(new T.BufferGeometry().setFromPoints(pts), lineMat));
+    labelDefs[s].push({p:A2.clone().add(B2).multiplyScalar(.5), t, cls:'lbl'}); }
+  function mark(s,y,t,x0=0,x1=1450,z=2){ const g=annG(s); const l=new T.Line(new T.BufferGeometry().setFromPoints([V([x0,y,z]),V([x1,y,z])]), markMat); l.computeLineDistances(); g.add(l);
+    labelDefs[s].push({p:V([x0+24,y,z]), t, cls:'lbl mark'}); }
+  function tag(s,p,t,cls='lbl'){ annG(s); labelDefs[s].push({p:V(p),t,cls}); }
+
+  dim(1,[0,0,570],[1450,0,570],[0,0,140],'1450');
+  dim(1,[1450,0,570],[1450,2300,570],[150,0,0],'2300');
+  dim(1,[0,2300,570],[0,2300,0],[-120,0,0],'570');
+  [[60,'Sockel 60'],[417,'Sitz OK 417'],[1400,'Regal UK 1400'],[1700,'Oberschrank UK 1700'],[2280,'OK 2280']].forEach(([y,t])=>mark(1,y,t));
+  tag(2,[380,150,200],'Korpus 18 mm','lbl tag'); tag(2,[1100,190,230],'Fichte 19 mm','lbl tag'); tag(2,[1100,40,470],'Fronten grau 20');
+  MODS.forEach(m=>dim(3,[m.x+m.sx,CH,ST_Z+CD],[m.x+m.sx+m.w,CH,ST_Z+CD],[0,90,0],String(m.w)));
+  dim(3,[1515,0,ST_Z+CD],[1515,CH,ST_Z+CD],[130,0,0],'330');
+  dim(3,[1515,CH,ST_Z],[1515,CH,ST_Z+CD],[0,90,0],'530');
+  dim(4,[25,0,560],[25,PL,560],[-130,0,0],'60'); mark(4,390,'Bank OK 390'); tag(4,[12,220,560],'25'); tag(4,[1437,220,560],'25');
+  dim(5,[BOX[1].x,361,1155],[BOX[1].x+639,361,1155],[0,80,0],'639');
+  dim(5,[BOX[3].x+639,361,655],[BOX[3].x+639,361,1155],[110,0,0],'500'); tag(5,[BOX[2].x+320,160,1170],'100 + 6');
+  tag(6,[725,300,560],'12,5 mm Luft','lbl tag');
+  tag(7,[375,140,560],'696 × 161'); tag(7,[1075,305,560],'696 × 161'); tag(7,[725,30,560],'push-to-open','lbl tag');
+  dim(8,[2,417,560],[1448,417,560],[0,0,130],'1446'); tag(8,[1050,417,250],'Fichte 27 mm','lbl tag'); tag(8,[300,417,300],'Sitz OK 417');
+  dim(9,[1450,417,550],[1450,1700,550],[130,0,0],'1283'); tag(9,[725,900,30],'Dreischicht Fichte 19','lbl tag');
+  dim(10,[1300,417,25],[1300,1400,25],[0,0,0],'983'); tag(10,[725,1430,300],'Eiche 1412 × 550 × 30','lbl tag'); mark(10,1430,'Regal OK 1430',0,1450,560);
+  dim(11,[25,UB+UH,990],[725,UB+UH,990],[0,90,0],'700');
+  dim(11,[1425,UB,990],[1425,UB+UH,990],[130,0,0],'580');
+  dim(11,[1425,UB+UH,460],[1425,UB+UH,990],[0,90,0],'530');
+  mark(12,UB,'UK 1700',0,1450,560); dim(12,[1450,2280,560],[1450,2300,560],[110,0,0],'20'); tag(12,[200,2000,560],'346 × 576');
+  dim(13,[1340,477,25],[1340,1400,25],[0,0,0],'923'); dim(13,[1340,1430,25],[1340,1700,25],[0,0,0],'270');
+  // ---- Kameraansichten je Schritt: Mittelpunkt, halbe Höhe, halbe Breite (mm)
+  const VIEWS={
+    1:{c:[725,1080,320],hh:1500,hw:1160}, 2:{c:[725,300,330],hh:600,hw:960},
+    3:{c:[740,260,880],hh:560,hw:1220}, 4:{c:[725,300,520],hh:600,hw:1120},
+    5:{c:[740,300,700],hh:560,hw:960}, 6:{c:[740,280,470],hh:520,hw:920},
+    7:{c:[730,300,420],hh:560,hw:980}, 8:{c:[725,420,340],hh:620,hw:1000},
+    9:{c:[725,900,300],hh:1050,hw:1060}, 10:{c:[725,1000,300],hh:1050,hw:1060},
+    11:{c:[725,1750,520],hh:850,hw:1060}, 12:{c:[725,1600,300],hh:1050,hw:1060},
+    13:{c:[725,1080,320],hh:1500,hw:1160}
+  };
+  for(const k in VIEWS){ const v=VIEWS[k], f=k==1||k==13? 1.12 : 1.3; v.hh*=f; v.hw*=f; v.c=[v.c[0], v.c[1]*0.85+1150*0.15, v.c[2]*0.8+300*0.2]; }
+  // ---- Zustand
+  let S=1, t0=performance.now(), tNow=1, camA=null, camB=VIEWS[1], camT0=0, camK=1, raf=0, W=1, H=1, dragging=false;
+  const labelsEl=host.querySelector('.labels'); let labelEls=[];
+  const camCur={c:new T.Vector3(...VIEWS[1].c), hh:VIEWS[1].hh, hw:VIEWS[1].hw};
+
+  function setupLabels(){ labelsEl.textContent=''; labelEls=(labelDefs[S]||[]).map(d=>{ const e=document.createElement('div'); e.className=d.cls; e.textContent=d.t; labelsEl.appendChild(e); return {e,d}; }); }
+  function groupPos(g,s,t){
+    const k=g.keys; let key=null, prev=null;
+    for(const kk of k){ if(kk.s<=s){ prev=key; key=kk; } }
+    if(!key) return k[0].track[0][1];
+    const tr=key.track;
+    if(key.s<s) return tr[tr.length-1][1];
+    if(t<=tr[0][0]) return tr[0][1];
+    for(let i=1;i<tr.length;i++){ if(t<=tr[i][0]){ const a=tr[i-1], b=tr[i], u=ease((t-a[0])/(b[0]-a[0])); return [0,1,2].map(j=>a[1][j]+(b[1][j]-a[1][j])*u); } }
+    return tr[tr.length-1][1];
+  }
+  const GHOST=new T.Color(0.42,0.40,0.37), ZERO=new T.Color(0,0,0);
+  const EDGE=new T.Color(0x4a3b2e), ACC=new T.Color(0xc2783b);
+  skirt.material.transparent=true;
+  function apply(s,t){
+    const last=s===N;
+    skirt.visible=s<=2; skirt.material.opacity= s===1? 1 : 1-clamp(t/.14);
+    for(const p of parts){
+      let vis, fade=1;
+      if(p.only){ vis=p.only===s||(p.only===s-1&&t<.14); if(p.only===s-1) fade=1-t/.14; }
+      else vis=p.step<=s;
+      p.obj.visible=vis; if(!vis) continue;
+      const animating=p.step===s;
+      const k=animating? ease(clamp((t-p.win[0])/(p.win[1]-p.win[0]))) : 1;
+      p.obj.position.set(p.c[0]+p.off[0]*(1-k), p.c[1]+p.off[1]*(1-k), p.c[2]+p.off[2]*(1-k));
+      const op=animating? clamp(t/.08) : fade;
+      p.obj.material=p.real; for(const m of p.mats){ m.opacity=op; }
+      const hi= animating? 1 : (p.step===s-1? 1-clamp(t/.25) : 0);
+      p.em.color.copy(EDGE).lerp(ACC,hi); p.em.opacity=(.22+.66*hi)*op;
+    }
+    for(const id in groups){ const g=groups[id]; g.obj.position.fromArray(groupPos(g,s,t)); }
+    const gk= s===N? clamp((t-.3)/.6) : 0;
+    glows.forEach((g,i)=>{ g.visible=gk>0; g.material.opacity=ease(gk)*(i<3?.85:.5); });
+    hemi.intensity=.72-.12*ease(gk); sun.intensity=.56-.22*ease(gk);
+    const lk=clamp((t-.72)/.28);
+    for(const id in annGroups) annGroups[id].visible=(+id===s);
+    lineMat.opacity=lk*.9; markMat.opacity=lk*.8;
+    labelEls.forEach(l=>l.e.style.opacity=lk);
+  }
+  let REG=null;
+  function fitCamera(){
+    const x0=REG?REG.x0:0, x1=REG?REG.x1:W, y0=REG?REG.y0:0, y1=REG?REG.y1:H;
+    const rw=Math.max(50,x1-x0), rh=Math.max(50,y1-y0), ra=rw/rh;
+    let hh=camCur.hh; if(hh*ra<camCur.hw) hh=camCur.hw/ra;
+    const u=2*hh/rh, cx=(x0+x1)/2, cy=(y0+y1)/2;
+    camera.left=-cx*u; camera.right=(W-cx)*u; camera.top=cy*u; camera.bottom=-(H-cy)*u; camera.updateProjectionMatrix();
+    camera.position.copy(camCur.c).addScaledVector(DIR,8000); camera.lookAt(camCur.c);
+  }
+  const vtmp=new T.Vector3();
+  function placeLabels(){
+    for(const l of labelEls){ vtmp.copy(l.d.p).project(camera); const x=(vtmp.x*.5+.5)*W, y=(-vtmp.y*.5+.5)*H; l.e.style.left=x+'px'; l.e.style.top=y+'px'; }
+  }
+  function renderAt(t, ck){
+    tNow=t; apply(S,t);
+    if(camA){ const u=ease(ck); camCur.c.set(...[0,1,2].map(i=>camA.c[i]+(camB.c[i]-camA.c[i])*u)); camCur.hh=camA.hh+(camB.hh-camA.hh)*u; camCur.hw=camA.hw+(camB.hw-camA.hw)*u; }
+    fitCamera(); renderer.render(scene,camera); placeLabels();
+  }
+  let revFrom=0, revMs=0;
+  function tAt(now){
+    if(reduced) return 1;
+    const el=now-t0; if(el<0) return revFrom;
+    if(el<revMs) return revFrom*(1-ease(el/revMs));
+    return clamp((el-revMs)/STEP_MS);
+  }
+  function loop(now){
+    raf=0; now=performance.now();
+    const t=tAt(now), ck=reduced?1:clamp((now-camT0)/950);
+    renderAt(t,ck);
+    if(now<t0+revMs+STEP_MS||ck<1) raf=requestAnimationFrame(loop);
+  }
+  function kick(){ if(!raf) raf=requestAnimationFrame(loop); }
+  function resize(){
+    const r=host.getBoundingClientRect(); W=Math.max(1,r.width); H=Math.max(1,r.height);
+    renderer.setSize(W,H,false); renderAt(tNow,1); if(onResize) onResize();
+  }
+  function setView(v){ camA=null; camCur.c.set(...v.c); camCur.hh=v.hh; camCur.hw=v.hw; }
+  function setStep(n,opt={}){
+    S=n; setupLabels(); setView(VIEWS[n]);
+    const now=performance.now(); camT0=now-2000;
+    revFrom=opt.fromT||0; revMs=revFrom>0? 420*revFrom : 0;
+    t0=(opt.instant||reduced)? now-STEP_MS-revMs : now+(opt.delay||0);
+    renderAt(tAt(now),1); kick();
+  }
+  // Standbild eines Schritts (Endzustand) in eine 2D-Leinwand kopieren
+  function copyLive(cv){
+    renderAt(tNow,1); const src=renderer.domElement; if(cv.width!==src.width||cv.height!==src.height){ cv.width=src.width; cv.height=src.height; }
+    const c=cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height); c.drawImage(src,0,0); return tNow;
+  }
+  function snap(n, cv, at){
+    const s0=S, tt=tNow;
+    S=n; apply(n,at||0); setView(VIEWS[n]); fitCamera(); renderer.render(scene,camera);
+    const src=renderer.domElement; if(cv.width!==src.width||cv.height!==src.height){ cv.width=src.width; cv.height=src.height; }
+    const c=cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height); c.drawImage(src,0,0);
+    S=s0; setView(VIEWS[S]); renderAt(tt,1);
+  }
+  let onResize=null, lblStep=0;
+  function replay(){ setStep(S,{fromT:tNow}); }
+  new ResizeObserver(resize).observe(host); resize();
+  return {dbg:()=>({W,H,top:camera.top,right:camera.right,cam:camera.position.toArray().map(Math.round),labels:labelEls.map(l=>[l.e.style.left,l.e.style.top,l.e.style.opacity])}), setStep, replay, snap, copyLive, get t(){return tNow;}, set onResize(f){onResize=f;}, setRegion(r){ REG=r; }, renderFrame(n,t){ if(lblStep!==n){ S=n; setupLabels(); lblStep=n; } S=n; const v=VIEWS[n], a=VIEWS[Math.max(1,n-1)]; camA={c:a.c,hh:a.hh,hw:a.hw}; camB=v; renderAt(t, n===1?1:clamp(t/.36)); }, resize, get busy(){return !!raf}};
+}
+
+
+
+/* =================== Studio-Logik =================== */
+const stage=$('#stage'), live=$('#live'), sheet=$('#sheet');
+function webglOK(){ try{ const c=document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl')||c.getContext('experimental-webgl'))); }catch(e){ return false; } }
+if(window.THREE && webglOK()){ try{ viewer=build3D(live); }catch(e){ console.warn('3D nicht verfügbar', e); viewer=null; } }
+if(!viewer){ document.documentElement.classList.remove('js'); }
+
+// Zeitleiste mit Phasen-Lücken
+const tl=$('#timeline'), segs=[];
+for(let i=0;i<N;i++){ const s=document.createElement('div'); s.className='tseg'+(i>0&&phases[i]!==phases[i-1]?' gap':''); s.innerHTML='<i></i>'; tl.appendChild(s); segs.push(s.firstChild); }
+const phaseNames=['Vorbereitung','Unterbau','Sitzbank','Oberbau','Abschluss'];
+const phaseSpans=[...$('#phaseRow').children];
+function placePhases(){ const r=tl.getBoundingClientRect(); phaseNames.forEach((ph,k)=>{ const i=phases.indexOf(ph); const sp=phaseSpans[k]; if(i<0||!sp) return; const sr=segs[i].parentNode.getBoundingClientRect(); let x=sr.left-r.left; if(k===phaseNames.length-1){ sp.style.right='0'; sp.style.left='auto'; } else sp.style.left=x+'px'; }); }
+
+// Zustand: p läuft von 0 bis N. Schritt S ist bei p = S fertig montiert.
+let p=0, cur=1, shownStep=0, anim=null;
+function stepOf(x){ return Math.max(1,Math.min(N,Math.ceil(x-1e-6))); }
+function render(){
+  if(!viewer) return;
+  const S=stepOf(p), t=clamp(p-(S-1));
+  viewer.renderFrame(S,t);
+  for(let i=0;i<N;i++) segs[i].style.transform=`scaleX(${clamp(p-i).toFixed(4)})`;
+  stage.style.setProperty('--eve', S===N? (ease(clamp((t-.3)/.6))*.55).toFixed(3) : '0');
+  if(S!==shownStep) showStep(S);
+}
+function showStep(S){
+  shownStep=S;
+  stepEls.forEach((a,i)=>a.classList.toggle('active',i+1===S));
+  $('#count').textContent=`${pad(S)} / ${N}`;
+  $('#prevBtn').disabled=S===1; $('#nextBtn').disabled=S===N;
+  tl.setAttribute('aria-valuenow',S); tl.setAttribute('aria-valuetext',`Schritt ${S} von ${N}: ${titles[S-1]}`);
+  const ph=phaseNames.indexOf(phases[S-1]); phaseSpans.forEach((s,i)=>s.classList.toggle('on',i===ph));
+  $('#hintL').textContent=S>1? `← ${pad(S-1)} ${titles[S-2]}` : ''; $('#hintL').classList.toggle('on',S>1);
+  $('#hintR').textContent=S<N? `${pad(S+1)} ${titles[S]} →` : ''; $('#hintR').classList.toggle('on',S<N);
+  [...document.querySelectorAll('#menuSteps button')].forEach((d,i)=>{ if(i+1===S) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
+}
+
+// Abspielen: vorwärts im Montagetempo, rückwärts zügig
+function animateTo(to, opt={}){
+  to=clamp(to,0,N); const from=p, d=to-from; if(Math.abs(d)<1e-4){ p=to; render(); if(opt.done) opt.done(); return; }
+  let dur; if(d>0) dur= d<=1.05? STEP_MS*d : Math.min(2400, 420*d); else dur=Math.min(1100, 520*-d);
+  if(opt.dur) dur=opt.dur; if(reduced) dur=1;
+  const lin=d>0&&d<=1.05&&!opt.ease;
+  anim={from,to,start:performance.now(),dur,lin,done:opt.done};
+  requestAnimationFrame(tick);
+}
+function tick(now){
+  if(!anim) return; const a=anim; const u=clamp((performance.now()-a.start)/a.dur);
+  const k=a.lin? u : (u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2);
+  p=a.from+(a.to-a.from)*k; render();
+  if(u<1) requestAnimationFrame(tick); else { anim=null; if(Number.isInteger(Math.round(a.to))) cur=stepOf(a.to); if(a.done) a.done(); }
+}
+function stopAnim(){ anim=null; }
+function base(){ return anim? Math.round(anim.to) : (Math.abs(p-Math.round(p))<1e-3? Math.round(p) : Math.ceil(p)); }
+function go(n){ n=clamp(Math.round(n),1,N); cur=n; stopAuto(); animateTo(n); }
+function replay(){ stopAuto(); const n=stepOf(p); animateTo(n-1,{dur:380,done:()=>animateTo(n)}); }
+$('#prevBtn').addEventListener('click',()=>{ hideHint(); go(base()-1); });
+$('#nextBtn').addEventListener('click',()=>{ hideHint(); go(base()+1); });
+$('#replayBtn').addEventListener('click',()=>{ hideHint(); replay(); });
+
+// Wischen = Montage spulen
+const hintEl=$('#hint'); let hinted=false;
+function hideHint(){ if(hinted) return; hinted=true; hintEl.classList.add('gone'); }
+let drag=null;
+stage.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'&&e.button!==0) return;
+  drag={x:e.clientX, y:e.clientY, t:performance.now(), p0:p, moved:false, samples:[[performance.now(),e.clientX]], id:e.pointerId};
+  try{stage.setPointerCapture(e.pointerId);}catch(_){}
+});
+stage.addEventListener('pointermove',e=>{
+  if(!drag||e.pointerId!==drag.id) return;
+  const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+  if(!drag.moved){ if(Math.abs(dx)<6) return; if(Math.abs(dy)>Math.abs(dx)*1.3){ return; } drag.moved=true; stage.classList.add('dragging'); stopAnim(); stopAuto(); hideHint(); drag.x=e.clientX; drag.p0=p; return; }
+  const now=performance.now(); drag.samples.push([now,e.clientX]); while(drag.samples.length>2&&now-drag.samples[0][0]>90) drag.samples.shift();
+  const per=Math.min(window.innerWidth,900)*0.55;
+  let np=drag.p0-(e.clientX-drag.x)/per;
+  if(np<1) np=1-Math.pow(1-np,.75)*.35; if(np>N) np=N+Math.pow(np-N,.75)*.3;
+  p=np; render();
+});
+function endDrag(e){
+  if(!drag||e.pointerId!==drag.id) return; const d=drag; drag=null; stage.classList.remove('dragging');
+  if(!d.moved){ if(e.type==='pointerup'&&performance.now()-d.t<500){ hideHint(); replay(); } return; }
+  const f=d.samples[0], l=d.samples[d.samples.length-1]; const per=Math.min(window.innerWidth,900)*0.55;
+  const v=-(l[1]-f[1])/Math.max(16,l[0]-f[0])*1000/per; // Schritte pro Sekunde
+  let target= v>0.7? Math.ceil(p-1e-3) : v<-0.7? Math.floor(p+1e-3) : Math.round(p);
+  target=clamp(target,1,N); if(target===p&&v>0.7&&p<N) target=p+1;
+  cur=target; animateTo(target);
+}
+stage.addEventListener('pointerup',endDrag); stage.addEventListener('pointercancel',endDrag);
+// Trackpad
+let wheelT=0;
+stage.addEventListener('wheel',e=>{
+  if(Math.abs(e.deltaX)<=Math.abs(e.deltaY)) return; e.preventDefault(); stopAnim(); stopAuto(); hideHint();
+  p=clamp(p+e.deltaX/600,1,N); render(); clearTimeout(wheelT); wheelT=setTimeout(()=>{ const t=clamp(Math.round(p),1,N); cur=t; animateTo(t); },120);
+},{passive:false});
+
+// Zeitleiste: tippen oder ziehen
+let tlDrag=false;
+function tlAt(x){ const r=tl.getBoundingClientRect(); return clamp((x-r.left)/r.width)*N; }
+tl.addEventListener('pointerdown',e=>{ tlDrag=true; tl.classList.add('active'); try{tl.setPointerCapture(e.pointerId);}catch(_){} stopAnim(); stopAuto(); hideHint(); p=clamp(tlAt(e.clientX),1,N); render(); });
+tl.addEventListener('pointermove',e=>{ if(!tlDrag) return; p=clamp(tlAt(e.clientX),1,N); render(); });
+function tlEnd(){ if(!tlDrag) return; tlDrag=false; tl.classList.remove('active'); const t=clamp(Math.ceil(p-1e-3),1,N); cur=t; animateTo(t,{ease:true, dur:Math.max(260,(t-p)*900)}); }
+tl.addEventListener('pointerup',tlEnd); tl.addEventListener('pointercancel',tlEnd);
+tl.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){ e.preventDefault(); e.stopPropagation(); go(base()+1); } if(e.key==='ArrowLeft'){ e.preventDefault(); e.stopPropagation(); go(base()-1); } });
+
+// Sheet ziehen
+const grab=$('#grab'); let sd=null;
+function setSheet(open){ sheet.classList.toggle('open',open); }
+function sheetDown(e){ if(window.innerWidth>=960) return; if(e.target.closest('a,button:not(.more)')) return; sd={y:e.clientY, t:performance.now(), open:sheet.classList.contains('open'), h:sheet.getBoundingClientRect().height, id:e.pointerId, moved:false}; }
+function sheetMove(e){ if(!sd||e.pointerId!==sd.id) return; const dy=e.clientY-sd.y;
+  if(!sd.moved){ if(Math.abs(dy)<6) return; const body=$('#sheetBody'); if(sd.open&&body.scrollTop>0&&!e.target.closest('.grab')) { sd=null; return; } sd.moved=true; sheet.classList.add('dragging'); try{ e.target.setPointerCapture(e.pointerId);}catch(_){} }
+  const peek=parseFloat(getComputedStyle(sheet).getPropertyValue('--peek'))||212; const closedY=sd.h-peek;
+  let y=(sd.open?0:closedY)+dy; y=Math.max(-20, Math.min(closedY+30, y)); sheet.style.transform=`translateY(${y}px)`; sd.lastY=y; sd.closedY=closedY; }
+function sheetUp(e){ if(!sd||e.pointerId!==sd.id) return; const d=sd; sd=null; sheet.classList.remove('dragging'); sheet.style.transform='';
+  if(!d.moved){ if(e.target.closest('.grab,.more,.step h1,.step::before')) setSheet(!d.open); return; }
+  const v=(e.clientY-d.y)/Math.max(1,performance.now()-d.t); setSheet(v<-0.3? true : v>0.3? false : d.lastY<d.closedY/2); }
+sheet.addEventListener('pointerdown',sheetDown); sheet.addEventListener('pointermove',sheetMove); sheet.addEventListener('pointerup',sheetUp); sheet.addEventListener('pointercancel',sheetUp);
+grab.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setSheet(!sheet.classList.contains('open')); } });
+stepEls.forEach(a=>{ const b=document.createElement('button'); b.className='more'; b.type='button'; b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg><span>Material &amp; Maße</span>'; a.querySelector('.lead').after(b); });
+
+// Bereich für die Kamera: Modell immer mittig im freien Bildausschnitt
+function region(){
+  if(!viewer) return; const W=window.innerWidth, H=window.innerHeight, desk=W>=960;
+  const top=(document.querySelector('.hud').getBoundingClientRect().bottom||100)+10;
+  const bottom= desk? H-90 : H-(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--peek'))||212)-74;
+  viewer.setRegion({x0:desk?16:8, x1:desk?W-440:W-8, y0:top, y1:Math.max(top+200,bottom)}); render();
+}
+window.addEventListener('resize',()=>{ region(); placePhases(); });
+
+// Live-Gesamtanimation
+let autoOn=false;
+function startAuto(){ stopAnim(); hideHint(); autoOn=true; p=0; render(); anim={from:0,to:N,start:performance.now(),dur:N*STEP_MS,lin:true,done:()=>{ autoOn=false; cur=N; }}; requestAnimationFrame(tick); }
+function stopAuto(){ if(autoOn){ autoOn=false; } }
+
+// Menü-Schrittliste
+const menuSteps=$('#menuSteps');
+for(let i=1;i<=N;i++){ const li=document.createElement('li'); const mb=document.createElement('button'); mb.type='button'; mb.innerHTML=`<span class="mono">${pad(i)}</span><span></span>`; mb.lastChild.textContent=titles[i-1];
+  mb.addEventListener('click',()=>{ closeMenu(); stopAnim(); p=Math.max(0,i-1); cur=i; animateTo(i); }); li.appendChild(mb); menuSteps.appendChild(li); }
+document.addEventListener('keydown',e=>{
+  if(openId||drawer.classList.contains('on')){ if(e.key==='Escape'){ closePanel(); closeMenu(); } return; }
+  if(e.target.closest('input,textarea,select,video')) return;
+  if(e.key==='ArrowRight'){ hideHint(); go(base()+1); } else if(e.key==='ArrowLeft'){ hideHint(); go(base()-1); } else if(e.key===' '&&e.target===document.body){ e.preventDefault(); replay(); }
+});
+document.querySelectorAll('[data-home]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); closePanel(); go(1); }));
+function setHash(h){ try{ history.replaceState(null,'', h? '#'+h : location.pathname+location.search); }catch(e){} }
+
+// Menü
+const drawer=$('#drawer'), scrim=$('#scrim'), menuBtn=$('#menuBtn');
+function openMenu(){ drawer.hidden=false; scrim.hidden=false; requestAnimationFrame(()=>{ drawer.classList.add('on'); scrim.classList.add('on'); }); menuBtn.setAttribute('aria-expanded','true'); setTimeout(()=>drawer.querySelector('a').focus({preventScroll:true}),60); }
+function closeMenu(){ if(!drawer.classList.contains('on')) return; drawer.classList.remove('on'); scrim.classList.remove('on'); menuBtn.setAttribute('aria-expanded','false'); setTimeout(()=>{ drawer.hidden=true; scrim.hidden=true; },300); }
+menuBtn.addEventListener('click',openMenu);
+scrim.addEventListener('click',()=>{ closeMenu(); });
+drawer.querySelector('[data-close-menu]').addEventListener('click',closeMenu);
+
+// Panels
+let openId=null, lastFocus=null;
+const PANELS=['animation','zielbild','masse','zuschnitt','einkauf','kosten','werkzeug','sicherheit'];
+function openPanel(id){
+  const p=document.querySelector(`[data-panel-id="${id}"]`); if(!p) return;
+  closeMenu(); if(openId&&openId!==id) document.querySelector(`[data-panel-id="${openId}"]`).classList.remove('open');
+  lastFocus=document.activeElement; openId=id; p.classList.add('open'); p.scrollTop=0; document.body.style.overflow='hidden';
+  setHash(id); setTimeout(()=>p.querySelector('[data-close-panel]').focus({preventScroll:true}),50);
+  if(id==='masse') drawElevation();
+}
+function closePanel(){
+  if(!openId) return; const p=document.querySelector(`[data-panel-id="${openId}"]`); p.classList.remove('open');
+  const v=p.querySelector('video'); if(v) v.pause();
+  openId=null; document.body.style.overflow=''; setHash(''); if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true});
+}
+document.querySelectorAll('[data-panel]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); openPanel(a.dataset.panel); }));
+document.querySelectorAll('[data-close-panel]').forEach(b=>b.addEventListener('click',closePanel));
+document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); closePanel(); go(+a.dataset.go); }));
+$('#liveBtn').addEventListener('click',()=>{ closePanel(); window.scrollTo({top:0}); setTimeout(startAuto,250); });
+
+// Zielbild: Heute / Geplant
+
+// Zuschnittliste kopieren
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),1800); }
+$('#copyCut').addEventListener('click',()=>{
+  const rows=[...document.querySelectorAll('#cutTable tbody tr')].map(r=>r.classList.contains('grp')? '\n'+r.textContent.trim().toUpperCase() : [...r.cells].map(c=>c.textContent.trim()).filter(Boolean).join(' | '));
+  const txt='Zuschnittliste Wohnnische (mm, L × B)\n'+rows.join('\n');
+  const fallback=()=>{ const r=document.createRange(); r.selectNodeContents($('#cutTable')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast('Tabelle markiert – jetzt kopieren'); };
+  try{ navigator.clipboard.writeText(txt).then(()=>toast('Zuschnittliste kopiert'),fallback); }catch(e){ fallback(); }
+});
+
+// Maßzeichnung (Frontansicht) als SVG
+let elevDone=false;
+function drawElevation(){
+  if(elevDone) return; elevDone=true;
+  const ox=150, oy=60, Y=y=>oy+2300-y, X=x=>ox+x;
+  const r=(x,y,w,h,cls)=>`<rect x="${X(x)}" y="${Y(y+h)}" width="${w}" height="${h}" class="${cls}"/>`;
+  let s=`<svg viewBox="0 0 1900 2520" role="img" aria-label="Frontansicht der Sitznische mit Höhen und Breiten">
+  <style>.g{fill:#c4c1ba;stroke:var(--ink);stroke-width:3}.f{fill:#e6cfa8;stroke:var(--ink);stroke-width:3}.o{fill:#c79058;stroke:var(--ink);stroke-width:3}.b{fill:#6f6c66}.n{fill:none;stroke:var(--muted);stroke-width:4}.c{fill:#a4ae95;stroke:var(--ink);stroke-width:2}.d{stroke:var(--oak);stroke-width:2.5;fill:none}.t{font:500 40px var(--f-mono,monospace);fill:var(--ink)}.tm{font:400 34px var(--f-mono,monospace);fill:var(--muted)}</style>`;
+  s+=r(0,0,1450,2300,'n');
+  s+=r(2,2,1446,56,'b');
+  s+=r(0,60,25,330,'g')+r(1425,60,25,330,'g');
+  [25,725].forEach(x=>{ s+=r(x+2,62,696,161,'g')+r(x+2,227,696,161,'g'); });
+  s+=r(2,390,1446,27,'f');
+  s+=r(0,417,19,1283,'f')+r(1431,417,19,1283,'f')+r(19,417,1412,983,'f')+r(19,1430,1412,270,'f');
+  s+=r(25,417,1400,60,'c');
+  s+=r(19,1400,1412,30,'o');
+  s+=r(0,1700,25,580,'g')+r(1425,1700,25,580,'g');
+  [25,725].forEach(x=>{ s+=r(x+2,1702,346,576,'g')+r(x+352,1702,346,576,'g'); });
+  const hs=[0,60,390,417,1400,1430,1700,2280,2300], dx=X(1450)+70;
+  s+=`<line x1="${dx}" x2="${dx}" y1="${Y(0)}" y2="${Y(2300)}" class="d"/>`;
+  hs.forEach(h=>{ s+=`<line x1="${dx-18}" x2="${dx+18}" y1="${Y(h)+18}" y2="${Y(h)-18}" class="d"/><line x1="${X(1450)+8}" x2="${dx+10}" y1="${Y(h)}" y2="${Y(h)}" class="d" stroke-dasharray="6 8"/>`; });
+  [[0,60],[60,390],[417,1400],[1430,1700],[1700,2280]].forEach(([a,b])=>{ s+=`<text x="${dx+26}" y="${(Y(a)+Y(b))/2+13}" class="t">${b-a}</text>`; });
+  s+=`<text x="${dx+26}" y="${Y(400)+13}" class="tm">27</text><text x="${dx+26}" y="${Y(1415)+13}" class="tm">30</text><text x="${dx+26}" y="${Y(2290)+13}" class="tm">20</text>`;
+  [60,417,1400,1700,2280].forEach(h=>s+=`<text x="${X(0)-24}" y="${Y(h)+13}" text-anchor="end" class="tm">${h}</text>`);
+  const wy=Y(0)+80, ws=[0,25,725,1425,1450];
+  s+=`<line x1="${X(0)}" x2="${X(1450)}" y1="${wy}" y2="${wy}" class="d"/>`;
+  ws.forEach(w=>s+=`<line x1="${X(w)-16}" x2="${X(w)+16}" y1="${wy+16}" y2="${wy-16}" class="d"/>`);
+  [[25,725],[725,1425]].forEach(([a,b])=>s+=`<text x="${(X(a)+X(b))/2}" y="${wy-18}" text-anchor="middle" class="t">${b-a}</text>`);
+  s+=`<text x="${X(725)}" y="${wy+70}" text-anchor="middle" class="t">1450 (25 + 700 + 700 + 25)</text></svg>`;
+  $('#elevation').innerHTML=s;
+}
+
+
+
+// Start: immer bei Schritt 1
+window.addEventListener('hashchange',()=>{ const h=(location.hash||'').slice(1); if(PANELS.includes(h)&&openId!==h) openPanel(h); else if(!h&&openId) closePanel(); });
+if(location.hash) setHash('');
+region(); placePhases(); showStep(1); render();
+if(viewer){ animateTo(1); setTimeout(()=>{ if(!hinted&&!drag&&!openId&&Math.abs(p-1)<1e-3){ animateTo(1.22,{ease:true,dur:700,done:()=>setTimeout(()=>{ if(!drag) animateTo(1,{ease:true,dur:600}); },250)}); } },3200); }
+setTimeout(hideHint, 10000);
+window.__ww={ go, get p(){return p;}, get cur(){return cur;}, N, has3D:!!viewer };
+})();
+</script>
