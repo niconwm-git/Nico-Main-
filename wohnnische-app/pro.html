@@ -1,6 +1,6 @@
-<title>wohnwerk. Studio</title>
+<title>wohnwerk. Varianten</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Die Wohnnische als interaktive 3D-Montage: Wischen baut die Nische Schritt für Schritt zusammen.">
+<meta name="description" content="Wohnnische in Varianten: Eiche mit Baumkantenregalen, Sitznische in Grau und eigene Farbvarianten, jeweils als wischbare 3D-Montage.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
@@ -143,6 +143,42 @@ a{color:var(--oak)}
   .step h1{font-size:26px}
 }
 
+
+[hidden]{display:none!important}
+/* Varianten-Reiter */
+.tabs{pointer-events:auto; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; margin:6px calc(-1 * max(16px, env(safe-area-inset-left,0px))) 0; padding:4px max(16px, env(safe-area-inset-left,0px)); scroll-snap-type:x proximity}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none; display:flex; align-items:center; gap:9px; height:50px; padding:4px 12px 4px 4px; border-radius:16px; border:1px solid var(--glass-line); cursor:pointer; scroll-snap-align:start;
+  background:var(--glass); -webkit-backdrop-filter:blur(16px) saturate(1.4); backdrop-filter:blur(16px) saturate(1.4); color:var(--ink); text-align:left; transition:border-color .2s, box-shadow .2s, transform .15s}
+.tab:active{transform:scale(.97)}
+.tab canvas{width:32px; height:40px; border-radius:11px; background:var(--stage); display:block; flex:none}
+.tab .tx{display:flex; flex-direction:column; min-width:0; line-height:1.15}
+.tab .nm{font-size:13px; font-weight:600; letter-spacing:-.01em; max-width:132px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.tab .sb{font-family:var(--f-mono); font-size:10px; color:var(--muted); letter-spacing:.04em}
+.tab[aria-selected="true"]{border-color:var(--oak); box-shadow:0 0 0 1px var(--oak) inset, 0 8px 20px -12px rgba(0,0,0,.35)}
+.tab.add{width:50px; padding:0; justify-content:center; border-style:dashed; border-color:color-mix(in srgb, var(--ink) 25%, transparent)}
+.tab.add svg{width:20px; height:20px}
+.stage.switching .live{opacity:0}
+.live{transition:opacity .22s ease}
+.vnote{font-size:13px; line-height:1.45; color:var(--muted); background:color-mix(in srgb, var(--oak-soft) 70%, transparent); border-radius:12px; padding:9px 12px; margin:6px 0 4px; max-width:640px}
+.vnote b{color:var(--ink); font-weight:600}
+.vset[hidden]{display:none!important}
+.vgrid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,220px); gap:22px; align-items:start; margin-top:14px}
+@media (max-width:600px){ .vgrid{grid-template-columns:1fr} .vprev{order:-1; max-width:220px} }
+.vfields{display:grid; gap:8px; min-width:0}
+.fl{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:10px}
+#vName{font:inherit; font-size:16px; padding:11px 13px; border-radius:12px; border:1px solid var(--line); background:var(--surface); color:var(--ink); width:100%}
+#vName:focus{outline:2px solid var(--oak); outline-offset:1px}
+.opts{display:flex; gap:8px; flex-wrap:wrap}
+.opt{border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:9px 14px; cursor:pointer; font-size:14px; font-weight:500}
+.opt[aria-checked="true"]{border-color:var(--oak); box-shadow:0 0 0 1px var(--oak) inset}
+.sw{display:flex; gap:10px; flex-wrap:wrap}
+.swb{display:flex; flex-direction:column; align-items:center; gap:5px; border:0; background:transparent; cursor:pointer; font-size:11.5px; color:var(--muted); padding:0}
+.swb i{width:38px; height:38px; border-radius:12px; border:1px solid rgba(0,0,0,.12); display:block; background-size:cover}
+.swb[aria-checked="true"] i{box-shadow:0 0 0 2px var(--bg), 0 0 0 4px var(--oak)}
+.swb[aria-checked="true"]{color:var(--ink)}
+.vprev canvas{width:100%; height:auto; aspect-ratio:36/46; border-radius:18px; background:radial-gradient(90% 70% at 50% 35%, var(--stage-a), var(--stage-b)); display:block}
+.vactions{margin-top:20px}
 /* Übernommene Menü- und Panel-Stile */
 /* Menu drawer */
 .scrim{position:fixed; inset:0; background:var(--scrim); z-index:40; opacity:0; transition:opacity .25s}
@@ -250,11 +286,12 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
 <header class="hud">
   <div class="bar">
     <a class="brand" href="#" data-home>wohn<span>werk.</span></a>
-    <span class="studio">Studio</span>
+    <span class="studio">Varianten</span>
     <button class="glass-btn" id="menuBtn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Varianten"></div>
   <div class="timeline" id="timeline" role="slider" tabindex="0" aria-label="Montagefortschritt" aria-valuemin="1" aria-valuemax="13" aria-valuenow="1"></div>
-  <div class="phase-row" id="phaseRow"><span>Vorbereitung</span><span>Unterbau</span><span>Oberbau</span><span>Fertig</span></div>
+  <div class="phase-row" id="phaseRow"></div>
 </header>
 
 <div class="hint" id="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V6.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0v3.5a6 6 0 0 1-6 6h-.6a5 5 0 0 1-3.9-1.9L4.8 15a1.5 1.5 0 0 1 2.3-1.9L9 15"/></svg>Wischen baut die Nische</div>
@@ -270,6 +307,8 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
   <div class="grab" id="grab" role="button" tabindex="0" aria-label="Details ein- oder ausklappen"></div>
   <div class="sheet-body" id="sheetBody">
     <p class="no-js-note muted">Die 3D-Montage braucht JavaScript. Hier alle Schritte als Bilder.</p>
+    <div class="vnote" id="vnote" hidden></div>
+    <div class="vset" data-base="eiche">
     <article class="step" data-step="1" data-phase="Vorbereitung">
       <p class="eyebrow">Vorbereitung</p>
       <h1>Nische prüfen und anzeichnen</h1>
@@ -282,7 +321,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Werkzeug</dt><dd>Maßband, Wasserwaage 120 cm, Ortungsgerät, Laser optional</dd></div>
       </dl>
       <p class="note"><b>Wichtig</b><span>Fußleiste im Bereich des Unterbaus abnehmen. Platte und Regale nie blind auf 1450 mm bestellen, sondern als Rohling mit Übermaß.</span></p>
-      <noscript><img src="img/step-01.jpg" alt="Leere Nische mit Höhenlinien"></noscript>
     </article>
 
     <article class="step" data-step="2" data-phase="Vorbereitung">
@@ -298,7 +336,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Eiche 40 mm</dt><dd>Rohling ≥ 1500 × 600 · 2 × ≥ 1500 × 280</dd></div>
       </dl>
       <p class="note"><b>Tipp</b><span>Die komplette Liste mit allen Maßen steht im Menü unter Zuschnittliste.</span></p>
-      <noscript><img src="img/step-02.jpg" alt="Sortierte Plattenstapel"></noscript>
     </article>
 
     <article class="step" data-step="3" data-phase="Unterbau">
@@ -313,7 +350,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Innenbreite</dt><dd>364 mm bzw. 564 mm</dd></div>
         <div><dt>Verbinder</dt><dd>ca. 24 Konfirmat 7 × 50</dd></div>
       </dl>
-      <noscript><img src="img/step-03.jpg" alt="Drei Korpusse in Explosionsansicht"></noscript>
     </article>
 
     <article class="step" data-step="4" data-phase="Unterbau">
@@ -328,7 +364,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Bodenträger</dt><dd>16 × Ø 5 mm</dd></div>
       </dl>
       <p class="note"><b>Maß</b><span>Gilt für Innenmontage auf Leisten. Bei Nut jeweils 2 × Nuttiefe zugeben.</span></p>
-      <noscript><img src="img/step-04.jpg" alt="Rückwände und Einlegeböden"></noscript>
     </article>
 
     <article class="step" data-step="5" data-phase="Unterbau">
@@ -342,7 +377,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Wandabstand</dt><dd>je Seite ca. 25 mm</dd></div>
         <div><dt>Befestigung</dt><dd>4 Korpusverbinder · 3 Kippsicherungen</dd></div>
       </dl>
-      <noscript><img src="img/step-05.jpg" alt="Korpusse auf Füßen in der Nische"></noscript>
     </article>
 
     <article class="step" data-step="6" data-phase="Unterbau">
@@ -356,7 +390,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Vorder/Rück</dt><dd>4 × 509 × 130 · 2 × 509 × 280 × 15</dd></div>
         <div><dt>Böden</dt><dd>2 × 539 × 500 × 6 · 1 × 539 × 500 × 9</dd></div>
       </dl>
-      <noscript><img src="img/step-06.jpg" alt="Drei Schubladenkästen in Explosionsansicht"></noscript>
     </article>
 
     <article class="step" data-step="7" data-phase="Unterbau">
@@ -370,7 +403,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Kasten-OK</dt><dd>ca. 20 mm unter Front-OK</dd></div>
       </dl>
       <p class="note"><b>Prüfen</b><span>Viele Auszüge brauchen 12,7 mm. Dann Kastenbreite auf 538,6 mm anpassen, also 1 mm schmaler bauen.</span></p>
-      <noscript><img src="img/step-07.jpg" alt="Schubladen werden eingeschoben"></noscript>
     </article>
 
     <article class="step" data-step="8" data-phase="Unterbau">
@@ -385,7 +417,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Beschläge</dt><dd>6 Topfscharniere · 5 Griffe schwarz</dd></div>
         <div><dt>Sockelblende</dt><dd>1446 × 56 × 19 schwarz</dd></div>
       </dl>
-      <noscript><img src="img/step-08.jpg" alt="Fronten und Griffe"></noscript>
     </article>
 
     <article class="step" data-step="9" data-phase="Unterbau">
@@ -400,7 +431,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Befestigung</dt><dd>6 Langlochwinkel</dd></div>
       </dl>
       <p class="note"><b>Ausführung</b><span>Durchgehend Holz: keine weißen Flächen, keine Löcher, kein Ausschnitt.</span></p>
-      <noscript><img src="img/step-09.jpg" alt="Arbeitsplatte wird aufgelegt"></noscript>
     </article>
 
     <article class="step" data-step="10" data-phase="Oberbau">
@@ -415,7 +445,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Rückwand</dt><dd>2 × 664 × 364 × 3</dd></div>
         <div><dt>Aufhänger</dt><dd>2 Paar, verstellbar</dd></div>
       </dl>
-      <noscript><img src="img/step-10.jpg" alt="Oberschränke in Explosionsansicht"></noscript>
     </article>
 
     <article class="step" data-step="11" data-phase="Oberbau">
@@ -430,7 +459,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Beschlag</dt><dd>2 Klappenbeschläge, Korpushöhe 400</dd></div>
       </dl>
       <p class="note"><b>Wand</b><span>Bei Trockenbau die Lastabtragung von einer Fachperson prüfen lassen.</span></p>
-      <noscript><img src="img/step-11.jpg" alt="Oberschränke an der Hängeschiene"></noscript>
     </article>
 
     <article class="step" data-step="12" data-phase="Oberbau">
@@ -444,7 +472,6 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Freie Höhen</dt><dd>330 · 250 · 290 mm</dd></div>
         <div><dt>Träger</dt><dd>je Regal 4–5 verdeckte Träger ≥ 12 mm</dd></div>
       </dl>
-      <noscript><img src="img/step-12.jpg" alt="Regale werden auf Träger geschoben"></noscript>
     </article>
 
     <article class="step" data-step="13" data-phase="Abschluss">
@@ -458,8 +485,176 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div><dt>Sicherungen</dt><dd>2 Türen + 3 Schubladen kindersicher</dd></div>
       </dl>
       <p class="note"><b>Fertig</b><span>Zielbild, Kosten und Einkaufsliste findest du im Menü.</span></p>
-      <noscript><img src="img/step-13.jpg" alt="Fertige Nische mit Licht"></noscript>
     </article>
+    </div>
+    <div class="vset" data-base="sitz" hidden>
+    <article class="step" data-step="1" data-phase="Vorbereitung">
+      <p class="eyebrow">Vorbereitung</p>
+      <h1>Nische prüfen und anzeichnen</h1>
+      <p class="lead">Breite unten, auf Sitzhöhe und oben messen, Höhe links und rechts, Tiefe mit Fußleiste. Es zählt das kleinste Maß. Leitungen orten, Wände auf Lot prüfen und alle Höhenlinien auf die Rückwand übertragen.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Nische B × H × T</dt><dd>1450 × 2300 × 570 mm</dd></div>
+        <div><dt>Höhenlinien</dt><dd>Sockel 60 · Sitz OK 417 · Regal 1400–1430 · Oberschrank 1700–2280</dd></div>
+        <div><dt>Deckenluft</dt><dd>20 mm, Türen schlagen nach vorn auf</dd></div>
+        <div><dt>Werkzeug</dt><dd>Maßband, Wasserwaage 120 cm, Ortungsgerät</dd></div>
+      </dl>
+      <p class="note"><b>Wichtig</b><span>Fußleiste im Bereich der Bank abnehmen. Fichte und Eiche als Rohling mit Übermaß kaufen und vor Ort einpassen.</span></p>
+    </article>
+    <article class="step" data-step="2" data-phase="Vorbereitung">
+      <p class="eyebrow">Vorbereitung</p>
+      <h1>Zuschnitt bestellen und Teile sortieren</h1>
+      <p class="lead">Korpusplatten, graue Fronten und Schubladenteile beim Zuschnittservice bestellen. Dreischichtplatten Fichte und den Eichen-Regalboden mit Übermaß kaufen. Jedes Teil mit Modul und Position beschriften.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Möbelbauplatte 18</dt><dd>22 Teile weiß, Kante vorn</dd></div>
+        <div><dt>Fronten grau 20 mm</dt><dd>8 Fronten · 4 Passleisten · Sockelblende</dd></div>
+        <div><dt>Multiplex 15 mm</dt><dd>16 Teile + 4 Böden 6 mm</dd></div>
+        <div><dt>Fichte Dreischicht</dt><dd>Sitzplatte 27 mm · 4 Teile 19 mm</dd></div>
+        <div><dt>Eiche 30 mm</dt><dd>Regalboden ≥ 1450 × 560</dd></div>
+      </dl>
+      <p class="note"><b>Tipp</b><span>Die komplette Liste mit allen Maßen steht im Menü unter Zuschnittliste.</span></p>
+    </article>
+    <article class="step" data-step="3" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Zwei Bankkorpusse montieren</h1>
+      <p class="lead">Je Korpus zwei durchgehende Seiten, Boden und Deckel dazwischen. Rechtwinklig spannen, vorbohren, mit Konfirmat verschrauben. Rückwand aus HDF innen einsetzen, wenn die Diagonalen stimmen.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Module</dt><dd>2 × 700 × 330 × 530</dd></div>
+        <div><dt>Seiten</dt><dd>4 × 330 × 530 × 18</dd></div>
+        <div><dt>Boden/Deckel</dt><dd>4 × 664 × 530 × 18</dd></div>
+        <div><dt>Rückwand</dt><dd>2 × 664 × 294 × 3</dd></div>
+        <div><dt>Verbinder</dt><dd>ca. 16 Konfirmat 7 × 50</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="4" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Füße setzen, Bank ausrichten</h1>
+      <p class="lead">Je Korpus vier verstellbare Sockelfüße. Beide Korpusse in die Nische stellen, auf gleiche Höhe bringen, miteinander verschrauben und mit Winkeln an der Wand sichern. Links und rechts bleiben je 25 mm für Passleisten.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Sockelfüße</dt><dd>8 × 60 mm, verstellbar</dd></div>
+        <div><dt>Bank OK</dt><dd>390 mm über Boden</dd></div>
+        <div><dt>Wandabstand</dt><dd>je Seite ca. 25 mm</dd></div>
+        <div><dt>Befestigung</dt><dd>2 Korpusverbinder · 2 Wandwinkel</dd></div>
+      </dl>
+      <p class="note"><b>Warum so stabil</b><span>Auf der Bank sitzt man, und sie trägt später die Holznische und die Oberschränke mit. Füße fest anziehen, nichts darf wackeln.</span></p>
+    </article>
+    <article class="step" data-step="5" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Vier Schubladenkästen bauen</h1>
+      <p class="lead">Außenbreite = 664 − 2 × 12,5 = 639 mm. Die Seiten laufen durch, Vorder- und Rückstück liegen dazwischen. Verleimen, schrauben, Diagonalen prüfen. Der Boden wird untergesetzt.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Kästen</dt><dd>4 × 639 × 500 × 100 (+ 6 Boden)</dd></div>
+        <div><dt>Seiten</dt><dd>8 × 500 × 100 × 15</dd></div>
+        <div><dt>Vorder/Rück</dt><dd>8 × 609 × 100 × 15</dd></div>
+        <div><dt>Böden</dt><dd>4 × 639 × 500 × 6</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="6" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Auszüge einbauen und testen</h1>
+      <p class="lead">Vier Paar Vollauszüge 500 mm mit Push-to-open, Einbauluft 12,5 mm je Seite. Bohrbild nur aus der Herstelleranleitung. Kästen ohne Front einschieben und Lauf, Rückstand und Öffnen per Druck prüfen.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Vollauszüge</dt><dd>4 Paar, 500 mm, mit Push-to-open</dd></div>
+        <div><dt>Einbauluft</dt><dd>12,5 mm je Seite</dd></div>
+        <div><dt>Kasten-OK</dt><dd>ca. 25 mm unter Front-OK</dd></div>
+      </dl>
+      <p class="note"><b>Prüfen</b><span>Viele Auszüge brauchen 12,7 mm. Dann die Kästen 1 mm schmaler bauen.</span></p>
+    </article>
+    <article class="step" data-step="7" data-phase="Unterbau">
+      <p class="eyebrow">Unterbau</p>
+      <h1>Graue Fronten, Sockel, Passleisten</h1>
+      <p class="lead">Schubladenfronten mit doppelseitigem Klebeband ansetzen, ausrichten und von innen verschrauben. Grifflos: Öffnen per Druck. Dann die zurückgesetzte dunkelgraue Sockelblende und links und rechts die Passleisten nach Wandverlauf.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Schubladenfronten</dt><dd>4 × 696 × 161 × 20 grau matt</dd></div>
+        <div><dt>Fugen</dt><dd>2 + 161 + 4 + 161 + 2 = 330</dd></div>
+        <div><dt>Sockelblende</dt><dd>1446 × 56 × 19 dunkelgrau</dd></div>
+        <div><dt>Passleisten</dt><dd>2 × 330 × ca. 25</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="8" data-phase="Sitzbank">
+      <p class="eyebrow">Sitzbank</p>
+      <h1>Sitzplatte aus Fichte montieren</h1>
+      <p class="lead">Dreischichtplatte auf Nischenmaß einpassen, Kanten runden, schleifen bis Korn 180 und lackieren oder ölen. Von unten durch die Korpusdeckel verschrauben. Vorn steht sie 10 mm über die Fronten.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Sitzplatte</dt><dd>ca. 1446 × 560 × 27 Fichte</dd></div>
+        <div><dt>Höhe</dt><dd>60 + 330 + 27 = 417 mm</dd></div>
+        <div><dt>Mit Polster</dt><dd>ca. 477 mm Sitzhöhe</dd></div>
+        <div><dt>Oberfläche</dt><dd>Wasserlack farblos matt oder Hartwachsöl</dd></div>
+      </dl>
+      <p class="note"><b>Ausführung</b><span>Fichte ist weich. Ein Lack mit hoher Abriebfestigkeit hält auf der Sitzfläche länger als Öl.</span></p>
+    </article>
+    <article class="step" data-step="9" data-phase="Sitzbank">
+      <p class="eyebrow">Sitzbank</p>
+      <h1>Holznische verkleiden</h1>
+      <p class="lead">Seitenwände aus Fichte nach Wandverlauf anreißen und einpassen, auf die Sitzplatte stellen und an der Wand verschrauben. Dann die Rückwand unten und oben einsetzen. Die Seiten tragen später Regal und Oberschränke mit.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Seiten</dt><dd>2 × 1283 × 550 × 19</dd></div>
+        <div><dt>Rückwand unten</dt><dd>1412 × 983 × 19</dd></div>
+        <div><dt>Rückwand oben</dt><dd>1412 × 270 × 19</dd></div>
+        <div><dt>Befestigung</dt><dd>je Seite 4 Wandanker, Rückwand auf Leisten</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="10" data-phase="Sitzbank">
+      <p class="eyebrow">Sitzbank</p>
+      <h1>Eichenregal als Nischendeckel</h1>
+      <p class="lead">Tragleisten links und rechts auf 1370 bis 1400 mm verschrauben, den Eichenboden auflegen und von unten verschrauben. Er schließt die Sitznische nach oben ab und ist zugleich Regal für Bücher und Deko darüber.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Regalboden</dt><dd>1412 × 550 × 30 Eiche massiv</dd></div>
+        <div><dt>Höhe</dt><dd>UK 1400 · OK 1430</dd></div>
+        <div><dt>Freiraum Sitzen</dt><dd>983 mm über der Sitzplatte</dd></div>
+        <div><dt>Tragleisten</dt><dd>2 × 480 × 30 × 19</dd></div>
+      </dl>
+      <p class="note"><b>Komfort</b><span>Kein Regal auf Kopfhöhe: Wer sich anlehnt, hat freien Raum bis 1400 mm.</span></p>
+    </article>
+    <article class="step" data-step="11" data-phase="Oberbau">
+      <p class="eyebrow">Oberbau</p>
+      <h1>Zwei Oberschränke bauen</h1>
+      <p class="lead">Gleiches Prinzip wie unten, nur höher: Seiten durchgehend, Boden und Deckel dazwischen, Rückwand innen, ein Einlegeboden je Schrank.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Module</dt><dd>2 × 700 × 580 × 530</dd></div>
+        <div><dt>Seiten</dt><dd>4 × 580 × 530 × 18</dd></div>
+        <div><dt>Boden/Deckel</dt><dd>4 × 664 × 530 × 18</dd></div>
+        <div><dt>Einlegeboden</dt><dd>2 × 664 × 500 × 18</dd></div>
+        <div><dt>Rückwand</dt><dd>2 × 664 × 544 × 3</dd></div>
+      </dl>
+    </article>
+    <article class="step" data-step="12" data-phase="Oberbau">
+      <p class="eyebrow">Oberbau</p>
+      <h1>Oberschränke setzen, Türen montieren</h1>
+      <p class="lead">Die Schränke stehen auf den Holzseiten und werden zusätzlich an die Wand geschraubt. Untereinander verbinden, dann je Schrank zwei graue Türen mit Push-to-open. Oben bleiben 20 mm Luft.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>Höhe</dt><dd>UK 1700 · OK 2280</dd></div>
+        <div><dt>Türen</dt><dd>4 × 346 × 576 × 20 grau</dd></div>
+        <div><dt>Scharniere</dt><dd>8 Topfscharniere + Push-to-open</dd></div>
+        <div><dt>Passleisten</dt><dd>2 × 580 × ca. 25</dd></div>
+      </dl>
+      <p class="note"><b>Wand</b><span>Bei Trockenbau die Befestigung von einer Fachperson prüfen lassen.</span></p>
+    </article>
+    <article class="step" data-step="13" data-phase="Abschluss">
+      <p class="eyebrow">Abschluss</p>
+      <h1>Licht, Polster und Endkontrolle</h1>
+      <p class="lead">Zwei Akku-LED-Leisten: unter dem Regalboden für die Sitznische, unter den Oberschränken fürs Bücherfach. Sitzpolster und Kissen auflegen. Fronten nachstellen, Kindersicherungen setzen, alle Wandbefestigungen prüfen.</p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs">
+        <div><dt>LED</dt><dd>2 Ebenen, Akku, 2700–3000 K</dd></div>
+        <div><dt>Sitzpolster</dt><dd>ca. 1400 × 500 × 60, Bezug abnehmbar</dd></div>
+        <div><dt>Kissen</dt><dd>3 × ca. 45 × 45, Cord grün</dd></div>
+        <div><dt>Sicherungen</dt><dd>4 Schubladen + 4 Türen</dd></div>
+      </dl>
+      <p class="note"><b>Fertig</b><span>Zielbild, Kosten und Einkaufsliste findest du im Menü.</span></p>
+    </article>
+    </div>
   </div>
 </section>
 
@@ -468,32 +663,40 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
   <div class="drawer-head"><span>Projekt</span>
     <button class="icon-btn" data-close-menu aria-label="Menü schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <ul class="menu-list">
-    <li><a href="#animation" data-panel="animation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>Gesamtvideo<small>34 s</small></a></li>
+    <li><a href="#animation" data-panel="animation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>Gesamtanimation<small id="mAnim">live</small></a></li>
     <li><a href="#zielbild" data-panel="zielbild"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/></svg>Zielbild</a></li>
     <li><a href="#masse" data-panel="masse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V4M4 4l-2 2M4 4l2 2M8 20h12M20 20l-2-2M20 20l-2 2"/><rect x="8" y="5" width="11" height="11" rx="1"/></svg>Maßzeichnung</a></li>
-    <li><a href="#zuschnitt" data-panel="zuschnitt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Zuschnittliste<small>45 Teile</small></a></li>
+    <li><a href="#zuschnitt" data-panel="zuschnitt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Zuschnittliste<small id="mCut">63 Teile</small></a></li>
     <li><a href="#einkauf" data-panel="einkauf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Einkaufsliste</a></li>
-    <li><a href="#kosten" data-panel="kosten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M15 9.2a3.5 3.5 0 1 0 0 5.6M7.5 11h6M7.5 13.2h6"/></svg>Kosten<small>1.150–1.400 €</small></a></li>
+    <li><a href="#kosten" data-panel="kosten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M15 9.2a3.5 3.5 0 1 0 0 5.6M7.5 11h6M7.5 13.2h6"/></svg>Kosten<small id="mCost">915 €–1.940 €</small></a></li>
     <li><a href="#werkzeug" data-panel="werkzeug"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3z"/><path d="M14.5 6.5L17 4l3 3-2.5 2.5"/></svg>Werkzeug</a></li>
     <li><a href="#sicherheit" data-panel="sicherheit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Sicherheit</a></li>
-    <li><a href="https://claude.ai/artifact/74ToyJNfpHyar6nqxi1Ztt" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17L17 7"/></svg>Variante Sitznische grau<small>andere Seite</small></a></li>
   </ul>
   <div class="menu-steps"><h3>Alle Schritte</h3><ol id="menuSteps"></ol></div>
 </aside>
 
 <!-- Panels -->
-<section class="panel" id="p-animation" data-panel-id="animation" aria-label="Gesamtvideo">
+<section class="panel" id="p-animation" data-panel-id="animation" data-base="eiche" aria-label="Gesamtvideo">
   <div class="panel-head"><span class="k">Gesamtvideo</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="panel-body">
     <h2 class="ttl">Die ganze Montage in 34 Sekunden</h2>
     <p class="muted">Alle 13 Schritte am Stück, ohne Deko. Als Video oder live in 3D direkt auf der Zeichnung.</p>
-    <div class="row" style="margin:14px 0 18px"><button class="btn primary" id="liveBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Live in 3D abspielen</button></div>
+    <div class="row" style="margin:14px 0 18px"><button class="btn primary" data-live><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Live in 3D abspielen</button></div>
     <video class="video" id="video" src="gesamtanimation.mp4" poster="img/step-13.jpg" controls playsinline muted preload="none"></video>
     <p class="cap">MP4, 34 s, ohne Ton. Auf dem Handy lange drücken, um das Video zu sichern.</p>
   </div>
 </section>
 
-<section class="panel" id="p-zielbild" data-panel-id="zielbild" aria-label="Zielbild">
+<section class="panel" id="p-animation-sitz" data-panel-id="animation" data-base="sitz" aria-label="Gesamtanimation">
+  <div class="panel-head"><span class="k">Gesamtanimation</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Die ganze Sitznische in 34 Sekunden</h2>
+    <p class="muted">Alle 13 Schritte am Stück, ohne Deko, live in 3D auf der Zeichnung.</p>
+    <div class="row" style="margin:14px 0 18px"><button class="btn primary" data-live><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Live in 3D abspielen</button></div>
+  </div>
+</section>
+
+<section class="panel" id="p-zielbild" data-panel-id="zielbild" data-base="eiche" aria-label="Zielbild">
   <div class="panel-head"><span class="k">Zielbild</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="panel-body">
     <h2 class="ttl">So soll es aussehen</h2>
@@ -514,7 +717,17 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
   </div>
 </section>
 
-<section class="panel" id="p-masse" data-panel-id="masse" aria-label="Maßzeichnung">
+<section class="panel" id="p-zielbild-sitz" data-panel-id="zielbild" data-base="sitz" aria-label="Zielbild">
+  <div class="panel-head"><span class="k">Zielbild</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">So soll es aussehen</h2>
+    <p class="muted">Graue, grifflose Fronten wie beim IKEA-Platsa-Look, eine Sitzbank mit vier Schubladen, die Sitznische mit Fichte ausgekleidet, ein Eichenregal als Deckel mit Bücherfach darüber und Oberschränke bis unter die Decke. Kissen und Deko sind nur Visualisierung.</p>
+    <figure class="figure" style="max-width:560px"><img src="img/sitznische-ziel.jpg" alt="3D-Visualisierung der Sitznische im grauen Stil" loading="lazy" width="1080" height="1620"></figure>
+    <p class="cap">3D-Visualisierung in den echten Nischenmaßen, kein Foto.</p>
+  </div>
+</section>
+
+<section class="panel" id="p-masse" data-panel-id="masse" data-base="eiche" aria-label="Maßzeichnung">
   <div class="panel-head"><span class="k">Maßzeichnung</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="panel-body">
     <h2 class="ttl">Frontansicht mit allen Höhen</h2>
@@ -545,12 +758,41 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
   </div>
 </section>
 
-<section class="panel" id="p-zuschnitt" data-panel-id="zuschnitt" aria-label="Zuschnittliste">
+<section class="panel" id="p-masse-sitz" data-panel-id="masse" data-base="sitz" aria-label="Maßzeichnung">
+  <div class="panel-head"><span class="k">Maßzeichnung</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Frontansicht mit allen Höhen</h2>
+    <p class="muted">Alle Maße in mm. Montageschema, keine Bohrschablone.</p>
+    <div class="svgwrap" id="elevation-sitz"></div>
+    <h3>Höhenkette</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Ebene</th><th class="num">von</th><th class="num">bis</th><th class="num">Höhe</th></tr></thead>
+      <tbody>
+        <tr><td>Sockel (Füße, Blende dunkelgrau)</td><td class="num">0</td><td class="num">60</td><td class="num">60</td></tr>
+        <tr><td>Bank mit 4 Schubladen</td><td class="num">60</td><td class="num">390</td><td class="num">330</td></tr>
+        <tr><td>Sitzplatte Fichte</td><td class="num">390</td><td class="num">417</td><td class="num">27</td></tr>
+        <tr><td>Sitznische (Polster 60 mm)</td><td class="num">417</td><td class="num">1400</td><td class="num">983</td></tr>
+        <tr><td>Regalboden Eiche</td><td class="num">1400</td><td class="num">1430</td><td class="num">30</td></tr>
+        <tr><td>Bücherfach</td><td class="num">1430</td><td class="num">1700</td><td class="num">270</td></tr>
+        <tr><td>Oberschrank</td><td class="num">1700</td><td class="num">2280</td><td class="num">580</td></tr>
+        <tr><td>Deckenluft</td><td class="num">2280</td><td class="num">2300</td><td class="num">20</td></tr>
+      </tbody></table></div>
+    <h3>Unterschiede zur Variante Eiche &amp; Baumkante</h3>
+    <ul class="checklist">
+      <li>Statt Kommode mit Arbeitsplatte eine Sitzbank: 4 flache Schubladen statt 2 Türen und 3 Schubladen.</li>
+      <li>Die Holzseiten der Nische tragen Regal und Oberschränke mit; die Last geht bis auf den Boden.</li>
+      <li>Oberschränke mit 4 Türen bis unter die Decke statt 2 Klappen: rund 25 % mehr Stauraum oben.</li>
+      <li>Ein Regal statt zwei Baumkantenregalen, dafür eine gemütliche Sitzecke mit eigenem Licht.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="p-zuschnitt" data-panel-id="zuschnitt" data-base="eiche" aria-label="Zuschnittliste">
   <div class="panel-head"><span class="k">Zuschnittliste</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="panel-body">
     <h2 class="ttl">Zuschnittliste</h2>
     <p class="muted">Fertigmaße L × B in mm. Diese Liste so an den Zuschnittservice geben. Eiche als Rohling kaufen und vor Ort einpassen.</p>
-    <div class="row" style="margin:12px 0 6px"><button class="btn" id="copyCut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Liste kopieren</button></div>
+    <div class="row" style="margin:12px 0 6px"><button class="btn" data-copycut="cutTable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Liste kopieren</button></div>
     <div class="table-wrap"><table id="cutTable">
       <thead><tr><th>Teil</th><th class="num">Stk</th><th>L × B</th><th>Kante / Hinweis</th></tr></thead>
       <tbody>
@@ -589,7 +831,49 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
   </div>
 </section>
 
-<section class="panel" id="p-einkauf" data-panel-id="einkauf" aria-label="Einkaufsliste">
+<section class="panel" id="p-zuschnitt-sitz" data-panel-id="zuschnitt" data-base="sitz" aria-label="Zuschnittliste">
+  <div class="panel-head"><span class="k">Zuschnittliste</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Zuschnittliste</h2>
+    <p class="muted">Fertigmaße L × B in mm. Fichte und Eiche als Rohling kaufen und vor Ort einpassen.</p>
+    <div class="row" style="margin:12px 0 6px"><button class="btn" data-copycut="cutTable-sitz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Liste kopieren</button></div>
+    <div class="table-wrap"><table id="cutTable-sitz">
+      <thead><tr><th>Teil</th><th class="num">Stk</th><th>L × B</th><th>Kante / Hinweis</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="4">Bank · Möbelbauplatte weiß 18 mm</td></tr>
+        <tr><td>Seitenwand</td><td class="num">4</td><td class="dim">330 × 530</td><td>ABS vorn</td></tr>
+        <tr><td>Boden/Deckel</td><td class="num">4</td><td class="dim">664 × 530</td><td>ABS vorn</td></tr>
+        <tr class="grp"><td colspan="4">Oberschrank · Möbelbauplatte weiß 18 mm</td></tr>
+        <tr><td>Seitenwand</td><td class="num">4</td><td class="dim">580 × 530</td><td>ABS vorn + unten</td></tr>
+        <tr><td>Boden/Deckel</td><td class="num">4</td><td class="dim">664 × 530</td><td>ABS vorn</td></tr>
+        <tr><td>Einlegeboden</td><td class="num">2</td><td class="dim">664 × 500</td><td>ABS vorn</td></tr>
+        <tr class="grp"><td colspan="4">Rückwände · HDF weiß 3 mm</td></tr>
+        <tr><td>Rückwand Bank</td><td class="num">2</td><td class="dim">664 × 294</td><td>innenliegend</td></tr>
+        <tr><td>Rückwand Oberschrank</td><td class="num">2</td><td class="dim">664 × 544</td><td>innenliegend</td></tr>
+        <tr class="grp"><td colspan="4">Fronten · grau matt 20 mm</td></tr>
+        <tr><td>Schubladenfront</td><td class="num">4</td><td class="dim">696 × 161</td><td>rundum, grifflos</td></tr>
+        <tr><td>Tür Oberschrank</td><td class="num">4</td><td class="dim">576 × 346</td><td>rundum, grifflos</td></tr>
+        <tr><td>Passleiste unten</td><td class="num">2</td><td class="dim">330 × 50</td><td>Übermaß, auf ca. 25 einpassen</td></tr>
+        <tr><td>Passleiste oben</td><td class="num">2</td><td class="dim">580 × 50</td><td>Übermaß, auf ca. 25 einpassen</td></tr>
+        <tr><td>Sockelblende dunkelgrau 19 mm</td><td class="num">1</td><td class="dim">1446 × 56</td><td>nach Aufmaß kürzen</td></tr>
+        <tr class="grp"><td colspan="4">Schubladen · Multiplex 15 mm</td></tr>
+        <tr><td>Seite</td><td class="num">8</td><td class="dim">500 × 100</td><td>Oberkante geschliffen</td></tr>
+        <tr><td>Vorder-/Rückstück</td><td class="num">8</td><td class="dim">609 × 100</td><td></td></tr>
+        <tr><td>Boden, Sperrholz 6 mm</td><td class="num">4</td><td class="dim">639 × 500</td><td>untergesetzt</td></tr>
+        <tr class="grp"><td colspan="4">Holznische · Dreischichtplatte Fichte</td></tr>
+        <tr><td>Sitzplatte 27 mm</td><td class="num">1</td><td class="dim">≈ 1446 × 560</td><td>Rohling ≥ 1500 × 600</td></tr>
+        <tr><td>Seitenwand 19 mm</td><td class="num">2</td><td class="dim">≈ 1283 × 550</td><td>nach Wandverlauf einpassen</td></tr>
+        <tr><td>Rückwand unten 19 mm</td><td class="num">1</td><td class="dim">1412 × 983</td><td></td></tr>
+        <tr><td>Rückwand oben 19 mm</td><td class="num">1</td><td class="dim">1412 × 270</td><td></td></tr>
+        <tr><td>Tragleiste 19 mm</td><td class="num">2</td><td class="dim">480 × 30</td><td></td></tr>
+        <tr class="grp"><td colspan="4">Massivholz · Eiche 30 mm</td></tr>
+        <tr><td>Regalboden / Nischendeckel</td><td class="num">1</td><td class="dim">1412 × 550</td><td>Rohling ≥ 1450 × 560</td></tr>
+        <tr class="sum"><td>Summe Teile</td><td class="num">63</td><td></td><td></td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<section class="panel" id="p-einkauf" data-panel-id="einkauf" data-base="eiche" aria-label="Einkaufsliste">
   <div class="panel-head"><span class="k">Einkaufsliste</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="panel-body">
     <h2 class="ttl">Einkaufsliste</h2>
@@ -633,7 +917,47 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
   </div>
 </section>
 
-<section class="panel" id="p-kosten" data-panel-id="kosten" aria-label="Kosten">
+<section class="panel" id="p-einkauf-sitz" data-panel-id="einkauf" data-base="sitz" aria-label="Einkaufsliste">
+  <div class="panel-head"><span class="k">Einkaufsliste</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Einkaufsliste</h2>
+    <p class="muted">Links führen zu Händlern oder deren Suche. Preise vor dem Kauf immer im Shop prüfen.</p>
+    <h3>Neu kaufen</h3>
+    <div class="shop">
+      <div class="shop-item"><h4>Plattenzuschnitt komplett <span class="mono">≈ 280–550 €</span></h4>
+        <p>Korpusplatten weiß, HDF-Rückwände und alle grauen 20-mm-Fronten. Grau matt gibt es foliert oder lackiert, Farbe vor Ort am Muster prüfen.</p>
+        <div class="links"><a href="https://www.bauhaus.info/moebelbau/c/10000758" target="_blank" rel="noopener">Bauhaus Möbelbau-Zuschnitt</a><a href="https://sklopko.com/de/kostenrechner/" target="_blank" rel="noopener">sklopko Kostenrechner</a></div></div>
+      <div class="shop-item"><h4>Dreischichtplatte Fichte <span class="mono">19 + 27 mm</span></h4>
+        <p>Für Sitzplatte, Seiten und Rückwände der Nische. A/B-Qualität mit wenigen, festen Ästen.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/dreischichtplatte%20fichte" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.bauhaus.info/suche/produkte?text=dreischichtplatte%20fichte" target="_blank" rel="noopener">Suche bei Bauhaus</a></div></div>
+      <div class="shop-item"><h4>Eiche massiv 30 mm <span class="mono">1 Regalboden</span></h4>
+        <p>Leimholz, durchgehende Lamelle, Rohling ≥ 1450 × 560 mm.</p>
+        <div class="links"><a href="https://www.hornbach.de/c/baustoffe-holz-fenster-tueren/moebelbau/leimholzplatten/S13937" target="_blank" rel="noopener">Hornbach Leimholz</a></div></div>
+      <div class="shop-item"><h4>Vollauszüge mit Push-to-open <span class="mono">4 Paar</span></h4>
+        <p>500 mm, ≥ 30 kg pro Paar, mit Öffnen per Druck. Einbaubreite prüfen: oft 12,7 statt 12,5 mm.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/vollauszug%20push%20to%20open" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.obi.de/search/vollauszug%20push%20to%20open/" target="_blank" rel="noopener">Suche bei OBI</a></div></div>
+      <div class="shop-item"><h4>Topfscharniere und Türöffner <span class="mono">8 + 4</span></h4>
+        <p>Topfscharniere 35 mm ohne Feder oder mit Push-Variante, dazu 4 Push-to-open-Stößel für die Türen.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/topfscharnier" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.obi.de/search/push%20to%20open/" target="_blank" rel="noopener">Suche bei OBI</a></div></div>
+      <div class="shop-item"><h4>Sockelfüße, Wandwinkel, Kleinteile <span class="mono">8 Füße</span></h4>
+        <p>Verstellbare Füße 60 mm, Wandwinkel, Konfirmat 7 × 50, Holzleim, Bodenträger.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/sockelf%C3%BC%C3%9Fe%20verstellbar" target="_blank" rel="noopener">Sockelfüße</a><a href="https://www.hornbach.de/s/konfirmat" target="_blank" rel="noopener">Konfirmat</a></div></div>
+      <div class="shop-item"><h4>Akku-LED warmweiß <span class="mono">2 Ebenen</span></h4>
+        <p>Magnetisch, mit Bewegungs- oder Fernschalter, 2700–3000 K.</p>
+        <div class="links"><a href="https://www.lidl.de/p/livarno-akku-unterbauleuchte-2er-set/p800014143" target="_blank" rel="noopener">Lidl Livarno 2er-Set</a><a href="https://www.obi.de/search/akku%20unterbauleuchte%20warmwei%C3%9F/" target="_blank" rel="noopener">Suche bei OBI</a></div></div>
+      <div class="shop-item"><h4>Sitzpolster nach Maß <span class="mono">1400 × 500 × 60</span></h4>
+        <p>Schaumstoff RG 35, Bezug abnehmbar und waschbar. Dazu 3 Kissen in Cord.</p>
+        <div class="links"><a href="https://www.google.com/search?q=sitzpolster+nach+ma%C3%9F+bezug+abnehmbar" target="_blank" rel="noopener">Websuche Sitzpolster nach Maß</a></div></div>
+      <div class="shop-item"><h4>Oberfläche <span class="mono">Lack · Öl</span></h4>
+        <p>Wasserlack farblos matt für Fichte, Hartwachsöl für die Eiche, Schleifpapier 80 / 120 / 180.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/m%C3%B6bellack%20farblos%20matt" target="_blank" rel="noopener">Suche bei Hornbach</a></div></div>
+    </div>
+    <h3>Gebraucht prüfen</h3>
+    <div class="links"><a href="https://www.kleinanzeigen.de/s-dreischichtplatte/k0" target="_blank" rel="noopener">Kleinanzeigen: Dreischichtplatte</a><a href="https://www.kleinanzeigen.de/s-vollauszug/k0" target="_blank" rel="noopener">Kleinanzeigen: Vollauszug</a><a href="https://www.kleinanzeigen.de/s-ikea-platsa/k0" target="_blank" rel="noopener">Kleinanzeigen: IKEA Platsa (Fronten)</a></div>
+  </div>
+</section>
+
+<section class="panel" id="p-kosten" data-panel-id="kosten" data-base="eiche" aria-label="Kosten">
   <div class="panel-head"><span class="k">Kosten</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="panel-body">
     <h2 class="ttl">Kostenrahmen</h2>
@@ -663,6 +987,41 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
       <li>Eiche gebraucht oder als Bohle vom Sägewerk kaufen und selbst hobeln lassen.</li>
       <li>Griffe statt Push-to-open: spart die teureren Beschläge.</li>
       <li>Beschläge einer Marke kaufen; Mischsysteme kosten oft Nacharbeit.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel" id="p-kosten-sitz" data-panel-id="kosten" data-base="sitz" aria-label="Kosten">
+  <div class="panel-head"><span class="k">Kosten</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Kostenrahmen</h2>
+    <p class="muted">Schätzung inkl. MwSt., ohne Werkzeug, Versand und Deko. Keine Warenkorbpreise.</p>
+    <div class="totals">
+      <div class="total"><div class="k">Realistisch</div><div class="v">1.200–1.450 €</div></div>
+      <div class="total"><div class="k">Summe Positionen</div><div class="v">915 €–1.940 €</div></div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Bereich</th><th class="num">von</th><th class="num">bis</th></tr></thead>
+      <tbody>
+        <tr><td>18-mm-Platten Bank und Oberschränke, HDF, Zuschnitt</td><td class="num">160 €</td><td class="num">290 €</td></tr>
+        <tr><td>Graue 20-mm-Fronten, Passleisten, Sockelblende</td><td class="num">120 €</td><td class="num">260 €</td></tr>
+        <tr><td>4 Schubladenkästen</td><td class="num">60 €</td><td class="num">120 €</td></tr>
+        <tr><td>4 Paar Vollauszüge mit Push-to-open</td><td class="num">90 €</td><td class="num">220 €</td></tr>
+        <tr><td>Topfscharniere und Push-to-open für Türen</td><td class="num">50 €</td><td class="num">120 €</td></tr>
+        <tr><td>Dreischichtplatten Fichte</td><td class="num">140 €</td><td class="num">260 €</td></tr>
+        <tr><td>Regalboden Eiche 30 mm</td><td class="num">60 €</td><td class="num">130 €</td></tr>
+        <tr><td>Füße, Wandwinkel, Schrauben, Leim</td><td class="num">60 €</td><td class="num">130 €</td></tr>
+        <tr><td>Akku-LED, 2 Ebenen</td><td class="num">30 €</td><td class="num">80 €</td></tr>
+        <tr><td>Sitzpolster nach Maß und 3 Kissen</td><td class="num">120 €</td><td class="num">280 €</td></tr>
+        <tr><td>Lack, Öl, Schleifmittel</td><td class="num">25 €</td><td class="num">50 €</td></tr>
+        <tr class="sum"><td>Summe</td><td class="num">915 €</td><td class="num">1.940 €</td></tr>
+      </tbody></table></div>
+    <h3>So wird es günstiger</h3>
+    <ul class="checklist">
+      <li>Graue Fronten foliert statt lackiert bestellen.</li>
+      <li>Fronten gebraucht von IKEA Platsa oder Metod nehmen und die Korpusse daran anpassen.</li>
+      <li>Sitzpolster aus Standardmaß (2 × 70 cm) statt Maßanfertigung.</li>
+      <li>Statt Eiche den Regalboden ebenfalls aus Fichte-Dreischicht.</li>
     </ul>
   </div>
 </section>
@@ -700,6 +1059,37 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
 </section>
 
 
+
+<section class="panel" id="p-neu" data-panel-id="neu" aria-label="Variante">
+  <div class="panel-head"><span class="k" id="neuK">Neue Variante</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl" id="neuT">Eigene Variante anlegen</h2>
+    <p class="muted">Wähle die Bauweise und spiel mit Frontfarbe und Holz. Zuschnitt, Schritte und Kosten kommen von der Bauweise.</p>
+    <form id="vform" class="vform" autocomplete="off">
+      <div class="vgrid">
+        <div class="vfields">
+          <label class="fl" for="vName">Name</label>
+          <input id="vName" maxlength="32" placeholder="z. B. Salbei &amp; Nuss" required>
+          <span class="fl">Bauweise</span>
+          <div class="opts" id="vBase" role="radiogroup" aria-label="Bauweise">
+            <button type="button" class="opt" data-v="eiche" role="radio">Kommode &amp; Regale</button>
+            <button type="button" class="opt" data-v="sitz" role="radio">Sitznische</button>
+          </div>
+          <span class="fl">Frontfarbe</span>
+          <div class="sw" id="vFront" role="radiogroup" aria-label="Frontfarbe"></div>
+          <span class="fl">Holz</span>
+          <div class="sw" id="vWood" role="radiogroup" aria-label="Holz"></div>
+        </div>
+        <div class="vprev"><canvas id="vPrev" width="360" height="460" aria-label="Vorschau der Variante"></canvas><p class="cap" id="vPrevCap"></p></div>
+      </div>
+      <div class="row vactions">
+        <button class="btn primary" type="submit" id="vSave">Variante anlegen</button>
+        <button class="btn" type="button" id="vDel" hidden>Löschen</button>
+        <span class="small muted" id="vMsg" role="status"></span>
+      </div>
+    </form>
+  </div>
+</section>
 <div class="toast" id="toast" role="status"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -710,14 +1100,14 @@ const $=s=>document.querySelector(s);
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const reduced=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-const stepEls=[...document.querySelectorAll('.step')];
-const N=stepEls.length;
-const titles=stepEls.map(a=>a.querySelector('h1').textContent);
-const phases=stepEls.map(a=>a.dataset.phase);
+const N=13;
+let curBase='eiche', stepEls=[], titles=[], phases=[];
+function setContent(base){ curBase=base; document.querySelectorAll('.vset').forEach(v=>v.hidden=v.dataset.base!==base); stepEls=[...document.querySelectorAll(`.vset[data-base="${base}"] .step`)]; titles=stepEls.map(a=>a.querySelector('h1').textContent); phases=stepEls.map(a=>a.dataset.phase); }
+setContent('eiche');
 const pad=n=>String(n).padStart(2,'0');
 const REC=false;
 try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(_){}
-stepEls.forEach((a,i)=>a.dataset.num=pad(i+1));
+document.querySelectorAll('.step').forEach(a=>a.dataset.num=pad(+a.dataset.step));
 
 /* =================== 3D-Modell =================== */
 // Maße in mm. Achsen: x nach rechts (0 = linke Nischenwand), y nach oben (0 = Boden), z zum Betrachter (0 = Rückwand).
@@ -747,13 +1137,14 @@ function build3D(host){
 
   // ---- Texturen
   const rnd=seeded(7);
-  function oakTex(vertical){
+  function oakTex(vertical, base='#c58d55', dk='112,66,28', lt='238,196,138', knots=0){
     const w=1024,h=256,c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d');
-    x.fillStyle='#c58d55'; x.fillRect(0,0,w,h);
+    x.fillStyle=base; x.fillRect(0,0,w,h);
     for(let i=0;i<150;i++){ let y=rnd()*h; const a=.04+rnd()*.17, dark=rnd()<.68;
-      x.strokeStyle=dark?`rgba(112,66,28,${a})`:`rgba(238,196,138,${a})`; x.lineWidth=.6+rnd()*2.4; x.beginPath(); x.moveTo(0,y);
+      x.strokeStyle=dark?`rgba(${dk},${a})`:`rgba(${lt},${a})`; x.lineWidth=.6+rnd()*2.4; x.beginPath(); x.moveTo(0,y);
       for(let px=0;px<=w;px+=24){ y+=(rnd()-.5)*1.4; x.lineTo(px, y+Math.sin(px/150+i)*2.2);} x.stroke(); }
     for(let i=0;i<2200;i++){ x.fillStyle=`rgba(90,52,22,${.08+rnd()*.12})`; x.fillRect(rnd()*w, rnd()*h, 2+rnd()*6, .8); }
+    for(let k=0;k<knots;k++){ const kx=rnd()*w, ky=rnd()*h, rr=3+rnd()*5; const g=x.createRadialGradient(kx,ky,0,kx,ky,rr*2.4); g.addColorStop(0,`rgba(${dk},.7)`); g.addColorStop(1,`rgba(${dk},0)`); x.fillStyle=g; x.beginPath(); x.ellipse(kx,ky,rr*2.6,rr*1.3,0,0,7); x.fill(); }
     let src=c;
     if(vertical){ const v=document.createElement('canvas'); v.width=h; v.height=w; const vx=v.getContext('2d'); vx.translate(h,0); vx.rotate(Math.PI/2); vx.drawImage(c,0,0); src=v; }
     const t=new T.CanvasTexture(src); t.anisotropy=4; return t;
@@ -777,12 +1168,15 @@ function build3D(host){
     x.fillStyle=g; x.fillRect(0,0,256,256); return new T.CanvasTexture(c);
   }
   const oakH=oakTex(false), oakV=oakTex(true);
+  const fiH=oakTex(false,'#e6cfa8','140,96,52','250,232,200',9), fiV=oakTex(true,'#e6cfa8','140,96,52','250,232,200',9);
   const oakCap=oakH.clone(); oakCap.needsUpdate=true; oakCap.wrapS=oakCap.wrapT=T.RepeatWrapping; oakCap.repeat.set(1/1440,1/280);
 
   const M={
     carc:{color:0xf0ede7}, front:{color:0xf7f5f0}, hdf:{color:0xe7e1d6}, ply:{color:0xe3c99c},
     oakH:{color:0xffffff,map:oakH}, oakV:{color:0xffffff,map:oakV}, black:{color:0x2b2825}, metal:{color:0xa3a6aa},
-    bark:{color:0x5e3f27}, led:'led'
+    bark:{color:0x5e3f27}, led:'led',
+    grey:{color:0xc4c1ba}, greyD:{color:0x8f8c86}, fiH:{color:0xffffff,map:fiH}, fiV:{color:0xffffff,map:fiV},
+    cush:{color:0xe3ddd0}, kG1:{color:0x46523c}, kG2:{color:0xa4ae95}, kG3:{color:0x66724f}
   };
   function makeMat(key){
     if(key==='led') return new T.MeshBasicMaterial({color:0xffe1b0, transparent:true});
@@ -803,10 +1197,12 @@ function build3D(host){
   const skirt=new T.Mesh(new T.BoxGeometry(1450,60,12), new T.MeshLambertMaterial({color:0xd9c7ad})); skirt.position.set(725,30,6);
   room.add(skirt); // Fußleiste, verschwindet ab Schritt 2 (abgenommen)
 
+  function model_eiche(){
+  const root=new T.Group(); root.visible=false; scene.add(root);
   // ---- Teile & Gruppen
   const parts=[], groups={};
   const ghostMat=new T.MeshLambertMaterial({color:0xe6e0d6, transparent:true});
-  function G(id, keys){ const g=new T.Group(); scene.add(g); groups[id]={obj:g, keys}; return id; }
+  function G(id, keys){ const g=new T.Group(); root.add(g); groups[id]={obj:g, keys}; return id; }
   function P(o){
     let geo=o.geo;
     if(!geo){ geo=o.cyl? new T.CylinderGeometry(o.cyl,o.cyl,o.size[1],20) : new T.BoxGeometry(o.size[0],o.size[1],o.size[2]); }
@@ -819,7 +1215,7 @@ function build3D(host){
     o.c=o.geo? [o.pos[0],o.pos[1],o.pos[2]] : [o.pos[0]+s[0]/2, o.pos[1]+s[1]/2, o.pos[2]+s[2]/2];
     o.real=mat; o.ghost=Array.isArray(mat)?[ghostMat,ghostMat]:(o.m==='led'?mat:ghostMat);
     o.obj=mesh; o.mats=Array.isArray(mat)?mat:[mat]; o.em=em; o.off=o.off||[0,0,0];
-    (o.g? groups[o.g].obj : scene).add(mesh);
+    (o.g? groups[o.g].obj : root).add(mesh);
     parts.push(o); return o;
   }
 
@@ -901,7 +1297,7 @@ function build3D(host){
   [[1843,322],[1223,206],[1513,206]].forEach(([y,z],k)=>P({step:13,size:[1300,6,12],pos:[75,y,z],m:'led',off:[0,-70,0],win:[.02+k*.06,.32+k*.06]}));
   const gt=glowTex(), glows=[];
   function glow(w,h,pos,rotX){ const m=new T.MeshBasicMaterial({map:gt,transparent:true,opacity:0,blending:T.AdditiveBlending,depthWrite:false});
-    const g=new T.Mesh(new T.PlaneGeometry(w,h),m); g.position.set(...pos); if(rotX) g.rotation.x=rotX; g.renderOrder=5; g.visible=false; scene.add(g); glows.push(g); }
+    const g=new T.Mesh(new T.PlaneGeometry(w,h),m); g.position.set(...pos); if(rotX) g.rotation.x=rotX; g.renderOrder=5; g.visible=false; root.add(g); glows.push(g); }
   glow(1420,420,[725,1640,1.5]); glow(1420,300,[725,1370,1.5]); glow(1420,330,[725,1065,1.5]);
   glow(1420,250,[725,1561.5,125],-Math.PI/2); glow(1420,250,[725,1271.5,125],-Math.PI/2); glow(1420,420,[725,901,250],-Math.PI/2);
   // Schritt 2: Plattenstapel (nur in diesem Schritt sichtbar)
@@ -917,7 +1313,7 @@ function build3D(host){
   const annGroups={}, labelDefs={};
   const lineMat=new T.LineBasicMaterial({color:0x7a4a22, transparent:true, opacity:0});
   const markMat=new T.LineDashedMaterial({color:0x8a5a30, dashSize:26, gapSize:18, transparent:true, opacity:0});
-  function annG(s){ if(!annGroups[s]){ const g=new T.Group(); g.visible=false; scene.add(g); annGroups[s]=g; labelDefs[s]=[]; } return annGroups[s]; }
+  function annG(s){ if(!annGroups[s]){ const g=new T.Group(); g.visible=false; root.add(g); annGroups[s]=g; labelDefs[s]=[]; } return annGroups[s]; }
   function dim(s,a,b,o,t){ const g=annG(s), A=V(a), B=V(b), O=V(o);
     const A2=A.clone().add(O), B2=B.clone().add(O), O2=O.clone().multiplyScalar(1.18);
     const pts=[A,A.clone().add(O2),B,B.clone().add(O2),A2,B2];
@@ -968,6 +1364,194 @@ function build3D(host){
   };
 
   for(const k in VIEWS){ const v=VIEWS[k], f=k==1||k==13? 1.12 : 1.32; v.hh*=f; v.hw*=f; v.c=[v.c[0], v.c[1]*0.85+1150*0.15, v.c[2]*0.8+300*0.2]; }
+  return {root, parts, groups, glows, annGroups, labelDefs, lineMat, markMat, VIEWS};
+  }
+  function model_sitz(){
+  const root=new T.Group(); root.visible=false; scene.add(root);
+  // ---- Teile & Gruppen
+  const parts=[], groups={};
+  const ghostMat=new T.MeshLambertMaterial({color:0xe6e0d6, transparent:true});
+  function G(id, keys){ const g=new T.Group(); root.add(g); groups[id]={obj:g, keys}; return id; }
+  function P(o){
+    let geo=o.geo;
+    if(!geo){ geo=o.cyl? new T.CylinderGeometry(o.cyl,o.cyl,o.size[1],20) : new T.BoxGeometry(o.size[0],o.size[1],o.size[2]); }
+    const mat=makeMat(o.m);
+    const mesh=new T.Mesh(geo, mat);
+    mesh.castShadow=o.m!=='led'; mesh.receiveShadow=!!o.recv;
+    const em=new T.LineBasicMaterial({color:0x4a3b2e, transparent:true, opacity:.55});
+    if(o.m!=='led'){ const e=new T.LineSegments(new T.EdgesGeometry(geo, 25), em); mesh.add(e); }
+    const s=o.size;
+    o.c=o.geo? [o.pos[0],o.pos[1],o.pos[2]] : [o.pos[0]+s[0]/2, o.pos[1]+s[1]/2, o.pos[2]+s[2]/2];
+    o.real=mat; o.ghost=Array.isArray(mat)?[ghostMat,ghostMat]:(o.m==='led'?mat:ghostMat);
+    o.obj=mesh; o.mats=Array.isArray(mat)?mat:[mat]; o.em=em; o.off=o.off||[0,0,0];
+    (o.g? groups[o.g].obj : root).add(mesh);
+    parts.push(o); return o;
+  }
+
+  const PL=60, CH=330, TT=18, CD=530;
+  const MODS=[{x:25,w:700,g:'L',sx:-90},{x:725,w:700,g:'R',sx:90}];
+  const ST_Z=680;
+  MODS.forEach((m,i)=>{
+    const st=[m.sx,-PL,ST_Z];
+    G(m.g,[{s:3,track:[[0,st]]},{s:4,track:[[.06,st],[.32,[m.sx,0,ST_Z]],[.86,[0,0,0]]]}]);
+    const inner=m.w-36, d=i*.1;
+    P({step:3,g:m.g,size:[TT,CH,CD],pos:[m.x,PL,0],m:'carc',off:[-260,0,0],win:[.04+d,.42+d]});
+    P({step:3,g:m.g,size:[TT,CH,CD],pos:[m.x+m.w-TT,PL,0],m:'carc',off:[260,0,0],win:[.1+d,.48+d]});
+    P({step:3,g:m.g,size:[inner,TT,CD],pos:[m.x+TT,PL,0],m:'carc',off:[0,0,340],win:[.2+d,.58+d]});
+    P({step:3,g:m.g,size:[inner,TT,CD],pos:[m.x+TT,PL+CH-TT,0],m:'carc',off:[0,300,0],win:[.28+d,.66+d]});
+    P({step:3,g:m.g,size:[inner,CH-36,3],pos:[m.x+TT,PL+TT,8],m:'hdf',off:[0,0,-360],win:[.42+d,.82+d]});
+    [[m.x+30,40],[m.x+m.w-60,40],[m.x+30,450],[m.x+m.w-60,450]].forEach(([fx,fz])=>P({step:4,g:m.g,size:[30,PL,30],cyl:15,pos:[fx,0,fz],m:'black',off:[0,-50,0],win:[0,.26]}));
+  });
+  // Schubladenkästen: 2 je Korpus
+  const BOX=[]; MODS.forEach(m=>[{yb:90},{yb:255}].forEach(b=>BOX.push({x:m.x+TT+12.5, yb:b.yb, g:m.g})));
+  BOX.forEach((b,i)=>{
+    const gid='D'+i, st=[0,0,640];
+    G(gid,[{s:5,track:[[0,st]]},{s:6,track:[[.26+i*.08,st],[.66+i*.08,[0,0,0]]]}]);
+    const d=i*.09, h=100, tb=6, W=639;
+    P({step:5,g:gid,size:[W,tb,500],pos:[b.x,b.yb,15],m:'ply',off:[0,-160,0],win:[.02+d,.42+d]});
+    P({step:5,g:gid,size:[15,h,500],pos:[b.x,b.yb+tb,15],m:'ply',off:[-220,0,0],win:[.08+d,.48+d]});
+    P({step:5,g:gid,size:[15,h,500],pos:[b.x+W-15,b.yb+tb,15],m:'ply',off:[220,0,0],win:[.12+d,.52+d]});
+    P({step:5,g:gid,size:[W-30,h,15],pos:[b.x+15,b.yb+tb,15],m:'ply',off:[0,0,-220],win:[.16+d,.56+d]});
+    P({step:5,g:gid,size:[W-30,h,15],pos:[b.x+15,b.yb+tb,500],m:'ply',off:[0,0,220],win:[.2+d,.6+d]});
+    P({step:6,g:b.g,size:[12.5,35,500],pos:[b.x-12.5,b.yb+30,15],m:'metal',off:[-110,0,0],win:[.02+i*.05,.26+i*.05]});
+    P({step:6,g:b.g,size:[12.5,35,500],pos:[b.x+W,b.yb+30,15],m:'metal',off:[110,0,0],win:[.02+i*.05,.26+i*.05]});
+  });
+  // Fronten grau, grifflos
+  MODS.forEach((m,i)=>{ [[62,161],[227,161]].forEach(([y,h],k)=>P({step:7,size:[696,h,20],pos:[m.x+2,y,530],m:'grey',off:[0,0,330],win:[.06+i*.12+k*.06,.5+i*.12+k*.06]})); });
+  P({step:7,size:[1446,56,19],pos:[2,2,482],m:'greyD',off:[0,0,360],win:[.62,.9]});
+  P({step:7,size:[25,330,20],pos:[0,PL,530],m:'grey',off:[-200,0,0],win:[.66,.94]});
+  P({step:7,size:[25,330,20],pos:[1425,PL,530],m:'grey',off:[200,0,0],win:[.66,.94]});
+  // Sitzplatte Fichte
+  P({step:8,size:[1446,27,560],pos:[2,390,0],m:'fiH',off:[0,420,0],win:[.05,.7],recv:true});
+  // Holzverkleidung: Seiten und Rückwände
+  P({step:9,size:[19,1283,550],pos:[0,417,0],m:'fiV',off:[-260,0,0],win:[.04,.46]});
+  P({step:9,size:[19,1283,550],pos:[1431,417,0],m:'fiV',off:[260,0,0],win:[.1,.52]});
+  P({step:9,size:[1412,983,19],pos:[19,417,0],m:'fiV',off:[0,0,420],win:[.3,.72],recv:true});
+  P({step:9,size:[1412,270,19],pos:[19,1430,0],m:'fiV',off:[0,0,420],win:[.42,.84],recv:true});
+  // Eichenregal als Nischendeckel, auf Tragleisten
+  P({step:10,size:[19,30,480],pos:[19,1370,20],m:'fiH',off:[-160,0,0],win:[.04,.34]});
+  P({step:10,size:[19,30,480],pos:[1412,1370,20],m:'fiH',off:[160,0,0],win:[.04,.34]});
+  P({step:10,size:[1412,30,550],pos:[19,1400,0],m:'oakH',off:[0,0,520],win:[.32,.86],recv:true});
+  // Oberschränke bis unter die Decke
+  const UB=1700, UH=580;
+  [25,725].forEach((x0,i)=>{
+    const gid='U'+i, st=[0,0,460];
+    G(gid,[{s:11,track:[[0,st]]},{s:12,track:[[.12+i*.08,st],[.5+i*.08,[0,0,0]]]}]);
+    const d=i*.1;
+    P({step:11,g:gid,size:[TT,UH,530],pos:[x0,UB,0],m:'carc',off:[-240,0,0],win:[.04+d,.46+d]});
+    P({step:11,g:gid,size:[TT,UH,530],pos:[x0+682,UB,0],m:'carc',off:[240,0,0],win:[.1+d,.52+d]});
+    P({step:11,g:gid,size:[664,TT,530],pos:[x0+TT,UB,0],m:'carc',off:[0,-240,0],win:[.18+d,.6+d]});
+    P({step:11,g:gid,size:[664,TT,530],pos:[x0+TT,UB+UH-TT,0],m:'carc',off:[0,240,0],win:[.24+d,.66+d]});
+    P({step:11,g:gid,size:[664,UH-36,3],pos:[x0+TT,UB+TT,8],m:'hdf',off:[0,0,-300],win:[.34+d,.76+d]});
+    P({step:11,g:gid,size:[664,TT,500],pos:[x0+TT,UB+281,14],m:'carc',off:[0,0,380],win:[.44+d,.86+d]});
+    [0,1].forEach(k=>P({step:12,size:[346,576,20],pos:[x0+2+k*350,UB+2,530],m:'grey',off:[0,0,320],win:[.56+i*.1+k*.05,.9+i*.04+k*.03]}));
+  });
+  P({step:12,size:[25,UH,20],pos:[0,UB,530],m:'grey',off:[-200,0,0],win:[.7,1]});
+  P({step:12,size:[25,UH,20],pos:[1425,UB,530],m:'grey',off:[200,0,0],win:[.7,1]});
+  // LED, Polster
+  [[1693,505],[1393,505]].forEach(([y,z],k)=>P({step:13,size:[1380,6,12],pos:[35,y,z],m:'led',off:[0,-60,0],win:[.02+k*.06,.3+k*.06]}));
+  P({step:13,size:[1400,60,500],pos:[25,417,30],m:'cush',off:[0,260,0],win:[.18,.55]});
+  P({step:13,size:[450,450,150],pos:[70,477,30],m:'kG1',off:[0,0,420],win:[.32,.68]});
+  P({step:13,size:[430,430,140],pos:[420,477,60],m:'kG2',off:[0,0,420],win:[.38,.74]});
+  P({step:13,size:[450,450,150],pos:[930,477,30],m:'kG3',off:[0,0,420],win:[.44,.8]});
+  const gt=glowTex(), glows=[];
+  function glow(w,h,pos,rotX){ const m=new T.MeshBasicMaterial({map:gt,transparent:true,opacity:0,blending:T.AdditiveBlending,depthWrite:false});
+    const g=new T.Mesh(new T.PlaneGeometry(w,h),m); g.position.set(...pos); if(rotX) g.rotation.x=rotX; g.renderOrder=5; g.visible=false; root.add(g); glows.push(g); }
+  glow(1400,560,[725,1120,20.5]); glow(1400,262,[725,1565,20.5]); glow(1400,0.1,[725,0,0]);
+  glow(1380,300,[725,478,190],-Math.PI/2); glow(1380,260,[725,1431,150],-Math.PI/2); glow(10,10,[0,0,0]);
+  // Schritt 2: Plattenstapel
+  for(let i=0;i<8;i++) P({step:2,only:2,size:[700,18,530],pos:[30,i*18.5,20],m:'carc',off:[0,520,0]});
+  for(let i=0;i<5;i++) P({step:2,only:2,size:[600,20,420],pos:[800,i*20.5,20],m:'grey',off:[0,520,0]});
+  for(let i=0;i<3;i++) P({step:2,only:2,size:[560,19,420],pos:[810,103+i*19.5,30],m:'fiH',off:[0,520,0]});
+  for(let i=0;i<5;i++) P({step:2,only:2,size:[500,15,100],pos:[60,150+i*15.5,420],m:'ply',off:[0,520,0]});
+  for(let i=0;i<2;i++) P({step:2,only:2,size:[564,764,3],pos:[860,0,i*4+2],m:'hdf',off:[0,0,-0.1],win:[.0,.25]});
+  // Standard-Zeitfenster (gestaffelt) für Teile ohne eigenes Fenster
+  for(let s=1;s<=N;s++){ const ps=parts.filter(p=>p.step===s&&!p.win); ps.forEach((p,i)=>{ const a=.04+.5*(i/Math.max(1,ps.length-1)); p.win=[a,a+.36]; }); }
+
+  // ---- Bemaßung & Beschriftung je Schritt
+  const V=(a)=>new T.Vector3(a[0],a[1],a[2]);
+  const annGroups={}, labelDefs={};
+  const lineMat=new T.LineBasicMaterial({color:0x7a4a22, transparent:true, opacity:0});
+  const markMat=new T.LineDashedMaterial({color:0x8a5a30, dashSize:26, gapSize:18, transparent:true, opacity:0});
+  function annG(s){ if(!annGroups[s]){ const g=new T.Group(); g.visible=false; root.add(g); annGroups[s]=g; labelDefs[s]=[]; } return annGroups[s]; }
+  function dim(s,a,b,o,t){ const g=annG(s), A=V(a), B=V(b), O=V(o);
+    const A2=A.clone().add(O), B2=B.clone().add(O), O2=O.clone().multiplyScalar(1.18);
+    const pts=[A,A.clone().add(O2),B,B.clone().add(O2),A2,B2];
+    const dirv=B2.clone().sub(A2).normalize().multiplyScalar(22), on=O.clone().normalize().multiplyScalar(22);
+    pts.push(A2.clone().sub(dirv).sub(on),A2.clone().add(dirv).add(on),B2.clone().sub(dirv).sub(on),B2.clone().add(dirv).add(on));
+    g.add(new T.LineSegments(new T.BufferGeometry().setFromPoints(pts), lineMat));
+    labelDefs[s].push({p:A2.clone().add(B2).multiplyScalar(.5), t, cls:'lbl'}); }
+  function mark(s,y,t,x0=0,x1=1450,z=2){ const g=annG(s); const l=new T.Line(new T.BufferGeometry().setFromPoints([V([x0,y,z]),V([x1,y,z])]), markMat); l.computeLineDistances(); g.add(l);
+    labelDefs[s].push({p:V([x0+24,y,z]), t, cls:'lbl mark'}); }
+  function tag(s,p,t,cls='lbl'){ annG(s); labelDefs[s].push({p:V(p),t,cls}); }
+
+  dim(1,[0,0,570],[1450,0,570],[0,0,140],'1450');
+  dim(1,[1450,0,570],[1450,2300,570],[150,0,0],'2300');
+  dim(1,[0,2300,570],[0,2300,0],[-120,0,0],'570');
+  [[60,'Sockel 60'],[417,'Sitz OK 417'],[1400,'Regal UK 1400'],[1700,'Oberschrank UK 1700'],[2280,'OK 2280']].forEach(([y,t])=>mark(1,y,t));
+  tag(2,[380,150,200],'Korpus 18 mm','lbl tag'); tag(2,[1100,190,230],'Fichte 19 mm','lbl tag'); tag(2,[1100,40,470],'Fronten grau 20');
+  MODS.forEach(m=>dim(3,[m.x+m.sx,CH,ST_Z+CD],[m.x+m.sx+m.w,CH,ST_Z+CD],[0,90,0],String(m.w)));
+  dim(3,[1515,0,ST_Z+CD],[1515,CH,ST_Z+CD],[130,0,0],'330');
+  dim(3,[1515,CH,ST_Z],[1515,CH,ST_Z+CD],[0,90,0],'530');
+  dim(4,[25,0,560],[25,PL,560],[-130,0,0],'60'); mark(4,390,'Bank OK 390'); tag(4,[12,220,560],'25'); tag(4,[1437,220,560],'25');
+  dim(5,[BOX[1].x,361,1155],[BOX[1].x+639,361,1155],[0,80,0],'639');
+  dim(5,[BOX[3].x+639,361,655],[BOX[3].x+639,361,1155],[110,0,0],'500'); tag(5,[BOX[2].x+320,160,1170],'100 + 6');
+  tag(6,[725,300,560],'12,5 mm Luft','lbl tag');
+  tag(7,[375,140,560],'696 × 161'); tag(7,[1075,305,560],'696 × 161'); tag(7,[725,30,560],'push-to-open','lbl tag');
+  dim(8,[2,417,560],[1448,417,560],[0,0,130],'1446'); tag(8,[1050,417,250],'Fichte 27 mm','lbl tag'); tag(8,[300,417,300],'Sitz OK 417');
+  dim(9,[1450,417,550],[1450,1700,550],[130,0,0],'1283'); tag(9,[725,900,30],'Dreischicht Fichte 19','lbl tag');
+  dim(10,[1300,417,25],[1300,1400,25],[0,0,0],'983'); tag(10,[725,1430,300],'Eiche 1412 × 550 × 30','lbl tag'); mark(10,1430,'Regal OK 1430',0,1450,560);
+  dim(11,[25,UB+UH,990],[725,UB+UH,990],[0,90,0],'700');
+  dim(11,[1425,UB,990],[1425,UB+UH,990],[130,0,0],'580');
+  dim(11,[1425,UB+UH,460],[1425,UB+UH,990],[0,90,0],'530');
+  mark(12,UB,'UK 1700',0,1450,560); dim(12,[1450,2280,560],[1450,2300,560],[110,0,0],'20'); tag(12,[200,2000,560],'346 × 576');
+  dim(13,[1340,477,25],[1340,1400,25],[0,0,0],'923'); dim(13,[1340,1430,25],[1340,1700,25],[0,0,0],'270');
+  // ---- Kameraansichten je Schritt: Mittelpunkt, halbe Höhe, halbe Breite (mm)
+  const VIEWS={
+    1:{c:[725,1080,320],hh:1500,hw:1160}, 2:{c:[725,300,330],hh:600,hw:960},
+    3:{c:[740,260,880],hh:560,hw:1220}, 4:{c:[725,300,520],hh:600,hw:1120},
+    5:{c:[740,300,700],hh:560,hw:960}, 6:{c:[740,280,470],hh:520,hw:920},
+    7:{c:[730,300,420],hh:560,hw:980}, 8:{c:[725,420,340],hh:620,hw:1000},
+    9:{c:[725,900,300],hh:1050,hw:1060}, 10:{c:[725,1000,300],hh:1050,hw:1060},
+    11:{c:[725,1750,520],hh:850,hw:1060}, 12:{c:[725,1600,300],hh:1050,hw:1060},
+    13:{c:[725,1080,320],hh:1500,hw:1160}
+  };
+  for(const k in VIEWS){ const v=VIEWS[k], f=k==1||k==13? 1.12 : 1.3; v.hh*=f; v.hw*=f; v.c=[v.c[0], v.c[1]*0.85+1150*0.15, v.c[2]*0.8+300*0.2]; }
+  return {root, parts, groups, glows, annGroups, labelDefs, lineMat, markMat, VIEWS};
+  }
+
+  const MODELS={eiche:model_eiche(), sitz:model_sitz()};
+  let parts, groups, glows, annGroups, labelDefs, lineMat, markMat, VIEWS, curModel=null;
+  function useModel(k){
+    for(const id in MODELS) MODELS[id].root.visible=(id===k);
+    const m=MODELS[k]; curModel=k;
+    ({parts, groups, glows, annGroups, labelDefs, lineMat, markMat, VIEWS}=m);
+    lblStep=0;
+  }
+  // Paletten: Frontfarbe und Holzart je Variante
+  const FRONTS={weiss:0xf7f5f0, grau:0xc4c1ba, salbei:0xa9b49b, sand:0xd9cdb9, taube:0x9fb0bd, anthrazit:0x5a5853};
+  const WOODS={eiche:['#c58d55','112,66,28','238,196,138',0], fichte:['#e6cfa8','140,96,52','250,232,200',9], nuss:['#7a5338','52,30,14','160,115,78',1], esche:['#e7d8bd','150,122,88','252,246,232',0]};
+  const KEYS={eiche:{front:['front'], wood:['oakH','oakV','shelf']}, sitz:{front:['grey'], wood:['fiH','fiV']}};
+  const texCache={};
+  function woodMap(w, kind){
+    const k=w+kind; if(texCache[k]) return texCache[k];
+    const d=WOODS[w]||WOODS.eiche; let t;
+    if(kind==='cap'){ t=oakTex(false,d[0],d[1],d[2],d[3]); t.wrapS=t.wrapT=T.RepeatWrapping; t.repeat.set(1/1440,1/280); }
+    else t=oakTex(kind==='V',d[0],d[1],d[2],d[3]);
+    return texCache[k]=t;
+  }
+  function applyPalette(base, pal){
+    const K=KEYS[base]; if(!K||!pal) return;
+    for(const p of MODELS[base].parts){
+      if(K.front.includes(p.m)) p.mats[0].color.setHex(FRONTS[pal.front]||FRONTS.weiss);
+      else if(K.wood.includes(p.m)){
+        if(p.m==='shelf') p.mats[0].map=woodMap(pal.wood,'cap');
+        else p.mats[0].map=woodMap(pal.wood, /V$/.test(p.m)?'V':'H');
+      }
+    }
+  }
+  let lblStep=0;
+  useModel('eiche');
   // ---- Zustand
   let S=1, t0=performance.now(), tNow=1, camA=null, camB=VIEWS[1], camT0=0, camK=1, raf=0, W=1, H=1, dragging=false;
   const labelsEl=host.querySelector('.labels'); let labelEls=[];
@@ -1068,10 +1652,20 @@ function build3D(host){
     const c=cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height); c.drawImage(src,0,0);
     S=s0; setView(VIEWS[S]); renderAt(tt,1);
   }
-  let onResize=null, lblStep=0;
+  let onResize=null;
   function replay(){ setStep(S,{fromT:tNow}); }
   new ResizeObserver(resize).observe(host); resize();
-  return {dbg:()=>({W,H,top:camera.top,right:camera.right,cam:camera.position.toArray().map(Math.round),labels:labelEls.map(l=>[l.e.style.left,l.e.style.top,l.e.style.opacity])}), setStep, replay, snap, copyLive, get t(){return tNow;}, set onResize(f){onResize=f;}, setRegion(r){ REG=r; }, renderFrame(n,t){ if(lblStep!==n){ S=n; setupLabels(); lblStep=n; } S=n; const v=VIEWS[n], a=VIEWS[Math.max(1,n-1)]; camA={c:a.c,hh:a.hh,hw:a.hw}; camB=v; renderAt(t, n===1?1:clamp(t/.36)); }, resize, get busy(){return !!raf}};
+  return {dbg:()=>({W,H,top:camera.top,right:camera.right,cam:camera.position.toArray().map(Math.round),labels:labelEls.map(l=>[l.e.style.left,l.e.style.top,l.e.style.opacity])}), setStep, replay, snap, copyLive, get t(){return tNow;}, set onResize(f){onResize=f;}, setRegion(r){ REG=r; },
+    useModel, applyPalette, FRONTS, WOODS,
+    thumb(base, pal, cv){
+      const prevM=curModel, prevS=S, prevT=tNow;
+      useModel(base); applyPalette(base,pal); setView(VIEWS[N]); apply(N,1); lineMat.opacity=0; markMat.opacity=0; fitCamera(); renderer.render(scene,camera);
+      const src=renderer.domElement, dpr=renderer.getPixelRatio(), r=REG||{x0:0,x1:W,y0:0,y1:H};
+      let sx=r.x0*dpr, sy=r.y0*dpr, sw=(r.x1-r.x0)*dpr, sh=(r.y1-r.y0)*dpr; const ta=cv.width/cv.height;
+      if(sw/sh>ta){ const nw=sh*ta; sx+=(sw-nw)/2; sw=nw; } else { const nh=sw/ta; sy+=(sh-nh)/2; sh=nh; }
+      const c=cv.getContext('2d'); c.clearRect(0,0,cv.width,cv.height); c.drawImage(src,sx,sy,sw,sh,0,0,cv.width,cv.height);
+      if(prevM!==base){ useModel(prevM); } S=prevS; tNow=prevT;
+    }, renderFrame(n,t){ if(lblStep!==n){ S=n; setupLabels(); lblStep=n; } S=n; const v=VIEWS[n], a=VIEWS[Math.max(1,n-1)]; camA={c:a.c,hh:a.hh,hw:a.hw}; camB=v; renderAt(t, n===1?1:clamp(t/.36)); }, resize, get busy(){return !!raf}};
 }
 
 
@@ -1083,10 +1677,10 @@ if(window.THREE && webglOK()){ try{ viewer=build3D(live); }catch(e){ console.war
 if(!viewer){ document.documentElement.classList.remove('js'); }
 
 // Zeitleiste mit Phasen-Lücken
-const tl=$('#timeline'), segs=[];
-for(let i=0;i<N;i++){ const s=document.createElement('div'); s.className='tseg'+(i>0&&phases[i]!==phases[i-1]?' gap':''); s.innerHTML='<i></i>'; tl.appendChild(s); segs.push(s.firstChild); }
-const phaseNames=['Vorbereitung','Unterbau','Oberbau','Abschluss'];
-const phaseSpans=[...$('#phaseRow').children];
+const tl=$('#timeline'), segs=[]; let phaseNames=[], phaseSpans=[];
+function buildTimeline(){ tl.textContent=''; segs.length=0; for(let i=0;i<N;i++){ const s=document.createElement('div'); s.className='tseg'+(i>0&&phases[i]!==phases[i-1]?' gap':''); s.innerHTML='<i></i>'; tl.appendChild(s); segs.push(s.firstChild); }
+  phaseNames=[...new Set(phases)]; const row=$('#phaseRow'); row.textContent=''; phaseSpans=phaseNames.map(n=>{ const sp=document.createElement('span'); sp.textContent=n==='Abschluss'?'Fertig':n; row.appendChild(sp); return sp; }); }
+buildTimeline();
 function placePhases(){ const r=tl.getBoundingClientRect(); phaseNames.forEach((ph,k)=>{ const i=phases.indexOf(ph); const sp=phaseSpans[k]; if(i<0||!sp) return; const sr=segs[i].parentNode.getBoundingClientRect(); let x=sr.left-r.left; if(k===phaseNames.length-1){ sp.style.right='0'; sp.style.left='auto'; } else sp.style.left=x+'px'; }); }
 
 // Zustand: p läuft von 0 bis N. Schritt S ist bei p = S fertig montiert.
@@ -1193,7 +1787,7 @@ function sheetUp(e){ if(!sd||e.pointerId!==sd.id) return; const d=sd; sd=null; s
   const v=(e.clientY-d.y)/Math.max(1,performance.now()-d.t); setSheet(v<-0.3? true : v>0.3? false : d.lastY<d.closedY/2); }
 sheet.addEventListener('pointerdown',sheetDown); sheet.addEventListener('pointermove',sheetMove); sheet.addEventListener('pointerup',sheetUp); sheet.addEventListener('pointercancel',sheetUp);
 grab.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setSheet(!sheet.classList.contains('open')); } });
-stepEls.forEach(a=>{ const b=document.createElement('button'); b.className='more'; b.type='button'; b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg><span>Material &amp; Maße</span>'; a.querySelector('.lead').after(b); });
+document.querySelectorAll('.step').forEach(a=>{ const b=document.createElement('button'); b.className='more'; b.type='button'; b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg><span>Material &amp; Maße</span>'; a.querySelector('.lead').after(b); });
 
 // Bereich für die Kamera: Modell immer mittig im freien Bildausschnitt
 function region(){
@@ -1202,7 +1796,7 @@ function region(){
   const bottom= desk? H-90 : H-(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--peek'))||212)-74;
   viewer.setRegion({x0:desk?16:8, x1:desk?W-440:W-8, y0:top, y1:Math.max(top+200,bottom)}); render();
 }
-window.addEventListener('resize',()=>{ region(); placePhases(); });
+let rzT=0; window.addEventListener('resize',()=>{ region(); placePhases(); clearTimeout(rzT); rzT=setTimeout(drawThumbs,200); });
 
 // Live-Gesamtanimation
 let autoOn=false;
@@ -1211,8 +1805,9 @@ function stopAuto(){ if(autoOn){ autoOn=false; } }
 
 // Menü-Schrittliste
 const menuSteps=$('#menuSteps');
-for(let i=1;i<=N;i++){ const li=document.createElement('li'); const mb=document.createElement('button'); mb.type='button'; mb.innerHTML=`<span class="mono">${pad(i)}</span><span></span>`; mb.lastChild.textContent=titles[i-1];
-  mb.addEventListener('click',()=>{ closeMenu(); stopAnim(); p=Math.max(0,i-1); cur=i; animateTo(i); }); li.appendChild(mb); menuSteps.appendChild(li); }
+function buildMenuSteps(){ menuSteps.textContent=''; for(let i=1;i<=N;i++){ const li=document.createElement('li'); const mb=document.createElement('button'); mb.type='button'; mb.innerHTML=`<span class="mono">${pad(i)}</span><span></span>`; mb.lastChild.textContent=titles[i-1];
+  mb.addEventListener('click',()=>{ closeMenu(); stopAnim(); p=Math.max(0,i-1); cur=i; animateTo(i); }); li.appendChild(mb); menuSteps.appendChild(li); } }
+buildMenuSteps();
 document.addEventListener('keydown',e=>{
   if(openId||drawer.classList.contains('on')){ if(e.key==='Escape'){ closePanel(); closeMenu(); } return; }
   if(e.target.closest('input,textarea,select,video')) return;
@@ -1231,42 +1826,33 @@ drawer.querySelector('[data-close-menu]').addEventListener('click',closeMenu);
 
 // Panels
 let openId=null, lastFocus=null;
-const PANELS=['animation','zielbild','masse','zuschnitt','einkauf','kosten','werkzeug','sicherheit'];
+const PANELS=['animation','zielbild','masse','zuschnitt','einkauf','kosten','werkzeug','sicherheit','neu'];
 function openPanel(id){
-  const p=document.querySelector(`[data-panel-id="${id}"]`); if(!p) return;
-  closeMenu(); if(openId&&openId!==id) document.querySelector(`[data-panel-id="${openId}"]`).classList.remove('open');
+  const p=document.querySelector(`[data-panel-id="${id}"][data-base="${curBase}"]`)||document.querySelector(`[data-panel-id="${id}"]:not([data-base])`); if(!p) return;
+  closeMenu(); document.querySelectorAll('.panel.open').forEach(x=>{ if(x!==p) x.classList.remove('open'); });
   lastFocus=document.activeElement; openId=id; p.classList.add('open'); p.scrollTop=0; document.body.style.overflow='hidden';
   setHash(id); setTimeout(()=>p.querySelector('[data-close-panel]').focus({preventScroll:true}),50);
-  if(id==='masse') drawElevation();
+  if(id==='masse') (curBase==='sitz'? drawElevation() : drawElevationE());
 }
 function closePanel(){
-  if(!openId) return; const p=document.querySelector(`[data-panel-id="${openId}"]`); p.classList.remove('open');
+  if(!openId) return; const p=document.querySelector('.panel.open')||document.createElement('div'); p.classList.remove('open');
   const v=p.querySelector('video'); if(v) v.pause();
   openId=null; document.body.style.overflow=''; setHash(''); if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true});
 }
 document.querySelectorAll('[data-panel]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); openPanel(a.dataset.panel); }));
 document.querySelectorAll('[data-close-panel]').forEach(b=>b.addEventListener('click',closePanel));
 document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); closePanel(); go(+a.dataset.go); }));
-$('#liveBtn').addEventListener('click',()=>{ closePanel(); window.scrollTo({top:0}); setTimeout(startAuto,250); });
+document.querySelectorAll('[data-live]').forEach(b=>b.addEventListener('click',()=>{ closePanel(); setTimeout(startAuto,250); }));
 
 // Zielbild: Heute / Geplant
+
 function seg(goal){ $('#segGoal').setAttribute('aria-pressed',String(goal)); $('#segNow').setAttribute('aria-pressed',String(!goal)); $('#imgGoal').classList.toggle('off',!goal); $('#imgNow').classList.toggle('off',goal); }
 $('#segGoal').addEventListener('click',()=>seg(true)); $('#segNow').addEventListener('click',()=>seg(false));
 $('#compare').addEventListener('click',()=>seg($('#segGoal').getAttribute('aria-pressed')!=='true'));
 
-// Zuschnittliste kopieren
-function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),1800); }
-$('#copyCut').addEventListener('click',()=>{
-  const rows=[...document.querySelectorAll('#cutTable tbody tr')].map(r=>r.classList.contains('grp')? '\n'+r.textContent.trim().toUpperCase() : [...r.cells].map(c=>c.textContent.trim()).filter(Boolean).join(' | '));
-  const txt='Zuschnittliste Wohnnische (mm, L × B)\n'+rows.join('\n');
-  const fallback=()=>{ const r=document.createRange(); r.selectNodeContents($('#cutTable')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast('Tabelle markiert – jetzt kopieren'); };
-  try{ navigator.clipboard.writeText(txt).then(()=>toast('Zuschnittliste kopiert'),fallback); }catch(e){ fallback(); }
-});
-
-// Maßzeichnung (Frontansicht) als SVG
-let elevDone=false;
-function drawElevation(){
-  if(elevDone) return; elevDone=true;
+let elevDoneE=false;
+function drawElevationE(){
+  if(elevDoneE) return; elevDoneE=true;
   const ox=150, oy=60, Y=y=>oy+2300-y, X=x=>ox+x;
   const r=(x,y,w,h,cls)=>`<rect x="${X(x)}" y="${Y(y+h)}" width="${w}" height="${h}" class="${cls}"/>`;
   let s=`<svg viewBox="0 0 1900 2520" role="img" aria-label="Frontansicht der Nische mit Höhen und Breiten">
@@ -1297,14 +1883,167 @@ function drawElevation(){
   $('#elevation').innerHTML=s;
 }
 
+// Zuschnittliste kopieren
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),1800); }
+document.querySelectorAll('[data-copycut]').forEach(btn=>btn.addEventListener('click',()=>{ const tid=btn.dataset.copycut;
+  const rows=[...document.querySelectorAll('#'+tid+' tbody tr')].map(r=>r.classList.contains('grp')? '\n'+r.textContent.trim().toUpperCase() : [...r.cells].map(c=>c.textContent.trim()).filter(Boolean).join(' | '));
+  const txt='Zuschnittliste Wohnnische (mm, L × B)\n'+rows.join('\n');
+  const fallback=()=>{ const r=document.createRange(); r.selectNodeContents(document.getElementById(tid)); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast('Tabelle markiert – jetzt kopieren'); };
+  try{ navigator.clipboard.writeText(txt).then(()=>toast('Zuschnittliste kopiert'),fallback); }catch(e){ fallback(); }
+}));
 
+// Maßzeichnung (Frontansicht) als SVG
+let elevDone=false;
+function drawElevation(){
+  if(elevDone) return; elevDone=true;
+  const ox=150, oy=60, Y=y=>oy+2300-y, X=x=>ox+x;
+  const r=(x,y,w,h,cls)=>`<rect x="${X(x)}" y="${Y(y+h)}" width="${w}" height="${h}" class="${cls}"/>`;
+  let s=`<svg viewBox="0 0 1900 2520" role="img" aria-label="Frontansicht der Sitznische mit Höhen und Breiten">
+  <style>.g{fill:#c4c1ba;stroke:var(--ink);stroke-width:3}.f{fill:#e6cfa8;stroke:var(--ink);stroke-width:3}.o{fill:#c79058;stroke:var(--ink);stroke-width:3}.b{fill:#6f6c66}.n{fill:none;stroke:var(--muted);stroke-width:4}.c{fill:#a4ae95;stroke:var(--ink);stroke-width:2}.d{stroke:var(--oak);stroke-width:2.5;fill:none}.t{font:500 40px var(--f-mono,monospace);fill:var(--ink)}.tm{font:400 34px var(--f-mono,monospace);fill:var(--muted)}</style>`;
+  s+=r(0,0,1450,2300,'n');
+  s+=r(2,2,1446,56,'b');
+  s+=r(0,60,25,330,'g')+r(1425,60,25,330,'g');
+  [25,725].forEach(x=>{ s+=r(x+2,62,696,161,'g')+r(x+2,227,696,161,'g'); });
+  s+=r(2,390,1446,27,'f');
+  s+=r(0,417,19,1283,'f')+r(1431,417,19,1283,'f')+r(19,417,1412,983,'f')+r(19,1430,1412,270,'f');
+  s+=r(25,417,1400,60,'c');
+  s+=r(19,1400,1412,30,'o');
+  s+=r(0,1700,25,580,'g')+r(1425,1700,25,580,'g');
+  [25,725].forEach(x=>{ s+=r(x+2,1702,346,576,'g')+r(x+352,1702,346,576,'g'); });
+  const hs=[0,60,390,417,1400,1430,1700,2280,2300], dx=X(1450)+70;
+  s+=`<line x1="${dx}" x2="${dx}" y1="${Y(0)}" y2="${Y(2300)}" class="d"/>`;
+  hs.forEach(h=>{ s+=`<line x1="${dx-18}" x2="${dx+18}" y1="${Y(h)+18}" y2="${Y(h)-18}" class="d"/><line x1="${X(1450)+8}" x2="${dx+10}" y1="${Y(h)}" y2="${Y(h)}" class="d" stroke-dasharray="6 8"/>`; });
+  [[0,60],[60,390],[417,1400],[1430,1700],[1700,2280]].forEach(([a,b])=>{ s+=`<text x="${dx+26}" y="${(Y(a)+Y(b))/2+13}" class="t">${b-a}</text>`; });
+  s+=`<text x="${dx+26}" y="${Y(400)+13}" class="tm">27</text><text x="${dx+26}" y="${Y(1415)+13}" class="tm">30</text><text x="${dx+26}" y="${Y(2290)+13}" class="tm">20</text>`;
+  [60,417,1400,1700,2280].forEach(h=>s+=`<text x="${X(0)-24}" y="${Y(h)+13}" text-anchor="end" class="tm">${h}</text>`);
+  const wy=Y(0)+80, ws=[0,25,725,1425,1450];
+  s+=`<line x1="${X(0)}" x2="${X(1450)}" y1="${wy}" y2="${wy}" class="d"/>`;
+  ws.forEach(w=>s+=`<line x1="${X(w)-16}" x2="${X(w)+16}" y1="${wy+16}" y2="${wy-16}" class="d"/>`);
+  [[25,725],[725,1425]].forEach(([a,b])=>s+=`<text x="${(X(a)+X(b))/2}" y="${wy-18}" text-anchor="middle" class="t">${b-a}</text>`);
+  s+=`<text x="${X(725)}" y="${wy+70}" text-anchor="middle" class="t">1450 (25 + 700 + 700 + 25)</text></svg>`;
+  $('#elevation-sitz').innerHTML=s;
+}
+
+
+
+
+// =================== Varianten ===================
+const BUILTIN=[
+  {id:'eiche', name:'Eiche & Baumkante', base:'eiche', front:'weiss', wood:'eiche', builtin:true},
+  {id:'sitz', name:'Sitznische grau', base:'sitz', front:'grau', wood:'fichte', builtin:true},
+];
+const FRONT_N={weiss:'Weiß', grau:'Grau', salbei:'Salbei', sand:'Sand', taube:'Taubenblau', anthrazit:'Anthrazit'};
+const WOOD_N={eiche:'Eiche', fichte:'Fichte', nuss:'Nussbaum', esche:'Esche'};
+const BASE_N={eiche:'Kommode & Regale', sitz:'Sitznische'};
+const BASE_INFO={eiche:{cut:'45 Teile', cost:'1.150–1.400 €'}, sitz:{cut:'63 Teile', cost:'915 €–1.940 €'}};
+let custom=[], activeId='eiche', db=null, canWrite=true;
+function clean(d,id){ const o=d||{}; const name=String(o.name||'').slice(0,32).trim()||'Variante';
+  return {id, name, base:o.base==='sitz'?'sitz':'eiche', front:FRONT_N[o.front]?o.front:'weiss', wood:WOOD_N[o.wood]?o.wood:'eiche', createdAt:+o.createdAt||0}; }
+function all(){ return BUILTIN.concat(custom); }
+function byId(id){ return all().find(v=>v.id===id)||BUILTIN[0]; }
+const tabsEl=$('#tabs');
+function renderTabs(){
+  tabsEl.textContent='';
+  all().forEach(v=>{
+    const b=document.createElement('button'); b.type='button'; b.className='tab'; b.setAttribute('role','tab'); b.setAttribute('aria-selected',String(v.id===activeId)); b.dataset.id=v.id;
+    const cv=document.createElement('canvas'); cv.width=64; cv.height=80; cv.setAttribute('aria-hidden','true');
+    const tx=document.createElement('span'); tx.className='tx';
+    const nm=document.createElement('span'); nm.className='nm'; nm.textContent=v.name;
+    const sb=document.createElement('span'); sb.className='sb'; sb.textContent=v.builtin? (v.id==='eiche'?'Version 1':'Version 2') : `${FRONT_N[v.front]} · ${WOOD_N[v.wood]}`;
+    tx.append(nm,sb); b.append(cv,tx); tabsEl.appendChild(b);
+    b.addEventListener('click',()=>{ if(v.id===activeId){ if(!v.builtin) openEditor(v); return; } switchTo(v.id); });
+    v._cv=cv;
+  });
+  const add=document.createElement('button'); add.type='button'; add.className='tab add'; add.setAttribute('aria-label','Weitere Variante hinzufügen');
+  add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+  add.addEventListener('click',()=>openEditor(null)); tabsEl.appendChild(add);
+  drawThumbs();
+}
+function drawThumbs(){ if(!viewer) return; const act=byId(activeId);
+  all().forEach(v=>{ if(v._cv) viewer.thumb(v.base,{front:v.front,wood:v.wood},v._cv); });
+  viewer.applyPalette(act.base,{front:act.front,wood:act.wood}); render(); }
+function switchTo(id, opt={}){
+  const v=byId(id); activeId=v.id; hideHint();
+  [...tabsEl.querySelectorAll('.tab[data-id]')].forEach(t=>t.setAttribute('aria-selected',String(t.dataset.id===v.id)));
+  const sel=tabsEl.querySelector(`.tab[data-id="${CSS.escape(v.id)}"]`); if(sel) sel.scrollIntoView({block:'nearest',inline:'nearest',behavior:reduced?'auto':'smooth'});
+  const doSwitch=()=>{
+    stopAnim(); setContent(v.base); buildTimeline(); buildMenuSteps(); placePhases(); shownStep=0;
+    if(viewer){ viewer.useModel(v.base); viewer.applyPalette(v.base,{front:v.front,wood:v.wood}); }
+    $('#mCut').textContent=BASE_INFO[v.base].cut; $('#mCost').textContent=BASE_INFO[v.base].cost;
+    const note=$('#vnote');
+    if(v.builtin){ note.hidden=true; }
+    else { note.hidden=false; note.textContent=''; const b=document.createElement('b'); b.textContent=v.name; note.append(b, ` · Fronten ${FRONT_N[v.front]}, Holz ${WOOD_N[v.wood]}. Bauweise, Zuschnitt und Kosten wie „${BASE_N[v.base]}“. Reiter nochmal antippen zum Bearbeiten.`); }
+    p=opt.p!==undefined? opt.p : N; cur=stepOf(p); render(); region();
+    stage.classList.remove('switching');
+  };
+  if(opt.instant||reduced||!viewer){ doSwitch(); return; }
+  stage.classList.add('switching'); setTimeout(doSwitch,200);
+}
+
+// Editor für eigene Varianten
+let editing=null, form={base:'eiche', front:'salbei', wood:'nuss'};
+const vF=$('#vFront'), vW=$('#vWood');
+Object.keys(FRONT_N).forEach(k=>{ const b=document.createElement('button'); b.type='button'; b.className='swb'; b.dataset.v=k; b.setAttribute('role','radio');
+  const i=document.createElement('i'); i.style.background='#'+(viewer? viewer.FRONTS[k] : 0xcccccc).toString(16).padStart(6,'0'); b.append(i, FRONT_N[k]); b.addEventListener('click',()=>{ form.front=k; syncForm(); }); vF.appendChild(b); });
+const WOOD_SW={eiche:'#c58d55', fichte:'#e6cfa8', nuss:'#7a5338', esche:'#e7d8bd'};
+Object.keys(WOOD_N).forEach(k=>{ const b=document.createElement('button'); b.type='button'; b.className='swb'; b.dataset.v=k; b.setAttribute('role','radio');
+  const i=document.createElement('i'); i.style.background=`repeating-linear-gradient(90deg, ${WOOD_SW[k]} 0 5px, color-mix(in srgb, ${WOOD_SW[k]} 82%, #000) 5px 6px)`; b.append(i, WOOD_N[k]); b.addEventListener('click',()=>{ form.wood=k; syncForm(); }); vW.appendChild(b); });
+document.querySelectorAll('#vBase .opt').forEach(b=>b.addEventListener('click',()=>{ form.base=b.dataset.v; syncForm(); }));
+function syncForm(){
+  document.querySelectorAll('#vBase .opt').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.v===form.base)));
+  vF.querySelectorAll('.swb').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.v===form.front)));
+  vW.querySelectorAll('.swb').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.v===form.wood)));
+  $('#vPrevCap').textContent=`${BASE_N[form.base]} · Fronten ${FRONT_N[form.front]} · Holz ${WOOD_N[form.wood]}`;
+  if(viewer){ viewer.thumb(form.base,{front:form.front,wood:form.wood},$('#vPrev')); const a=byId(activeId); viewer.useModel(a.base); viewer.applyPalette(a.base,{front:a.front,wood:a.wood}); render(); }
+}
+function openEditor(v){
+  editing=v; $('#vMsg').textContent='';
+  if(v){ form={base:v.base, front:v.front, wood:v.wood}; $('#vName').value=v.name; $('#neuT').textContent='Variante bearbeiten'; $('#neuK').textContent='Variante'; $('#vSave').textContent='Speichern'; $('#vDel').hidden=false; }
+  else { const a=byId(activeId); form={base:a.base, front:a.base==='sitz'?'salbei':'sand', wood:a.base==='sitz'?'eiche':'nuss'}; $('#vName').value=''; $('#neuT').textContent='Eigene Variante anlegen'; $('#neuK').textContent='Neue Variante'; $('#vSave').textContent='Variante anlegen'; $('#vDel').hidden=true; }
+  openPanel('neu'); syncForm();
+}
+async function persist(list){ try{ localStorage.setItem('ww-variants', JSON.stringify(list.map(({_cv,...r})=>r))); }catch(_){} }
+$('#vform').addEventListener('submit',async e=>{
+  e.preventDefault(); const name=$('#vName').value.trim(); if(!name){ $('#vName').focus(); return; }
+  const data={name:name.slice(0,32), base:form.base, front:form.front, wood:form.wood, createdAt: editing? editing.createdAt : Date.now()};
+  const id= editing? editing.id : 'v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  const local=()=>{ const v=clean(data,id); custom=custom.filter(x=>x.id!==id).concat(v).sort((a,b)=>a.createdAt-b.createdAt); persist(custom); renderTabs(); };
+  $('#vSave').disabled=true;
+  if(db&&canWrite){ try{ await db.collection('variants').doc(id).set(data); }catch(err){ canWrite=false; local(); toast('Nur auf diesem Gerät gespeichert'); } }
+  else local();
+  $('#vSave').disabled=false; closePanel(); setTimeout(()=>switchTo(id),db&&canWrite?250:0);
+});
+$('#vDel').addEventListener('click',async()=>{
+  if(!editing) return; const btn=$('#vDel');
+  if(btn.dataset.confirm!=='1'){ btn.dataset.confirm='1'; btn.textContent='Wirklich löschen?'; setTimeout(()=>{ btn.dataset.confirm=''; btn.textContent='Löschen'; },3000); return; }
+  const id=editing.id; btn.dataset.confirm=''; btn.textContent='Löschen';
+  if(db&&canWrite){ try{ await db.collection('variants').doc(id).delete(); }catch(_){ toast('Löschen nicht möglich'); return; } }
+  custom=custom.filter(x=>x.id!==id); persist(custom); closePanel(); switchTo('eiche'); renderTabs();
+});
+
+// Gespeicherte Varianten: gemeinsam über die Datenbank, sonst lokal
+try{ const raw=JSON.parse(localStorage.getItem('ww-variants')||'[]'); if(Array.isArray(raw)) custom=raw.filter(r=>r&&/^v[a-z0-9]+$/.test(String(r.id))).map(r=>clean(r,String(r.id))); }catch(_){ custom=[]; }
+(async()=>{
+  try{
+    if(!window.claude||!claude.use) return;
+    db=await claude.use('db'); if(!db) return;
+    db.collection('variants').onSnapshot(snap=>{
+      const list=snap.docs.filter(d=>/^v[a-z0-9]+$/.test(d.id)).map(d=>clean(d.data(),d.id)).sort((a,b)=>a.createdAt-b.createdAt);
+      const localOnly=custom.filter(c=>!list.some(l=>l.id===c.id));
+      if(localOnly.length&&canWrite){ localOnly.forEach(c=>{ const {id,_cv,...r}=c; db.collection('variants').doc(id).set(r).catch(()=>{ canWrite=false; }); }); }
+      custom=list.concat(canWrite?[]:localOnly).sort((a,b)=>a.createdAt-b.createdAt);
+      if(!all().some(v=>v.id===activeId)){ activeId='eiche'; switchTo('eiche',{instant:true}); }
+      renderTabs();
+    },()=>{ db=null; });
+  }catch(_){ db=null; }
+})();
 
 // Start: immer bei Schritt 1
 window.addEventListener('hashchange',()=>{ const h=(location.hash||'').slice(1); if(PANELS.includes(h)&&openId!==h) openPanel(h); else if(!h&&openId) closePanel(); });
 if(location.hash) setHash('');
-region(); placePhases(); showStep(1); render();
+renderTabs(); region(); placePhases(); showStep(1); render(); setTimeout(()=>{ region(); drawThumbs(); },60);
 if(viewer){ animateTo(1); setTimeout(()=>{ if(!hinted&&!drag&&!openId&&Math.abs(p-1)<1e-3){ animateTo(1.22,{ease:true,dur:700,done:()=>setTimeout(()=>{ if(!drag) animateTo(1,{ease:true,dur:600}); },250)}); } },3200); }
 setTimeout(hideHint, 10000);
-window.__ww={ go, get p(){return p;}, get cur(){return cur;}, N, has3D:!!viewer };
+window.__ww={ go, switchTo, openEditor, get p(){return p;}, get cur(){return cur;}, get variants(){return all().map(v=>v.id);}, N, has3D:!!viewer };
 })();
 </script>
