@@ -561,6 +561,99 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
       <p class="note"><b>Fertig</b><span>Zielbild, Kosten und Einkaufsliste findest du im Menü.</span></p>
     </article>
     </div>
+    <div class="vset" data-base="bank" hidden>
+    <article class="step" data-step="1" data-phase="Vorbereitung">
+      <p class="eyebrow">Vorbereitung</p>
+      <h1>Maße festlegen und Holz wählen</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="2" data-phase="Vorbereitung">
+      <p class="eyebrow">Vorbereitung</p>
+      <h1>Lamellen zuschneiden</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="3" data-phase="Vorbereitung">
+      <p class="eyebrow">Vorbereitung</p>
+      <h1>Kanten runden und schleifen</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="4" data-phase="Vorbereitung">
+      <p class="eyebrow">Vorbereitung</p>
+      <h1>Achsbohrung mit Schablone</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="5" data-phase="Gestell">
+      <p class="eyebrow">Gestell</p>
+      <h1>Beine zuschneiden</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="6" data-phase="Gestell">
+      <p class="eyebrow">Gestell</p>
+      <h1>Beinjoche verleimen</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="7" data-phase="Gestell">
+      <p class="eyebrow">Gestell</p>
+      <h1>Zargen montieren</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="8" data-phase="Gestell">
+      <p class="eyebrow">Gestell</p>
+      <h1>Anschlagleiste setzen</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="9" data-phase="Lamellen">
+      <p class="eyebrow">Lamellen</p>
+      <h1>Alles ölen</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="10" data-phase="Lamellen">
+      <p class="eyebrow">Lamellen</p>
+      <h1>Lamellen auf die Achse fädeln</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="11" data-phase="Lamellen">
+      <p class="eyebrow">Lamellen</p>
+      <h1>Feste Lamellen verschrauben</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="12" data-phase="Lamellen">
+      <p class="eyebrow">Lamellen</p>
+      <h1>Achse sichern und testen</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    <article class="step" data-step="13" data-phase="Abschluss">
+      <p class="eyebrow">Abschluss</p>
+      <h1>Lehne hochklappen</h1>
+      <p class="lead"></p>
+      <h2 class="label">Material &amp; Maße</h2>
+      <dl class="specs"></dl>
+    </article>
+    </div>
     <div class="vset" data-base="sitz" hidden>
     <article class="step" data-step="1" data-phase="Vorbereitung">
       <p class="eyebrow">Vorbereitung</p>
@@ -1150,6 +1243,7 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
           <div class="opts" id="vBase" role="radiogroup" aria-label="Bauweise">
             <button type="button" class="opt" data-v="eiche" role="radio">Kommode &amp; Regale</button>
             <button type="button" class="opt" data-v="sitz" role="radio">Sitznische</button>
+            <button type="button" class="opt" data-v="bank" role="radio">Klappbank</button>
           </div>
           <span class="fl">Frontfarbe</span>
           <div class="sw" id="vFront" role="radiogroup" aria-label="Frontfarbe"></div>
@@ -1176,7 +1270,7 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
       <div class="mcanvas" id="mCanvas">
         <button type="button" class="mtog" id="mTog" aria-expanded="true" aria-controls="mSvg"><span>Zeichnung</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
         <svg id="mSvg" role="application" aria-label="Frontansicht. Griffe ziehen, um Maße zu ändern."></svg>
-        <p class="cap">Ziehe die runden Griffe: Nischenbreite und -höhe, Modulgrenzen, Platte bzw. Sitz, Regale und Oberschrank. Raster 5 mm.</p>
+        <p class="cap" id="mCap">Ziehe die runden Griffe: Nischenbreite und -höhe, Modulgrenzen, Platte bzw. Sitz, Regale und Oberschrank. Raster 5 mm.</p>
       </div>
       <div class="mside">
         <label class="mauto"><input type="checkbox" id="mAuto" checked> Module an Nischenbreite anpassen</label>
@@ -1223,6 +1317,7 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
         <div class="opts" id="pBase" role="radiogroup" aria-label="Bauweise">
           <button type="button" class="opt" data-v="eiche" role="radio">Kommode &amp; Regale</button>
           <button type="button" class="opt" data-v="sitz" role="radio">Sitznische</button>
+            <button type="button" class="opt" data-v="bank" role="radio">Klappbank</button>
         </div>
         <span class="fl">Nische in mm (leer = Standard)</span>
         <div class="wdh"><label><span>Breite</span><input id="pW" type="number" inputmode="numeric" step="10" placeholder="1450"></label><label><span>Höhe</span><input id="pH" type="number" inputmode="numeric" step="10" placeholder="2300"></label><label><span>Tiefe</span><input id="pD" type="number" inputmode="numeric" step="10" placeholder="570"></label></div>
@@ -1236,6 +1331,100 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
       <p>Die App kennt zwei Bauweisen. Für etwas Neues, etwa einen Kleiderschrank oder ein TV-Board, kopiere die Idee als Auftrag und füge ihn in einer neuen Claude-Code-Session ein. Das neue Projekt landet dann hier in derselben App.</p>
       <button class="btn" id="pCopy" type="button">Auftrag für Claude Code kopieren</button>
     </div>
+  </div>
+</section>
+<section class="panel" id="p-animation-bank" data-panel-id="animation" data-base="bank" aria-label="Gesamtanimation">
+  <div class="panel-head"><span class="k">Gesamtanimation</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Die ganze Bank in 34 Sekunden</h2>
+    <p class="muted">Alle 13 Schritte am Stück, live in 3D auf der Zeichnung.</p>
+    <div class="row" style="margin:14px 0 18px"><button class="btn primary" data-live><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Live in 3D abspielen</button></div>
+  </div>
+</section>
+<section class="panel" id="p-zielbild-bank" data-panel-id="zielbild" data-base="bank" aria-label="Zielbild">
+  <div class="panel-head"><span class="k">Zielbild</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">So soll es aussehen</h2>
+    <p class="muted">Eine schlichte Holzbank aus Lamellen auf gespreizten Beinen. Wo du eine Lehne willst, klappst du einzelne Lamellen hoch. Das Bild zeigt deine aktuellen Maße und dein Holz.</p>
+    <figure class="figure" style="max-width:560px"><canvas id="zielBank" width="1080" height="760" style="display:block;width:100%;height:auto;background:var(--stage)" aria-label="3D-Ansicht der fertigen Klappbank"></canvas></figure>
+    <p class="cap">3D-Ansicht in den aktuellen Projektmaßen, kein Foto.</p>
+    <h3>So funktioniert die Klappmechanik</h3>
+    <ul class="checklist">
+      <li>Alle Lamellen sitzen auf einer Edelstahlachse kurz vor der Hinterkante.</li>
+      <li>Feste und klappbare Lamellen wechseln sich ab. Die festen sind mit den Zargen verschraubt und tragen beim Sitzen.</li>
+      <li>Eine Klapplamelle dreht hinten um die Achse nach oben, bis sie an der Anschlagleiste anliegt. So entsteht die Lehne, genau dort, wo man sie braucht.</li>
+      <li>Ist die Lehne oben, bleiben auf der Sitzfläche die festen Lamellen mit Lücken in Lamellenbreite. Zum Sitzen reicht das, für ganz glatte Flächen alle Klapplamellen unten lassen.</li>
+    </ul>
+  </div>
+</section>
+<section class="panel" id="p-masse-bank" data-panel-id="masse" data-base="bank" aria-label="Maßzeichnung">
+  <div class="panel-head"><span class="k">Maßzeichnung</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Frontansicht mit allen Höhen</h2>
+    <p class="muted">Alle Maße in mm. Die hochgeklappten Lamellen sind als Lehne eingezeichnet.</p>
+    <div class="svgwrap"></div>
+    <h3>Höhenkette</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Ebene</th><th class="num">von</th><th class="num">bis</th><th class="num">Höhe</th></tr></thead>
+      <tbody></tbody></table></div>
+  </div>
+</section>
+<section class="panel" id="p-zuschnitt-bank" data-panel-id="zuschnitt" data-base="bank" aria-label="Zuschnittliste">
+  <div class="panel-head"><span class="k">Zuschnittliste</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Zuschnittliste</h2>
+    <p class="muted">Fertigmaße L × B in mm. Lamellen mit Längenanschlag schneiden, damit alle exakt gleich lang sind.</p>
+    <div class="row" style="margin:12px 0 6px"><button class="btn" data-copycut="cutTable-bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Liste kopieren</button></div>
+    <div class="table-wrap"><table id="cutTable-bank">
+      <thead><tr><th>Teil</th><th class="num">Stk</th><th>L × B</th><th>Hinweis</th></tr></thead>
+      <tbody></tbody></table></div>
+  </div>
+</section>
+<section class="panel" id="p-einkauf-bank" data-panel-id="einkauf" data-base="bank" aria-label="Einkaufsliste">
+  <div class="panel-head"><span class="k">Einkaufsliste</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Einkaufsliste</h2>
+    <p class="muted">Links führen zu Händlern oder deren Suche. Preise vor dem Kauf im Shop prüfen.</p>
+    <div class="shop">
+      <div class="shop-item"><h4>Hartholz-Leisten für Lamellen <span class="mono">40 × 40 mm</span></h4>
+        <p>Gehobelt, astarm, trocken. Eiche, Esche oder Robinie für innen; Iroko oder Robinie für draußen. Die Menge steht oben im Mengen-Block.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/leiste%20eiche%2040%20x%2040" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.bauhaus.info/suche/produkte?text=eiche%20kantholz%2040%20x%2040" target="_blank" rel="noopener">Suche bei Bauhaus</a><a href="https://www.kleinanzeigen.de/s-eiche-kantholz/k0" target="_blank" rel="noopener">Kleinanzeigen: Eiche Kantholz</a></div></div>
+      <div class="shop-item"><h4>Kanthölzer fürs Gestell <span class="mono">50 × 50 · 60 × 40</span></h4>
+        <p>Beine, Querriegel und Zargen aus demselben Holz wie die Lamellen.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/kantholz%20eiche" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.obi.de/search/kantholz%20eiche/" target="_blank" rel="noopener">Suche bei OBI</a></div></div>
+      <div class="shop-item"><h4>Edelstahlachse <span class="mono">Ø 10 mm, A2</span></h4>
+        <p>Rundstab Ø 10 mm in Bank-Länge, alternativ Gewindestange M10 mit aufgeschobenen Hülsen. Dazu 2 Hutmuttern M10 oder Stellringe.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/rundstab%20edelstahl%2010%20mm" target="_blank" rel="noopener">Suche bei Hornbach</a><a href="https://www.obi.de/search/hutmutter%20m10%20edelstahl/" target="_blank" rel="noopener">Suche bei OBI</a></div></div>
+      <div class="shop-item"><h4>Schrauben und Leim <span class="mono">Edelstahl</span></h4>
+        <p>Spanplattenschrauben Edelstahl 4 × 60 für die Lamellen, 6 × 80 für die Zargen, Holzdübel Ø 10 × 50, wasserfester Holzleim D3.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/edelstahlschraube%204x60" target="_blank" rel="noopener">Suche bei Hornbach</a></div></div>
+      <div class="shop-item"><h4>Öl <span class="mono">innen · außen</span></h4>
+        <p>Hartwachsöl für innen, Terrassen- oder Teaköl für draußen.</p>
+        <div class="links"><a href="https://www.osmo.de" target="_blank" rel="noopener">Osmo</a><a href="https://www.hornbach.de/s/terrassen%C3%B6l" target="_blank" rel="noopener">Suche bei Hornbach</a></div></div>
+      <div class="shop-item"><h4>Werkzeug, das hier wirklich zählt <span class="mono">Bohrständer</span></h4>
+        <p>Kapp- oder Tischkreissäge mit Längenanschlag, Bohrständer oder Ständerbohrmaschine, Holzbohrer 10,5 mm, Oberfräse mit Abrundfräser R3.</p>
+        <div class="links"><a href="https://www.hornbach.de/s/bohrst%C3%A4nder" target="_blank" rel="noopener">Suche bei Hornbach</a></div></div>
+    </div>
+  </div>
+</section>
+<section class="panel" id="p-kosten-bank" data-panel-id="kosten" data-base="bank" aria-label="Kosten">
+  <div class="panel-head"><span class="k">Kosten</span><button class="icon-btn" data-close-panel aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="panel-body">
+    <h2 class="ttl">Kostenrahmen</h2>
+    <p class="muted">Schätzung inkl. MwSt., ohne Maschinen. Die Holzpositionen wachsen mit Länge und Lamellenzahl.</p>
+    <div class="totals">
+      <div class="total"><div class="k">Lamellen</div><div class="v">40 Lamellen</div></div>
+      <div class="total"><div class="k">Summe Positionen</div><div class="v">–</div></div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Bereich</th><th class="num">von</th><th class="num">bis</th></tr></thead>
+      <tbody></tbody></table></div>
+    <h3>So wird es günstiger</h3>
+    <ul class="checklist">
+      <li>Esche statt Eiche: gleich hart, oft günstiger.</li>
+      <li>Kantholz in Übergröße kaufen und selbst auf 40 × 40 auftrennen lassen.</li>
+      <li>Für drinnen reicht Gewindestange M10 statt Edelstahl-Rundstab.</li>
+    </ul>
   </div>
 </section>
 <div class="toast" id="toast" role="status"></div>
@@ -1256,18 +1445,23 @@ const pad=n=>String(n).padStart(2,'0');
 // =================== Maße je Projekt ===================
 const DEF={
   eiche:{W:1450,H:2300,D:570,PL:60,CH:800,WT:40,CD:530,mods:[400,600,400],SH1:1270,SH2:1560,ST:40,SD:260,UB:1850,UH:400,UD:350},
-  sitz:{W:1450,H:2300,D:570,PL:60,BH:330,STK:27,CD:530,mods:[700,700],SHU:1400,SHT:30,UB:1700,UH:580}
+  sitz:{W:1450,H:2300,D:570,PL:60,BH:330,STK:27,CD:530,mods:[700,700],SHU:1400,SHT:30,UB:1700,UH:580},
+  bank:{W:1600,H:450,D:420,SW:40,ST:40,LI:180,A:100,BK:9}
 };
+const LIM_B={bank:{W:[800,3000],H:[380,520],D:[320,600],SW:[30,70],ST:[30,60],LI:[80,500],A:[92,110],BK:[0,40]}};
+const limFor=(base,k)=> (LIM_B[base]&&LIM_B[base][k]) || LIM[k];
 const LIM={W:[900,2600],H:[1800,3000],D:[400,800],PL:[40,150],CH:[600,950],WT:[20,60],CD:[300,650],SH1:[900,2200],SH2:[1000,2500],ST:[20,60],SD:[150,400],UB:[1300,2600],UH:[250,900],UD:[250,600],BH:[250,500],STK:[18,40],SHU:[900,2200],SHT:[20,50],mod:[250,1200]};
 function DEFDIMS(base){ return JSON.parse(JSON.stringify(DEF[base])); }
 function sanitize(base,o){
   const d=DEFDIMS(base); if(!o||typeof o!=='object') return d;
   for(const k in d){ if(k==='mods'){ if(Array.isArray(o.mods)&&o.mods.length===d.mods.length) d.mods=o.mods.map(v=>Math.round(Math.min(LIM.mod[1],Math.max(LIM.mod[0],+v||0)))); }
-    else if(Number.isFinite(+o[k])&&LIM[k]) d[k]=Math.round(Math.min(LIM[k][1],Math.max(LIM[k][0],+o[k]))); }
+    else if(Number.isFinite(+o[k])&&limFor(base,k)) d[k]=Math.round(Math.min(limFor(base,k)[1],Math.max(limFor(base,k)[0],+o[k]))); }
   return d;
 }
 const R=Math.round, fmtN=n=>String(R(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.'), m2=n=>(n/1e6).toFixed(1).replace('.',',');
 function calc(base,P){
+  if(base==='bank'){ const n=Math.floor(P.W/P.SW), rest=P.W-n*P.SW, nk=Math.floor(n/2), nf=n-nk, yRail=P.H-P.ST-60, legH=yRail-60, ang=8*Math.PI/180;
+    return {n,rest,nk,nf,yRail,legH,legL:Math.round(legH/Math.cos(ang)+15),RL:P.W-60,back:P.D-25,BK:Math.min(P.BK,nk),top:Math.round(P.H-P.ST/2+(P.D-25)*Math.sin(P.A*Math.PI/180)),sum:P.W,F:0,uw:0}; }
   const sum=P.mods.reduce((a,b)=>a+b,0), F=(P.W-sum)/2, uw=sum/2;
   if(base==='eiche'){ const small=Math.floor((P.CH-12)/4)-1, big=P.CH-12-2*small; const m1=P.mods[1], BW=m1-36-25, BD=P.CD-30;
     return {sum,F,uw,small,big,BW,BD,lowTop:P.PL+P.CH+P.WT,bhS:small-66,bhB:big-116}; }
@@ -1278,6 +1472,12 @@ function calc(base,P){
 function cutList(base,P){
   const c=calc(base,P), G=[]; const g=(name,rows)=>G.push({name,rows:rows.filter(r=>r&&r.q>0)});
   const row=(n,q,a,b,t,cat)=>({n,q,a:R(a),b:R(b),t:t||'',cat});
+  if(base==='bank'){
+    g(`Lamellen · Hartholz ${P.ST} mm stark`, [row('Lamelle fest',c.nf,P.D,P.SW,'Bohrung Ø 10,5 mm, 25 mm von hinten · Kanten R3','sl'), row('Lamelle klappbar',c.nk,P.D,P.SW-2,'Bohrung wie fest · hinten Radius R20','sl')]);
+    g('Gestell · Hartholz', [row('Bein 50 × 50',4,c.legL,50,'oben und unten 8° parallel schräg','fr'), row('Querriegel 60 hoch, 50 breit',2,P.D-40,60,'','fr'), row('Zarge 60 hoch, 40 breit',2,c.RL,60,'vorn und hinten','fr'), row('Anschlagleiste 20 × 20',1,c.RL,20,'Lage am Musterstück festlegen','fr')]);
+    g('Achse · Edelstahl A2', [row('Rundstab Ø 10 mm',1,P.W-20,10,'oder Gewindestange M10 mit Hülsen','st'), row('Hutmutter M10 oder Stellring',2,10,10,'Achse seitlich sichern','st')]);
+    return G;
+  }
   const merge=rows=>{ const out=[]; rows.forEach(r=>{ const f=out.find(o=>o.n===r.n&&o.a===r.a&&o.b===r.b); if(f) f.q+=r.q; else out.push(r); }); return out; };
   if(base==='eiche'){
     const M=P.mods, door=[0,2];
@@ -1301,17 +1501,29 @@ function cutList(base,P){
   }
   return G;
 }
-function areas(base,P){ const a={}; cutList(base,P).forEach(g=>g.rows.forEach(r=>{ a[r.cat]=(a[r.cat]||0)+r.q*r.a*r.b; })); a.cu=P.mods.reduce((x,y)=>x+y,0)*(P.CD-30); a.p18=(a.p18||0)+(a.hdf||0)*.3; return a; }
+function areas(base,P){ const a={}; cutList(base,P).forEach(g=>g.rows.forEach(r=>{ a[r.cat]=(a[r.cat]||0)+r.q*r.a*r.b; })); a.cu=P.mods? P.mods.reduce((x,y)=>x+y,0)*(P.CD-30) : 0; a.p18=(a.p18||0)+(a.hdf||0)*.3; return a; }
 const COSTS={
+  bank:[['Lamellen Hartholz (Leisten gehobelt)',140,320,'sl'],['Gestell: Beine, Riegel, Zargen',60,140,'fr'],['Edelstahlachse Ø 10 mm, Hutmuttern',20,45,''],['Edelstahlschrauben, Holzleim, Dübel',20,40,''],['Hartwachs- oder Terrassenöl, Schleifmittel',25,50,''],['Bohrer 10,5 mm, Material für Schablone',10,30,'']],
   eiche:[['18-mm-Platten Unter- und Oberschränke, Rückwände, Zuschnitt',200,340,'p18'],['20-mm-Fronten, Zuschnitt, Kanten/Lack',130,270,'fr'],['Schubladenkästen, Böden',65,130,'mp'],['3 Paar Vollauszüge',60,150,''],['Scharniere, Klappenbeschläge',90,200,''],['Eichen-Arbeitsplatte (Rohling)',130,260,'wt'],['2 Eichenregale (Rohlinge)',100,210,'sh'],['Regalträger, Wandanker, Füße, Sockel',75,170,''],['Öl, Schleifmittel, LED, Schrauben',70,160,''],['5 Griffe schwarz',25,75,'']],
   sitz:[['18-mm-Platten Bank und Oberschränke, HDF, Zuschnitt',160,290,'p18'],['Graue 20-mm-Fronten, Passleisten, Sockelblende',120,260,'fr'],['4 Schubladenkästen',60,120,'mp'],['4 Paar Vollauszüge mit Push-to-open',90,220,''],['Topfscharniere und Push-to-open für Türen',50,120,''],['Dreischichtplatten Fichte',140,260,'fi'],['Regalboden Eiche',60,130,'sh'],['Füße, Wandwinkel, Schrauben, Leim',60,130,''],['Akku-LED, 2 Ebenen',30,80,''],['Sitzpolster nach Maß und 3 Kissen',120,280,'cu'],['Lack, Öl, Schleifmittel',25,50,'']]
 };
-const DEFAREA={eiche:areas('eiche',DEF.eiche), sitz:areas('sitz',DEF.sitz)};
+const DEFAREA={eiche:areas('eiche',DEF.eiche), sitz:areas('sitz',DEF.sitz), bank:areas('bank',DEF.bank)};
 function costs(base,P){ const a=areas(base,P), d=DEFAREA[base];
   const rows=COSTS[base].map(([n,lo,hi,cat])=>{ const f=cat&&d[cat]? a[cat]/d[cat] : 1; const r5=v=>Math.max(5,Math.round(v*f/5)*5); return [n,r5(lo),r5(hi)]; });
   const lo=rows.reduce((s,r)=>s+r[1],0), hi=rows.reduce((s,r)=>s+r[2],0); return {rows,lo,hi}; }
 function validate(base,P){
   const c=calc(base,P), out=[]; const W=(m)=>out.push({lvl:'warn',m}), E=(m)=>out.push({lvl:'err',m});
+  if(base==='bank'){
+    if(c.rest>8) W(`Am Ende bleiben ${R(c.rest)} mm übrig: Länge auf ${c.n*P.SW} oder ${(c.n+1)*P.SW} mm setzen, dann geht es glatt auf.`);
+    if(P.BK>c.nk) E(`Es gibt nur ${c.nk} Klapplamellen; für die Lehne sind ${P.BK} eingestellt.`);
+    if(P.H<420||P.H>480) W(`Sitzhöhe ${P.H} mm: bequem sind 430–470 mm.`);
+    if(c.back<340) W(`Die hochgeklappte Lehne ist nur ${c.back} mm hoch: Sitztiefe größer wählen.`);
+    if(P.SW<35||P.ST<35) W('Lamellen unter 35 mm federn spürbar; 40 × 40 mm oder stärker ist sicherer.');
+    if(P.LI<110) W('Beine sehr nah am Ende: Die Bank steht steif, aber Zehen stoßen leicht an.');
+    if(P.LI>P.W/4) W(`Beine ${P.LI} mm vom Ende: Wer sich ganz außen hinsetzt, kann die Bank kippen.`);
+    if(P.A<96||P.A>106) W(`Lehnenwinkel ${P.A}°: 98–104° fühlen sich am natürlichsten an.`);
+    return out;
+  }
   if(c.F<0) E(`Die Module sind ${fmtN(-2*c.F)} mm breiter als die Nische. Module schmaler machen oder Nische breiter.`);
   else if(c.F>60) W(`Links und rechts bleiben je ${R(c.F)} mm Passleiste. Ab ca. 50 mm wirkt das breit; Module etwas breiter machen.`);
   else if(c.F<8) W(`Nur ${R(c.F)} mm Luft je Seite: Schiefe Wände lassen sich so kaum ausgleichen.`);
@@ -1336,6 +1548,39 @@ function validate(base,P){
 }
 function stepTexts(base,P){
   const c=calc(base,P), X=(...a)=>a.map(v=>typeof v==='number'?fmtN(v):v).join(' × ');
+  if(base==='bank'){
+    return [
+      {lead:'Länge, Sitzhöhe und Tiefe festlegen. Die Länge am besten als Vielfaches der Lamellenbreite wählen, dann bleibt am Ende nichts übrig. Hartholz nehmen: Eiche, Esche oder Robinie innen, Iroko oder Robinie außen.',
+       specs:[['Bank L × H × T',`${X(P.W,P.H,P.D)} mm`],['Lamellen',`${c.n} Stück: ${c.nf} fest, ${c.nk} klappbar`],['Lehne',`bis ca. ${c.top} mm hoch, ${P.A}° geneigt`],['Holz','Hartholz, trocken (unter 12 % Feuchte)']],
+       note:['Prinzip','Feste und klappbare Lamellen wechseln sich ab und sitzen alle auf einer Edelstahlachse. Hochgeklappt wird eine Klapplamelle zur Lehne, die festen bleiben Sitzfläche.']},
+      {lead:'Alle Lamellen mit Längenanschlag an der Kapp- oder Tischkreissäge auf exakt dieselbe Länge schneiden, nicht einzeln anzeichnen. Klapplamellen 2 mm schmaler hobeln oder schleifen, damit sie zwischen den festen frei drehen.',
+       specs:[['Lamelle fest',`${c.nf} × ${X(P.D,P.SW,P.ST)}`],['Lamelle klappbar',`${c.nk} × ${X(P.D,P.SW-2,P.ST)}`],['Leisten gesamt',`ca. ${(c.n*P.D/1000*1.1).toFixed(1).replace('.',',')} lfm ${P.SW} × ${P.ST}`],['Reserve','2–3 Lamellen extra für Probestücke']]},
+      {lead:'Alle Längskanten mit dem Abrundfräser R3 brechen und schleifen. Die Klapplamellen hinten unten mit Radius R20 runden, sonst stoßen sie beim Hochklappen an.',
+       specs:[['Kanten','R3, Korn 80 / 120 / 180'],['Klapplamellen','hinten Radius R20'],['Stirnseiten','leicht anfasen, sauber schleifen']]},
+      {lead:`Eine Bohrschablone mit Anschlag bauen und alle Lamellen an derselben Stelle bohren: ${25} mm von hinten, mittig in der Höhe. Ständerbohrmaschine oder Bohrständer verwenden, sonst klemmt die Achse.`,
+       specs:[['Bohrung',`Ø 10,5 mm, ${c.n} Lamellen`],['Lage','25 mm vom hinteren Ende'],['Höhe',`mittig, ${P.ST/2} mm von oben`],['Probe','erst 3 Lamellen auf ein Stück Rundstab fädeln und drehen']],
+       note:['Wichtig','Hier entscheidet sich, ob die Bank leicht klappt. Lieber 10 Minuten in die Schablone investieren.']},
+      {lead:'Vier Beine 50 × 50 zuschneiden, oben und unten parallel 8° schräg. So stehen die Beine leicht nach außen gespreizt, wie bei einem Bock.',
+       specs:[['Beine',`4 × ${c.legL} × 50 × 50`],['Schräge','8°, oben und unten parallel'],['Höhe senkrecht',`${c.legH} mm`]]},
+      {lead:`Je zwei Beine mit einem Querriegel verbinden: Dübel Ø 10 oder Schlitz und Zapfen, verleimen und rechtwinklig spannen. Die Joche sitzen ${P.LI} mm von den Bankenden.`,
+       specs:[['Querriegel',`2 × ${X(P.D-40,60,50)}`],['Verbindung','je Bein 2 Dübel Ø 10 × 50 + Leim'],['Lage',`Mitte Joch ${P.LI} mm vom Ende`]]},
+      {lead:'Die zwei Zargen auf die Querriegel setzen und von unten verschrauben. Vorn 60 mm vor der Vorderkante, hinten 50 mm Abstand zur Hinterkante: Dahinter muss das Ende der Klapplamellen frei drehen können.',
+       specs:[['Zargen',`2 × ${X(c.RL,60,40)}`],['Lage vorn',`${P.D-100} bis ${P.D-60} mm von hinten`],['Lage hinten','50 bis 90 mm von hinten'],['Schrauben','je Riegel 2 × 6 × 80, von unten']]},
+      {lead:`Die Anschlagleiste hinten unter die Achse setzen. Sie bestimmt, wie weit sich die Lehne neigt. Ihre Lage an einem Musterstück so ausprobieren, dass eine hochgeklappte Lamelle bei ca. ${P.A}° anliegt: tiefer = flacher.`,
+       specs:[['Anschlagleiste',`${X(c.RL,20,20)}`],['Lage','hinten, ca. 30 mm unter der Achsmitte'],['Befestigung','an beiden Querriegeln mit Winkeln']]},
+      {lead:'Alles vor der Montage ölen: Lamellen, Gestell, Anschlag. Zwischen den Lamellen kommt man später nicht mehr gut hin. Die Bohrungen nicht volllaufen lassen.',
+       specs:[['Innen','Hartwachsöl, 2 Schichten'],['Außen','Terrassen- oder Teaköl, jährlich nachölen'],['Trocknen','mindestens 24 h vor der Montage']]},
+      {lead:'Die Lamellen auf die Edelstahlachse fädeln: fest, klappbar, fest, … Anfang und Ende sind feste Lamellen. Dabei die Achse nicht mit Gewalt durchschlagen; lieber die Bohrung nacharbeiten.',
+       specs:[['Achse',`Ø 10 × ${P.W-20} mm Edelstahl`],['Reihenfolge',`${c.nf} fest, ${c.nk} klappbar im Wechsel`],['Luft','Klapplamellen 1 mm je Seite']]},
+      {lead:'Die festen Lamellen ausrichten und von unten durch beide Zargen verschrauben. Die Klapplamellen bleiben lose, sie halten nur an der Achse.',
+       specs:[['Schrauben',`${c.nf*2} × Edelstahl 4 × 60`],['Vorbohren','Ø 3 mm, Senkung unten'],['Ausrichten','Abstandsklotz in Lamellenbreite']]},
+      {lead:'Die Achse an beiden Enden mit Hutmuttern oder Stellringen sichern. Dann jede Klapplamelle einzeln hoch- und runterklappen. Klemmt eine, die Bohrung leicht aufreiben oder die Seiten nachschleifen.',
+       specs:[['Sicherung','2 Hutmuttern M10 oder Stellringe'],['Test','jede Klapplamelle 10× klappen'],['Nacharbeit','Bohrung aufreiben, Seiten nachschleifen']]},
+      {lead:`Für die Lehne so viele Klapplamellen hochklappen, wie du brauchst. Im Bild sind es ${c.BK}. Sie lehnen mit ${P.A}° am Anschlag. Die Lehne ist zum Anlehnen gedacht, nicht zum Draufsetzen.`,
+       specs:[['Lehne',`${c.BK} Klapplamellen hochgeklappt`],['Lehnenhöhe',`bis ca. ${c.top} mm`],['Sitzhöhe',`${P.H} mm`]],
+       note:['Kinder','Beim Zuklappen können Finger zwischen die Lamellen geraten. Kleinen Kindern das Klappen nicht allein überlassen.']}
+    ];
+  }
   const cl=cutList(base,P), cnt=(re)=>cl.filter(g=>re.test(g.name)).reduce((s,g)=>s+g.rows.reduce((t,r)=>t+r.q,0),0);
   if(base==='eiche'){ const M=P.mods, uniq=a=>[...new Set(a)];
     return [
@@ -1528,12 +1773,19 @@ function build3D(host){
     // ---- Raum
     const {W,H,D}=Pm;
     const box=(w,h,d,c,mat)=>{ const m=new T.Mesh(new T.BoxGeometry(w,h,d),mat); m.position.set(...c); root.add(m); return m; };
-    const back=box(W+80,H,40,[W/2,H/2,-20],roomWall); back.receiveShadow=true;
-    const lw=box(40,H,D,[-20,H/2,D/2],roomSide); lw.receiveShadow=true;
-    const rw=box(40,H,D,[W+20,H/2,D/2],roomGlass); rw.renderOrder=20;
-    [back,lw,rw].forEach(m=>m.add(new T.LineSegments(new T.EdgesGeometry(m.geometry), roomEdge)));
-    const fl=new T.Mesh(new T.PlaneGeometry(W+1950,2600), roomFloor); fl.rotation.x=-Math.PI/2; fl.position.set(W/2,0,D+330); fl.receiveShadow=true; fl.renderOrder=-1; root.add(fl);
-    const skirt=box(W,60,12,[W/2,30,6],roomSkirt);
+    let skirt;
+    if(base==='bank'){
+      const back=box(W+3000,2600,40,[W/2,1300,-620],roomWall); back.receiveShadow=true;
+      const fl=new T.Mesh(new T.PlaneGeometry(W+2600,3000), roomFloor); fl.rotation.x=-Math.PI/2; fl.position.set(W/2,0,D/2+200); fl.receiveShadow=true; fl.renderOrder=-1; root.add(fl);
+      skirt=box(W+3000,60,12,[W/2,30,-594],roomSkirt);
+    } else {
+      const back=box(W+80,H,40,[W/2,H/2,-20],roomWall); back.receiveShadow=true;
+      const lw=box(40,H,D,[-20,H/2,D/2],roomSide); lw.receiveShadow=true;
+      const rw=box(40,H,D,[W+20,H/2,D/2],roomGlass); rw.renderOrder=20;
+      [back,lw,rw].forEach(m=>m.add(new T.LineSegments(new T.EdgesGeometry(m.geometry), roomEdge)));
+      const fl=new T.Mesh(new T.PlaneGeometry(W+1950,2600), roomFloor); fl.rotation.x=-Math.PI/2; fl.position.set(W/2,0,D+330); fl.receiveShadow=true; fl.renderOrder=-1; root.add(fl);
+      skirt=box(W,60,12,[W/2,30,6],roomSkirt);
+    }
     const sx=W/1450, sz=D/570, TT=18, ST_Z=D+110;
     let VIEWS;
 
@@ -1643,7 +1895,7 @@ function build3D(host){
       VIEWS={1:v(725,H*.47,320,H*.652,1160), 2:v(725,300*k,330,640*k,960), 3:v(740,470*k,880,760*k,1220), 4:v(740,470*k,880,760*k,1220),
         5:v(725,480*k,520,760*k,1120), 6:v(740,500*k,700,660*k,960), 7:v(740,470*k,470,620*k,920), 8:v(730,470*k,420,640*k,980),
         9:v(725,560*k,340,720*k,1020), 10:v(725,1640+dy,520,820,1060), 11:v(725,1580+dy,300,860,1060), 12:v(725,(SH1+UB)/2-40,300,Math.max(1000,(UB-lowTop)*.95),1060), 13:v(725,H*.47,320,H*.652,1160)};
-    } else {
+    } else if(base==='sitz'){
       const {PL,BH,STK,CD,mods,SHU,SHT,UB,UH}=Pm;
       const sum=mods[0]+mods[1], F=(W-sum)/2, seatTop=PL+BH+STK, UD=CD;
       const MODS=mods.map((w,i)=>({x:F+(i?mods[0]:0), w, g:'L'+i, sx:i?90:-90}));
@@ -1737,6 +1989,60 @@ function build3D(host){
         5:v(740,300*k,700,560*k,960), 6:v(740,280*k,470,520*k,960), 7:v(730,300*k,420,560*k,980), 8:v(725,420*k,340,620*k,1000),
         9:v(725,(seatTop+UB)/2,300,Math.max(900,(UB-PL)*.62),1060), 10:v(725,(seatTop+UB)/2+100,300,Math.max(900,(UB-PL)*.62),1060),
         11:v(725,1750+dy,520,850,1060), 12:v(725,1600+dy,300,1050,1060), 13:v(725,H*.47,320,H*.652,1160)};
+    } else {
+      const {SW,ST,LI,A}=Pm, bc=calc('bank',Pm);
+      const n=bc.n, x0=bc.rest/2, pivY=H-ST/2, pivZ=25, yRail=bc.yRail, yBeam=yRail-60, legH=yBeam, ang=8*Math.PI/180;
+      // Schritt 2–4: Zuschnitt, Schleifen, Bohren (nur dort sichtbar)
+      for(let i=0;i<8;i++) P({step:2,only:2,size:[Math.min(W,1400),ST,SW],pos:[(W-Math.min(W,1400))/2,i*(ST+1),D/2-SW/2+(i%2)*4],m:'oakH',off:[0,520,0]});
+      for(let i=0;i<6;i++) P({step:2,only:2,size:[D,ST,SW],pos:[W/2-D/2+((i%3)-1)*(D+30),0,D+120+Math.floor(i/3)*(SW+20)],m:'oakH',off:[0,520,0]});
+      for(let i=0;i<5;i++) P({step:3,only:3,size:[SW,ST,D],pos:[W/2-140+i*(SW+30),0,60],m:'oakH',off:[0,300,0]});
+      P({step:4,only:4,size:[SW,ST,D],pos:[W/2-SW/2,0,60],m:'oakH',off:[0,300,0],win:[0,.4]});
+      P({step:4,only:4,size:[160,ST+30,80],pos:[W/2-80,0,0],m:'ply',off:[0,0,-300],win:[.2,.6]});
+      P({step:4,only:4,geo:new T.CylinderGeometry(5,5,220,16),size:[10,220,10],pos:[W/2,ST+130,60+pivZ],m:'metal',off:[0,260,0],win:[.45,.9]});
+      // Beine, Querriegel, Zargen, Anschlag
+      [LI, W-LI].forEach((jx,j)=>{
+        const dir=j?1:-1, L=legH/Math.cos(ang);
+        [[20,70],[D-70,D-20]].forEach(([z0,z1],k)=>{
+          const geo=new T.BoxGeometry(50,L,50); geo.rotateZ(dir*ang);
+          P({step:5,geo,size:[50,L,50],pos:[jx+dir*legH*Math.tan(ang)/2,legH/2,(z0+z1)/2],m:'oakV',off:[dir*260,0,0],win:[.05+j*.2+k*.08,.45+j*.2+k*.08]});
+        });
+        P({step:6,size:[50,60,D-40],pos:[jx-25,yBeam,20],m:'oakH',off:[0,240,0],win:[.1+j*.25,.6+j*.25]});
+      });
+      P({step:7,size:[W-60,60,40],pos:[30,yRail,D-100],m:'oakH',off:[0,0,300],win:[.05,.55]});
+      P({step:7,size:[W-60,60,40],pos:[30,yRail,50],m:'oakH',off:[0,0,-300],win:[.25,.75]});
+      P({step:8,size:[W-60,20,20],pos:[30,pivY-50,0],m:'oakH',off:[0,0,-260],win:[.1,.7]});
+      // Achse und Lamellen
+      P({step:10,geo:new T.CylinderGeometry(5,5,W-20,16).rotateZ(Math.PI/2),size:[W-20,10,10],pos:[W/2,pivY,pivZ],m:'metal',off:[-W*.8,0,0],win:[0,.3]});
+      const flips=[]; for(let i=0;i<n;i++) if(i%2===1) flips.push(i);
+      const up=new Set(flips.slice(Math.max(0,flips.length-bc.BK)));
+      for(let i=0;i<n;i++){
+        const x=x0+i*SW, fl=i%2===1, w=fl? SW-2 : SW, xx=fl? x+1 : x, a=.18+.55*i/n;
+        const o={step:10,size:[w,ST,D],pos:[xx,H-ST,0],m:'oakH',off:[0,260,0],win:[a,a+.25]};
+        if(fl&&up.has(i)){ const j=[...up].indexOf(i); o.flip={s:13,w:[.08+.5*j/Math.max(1,up.size),.38+.5*j/Math.max(1,up.size)],a:A*Math.PI/180,py:pivY,pz:pivZ}; }
+        P(o);
+        if(!fl){ [D-84,66].forEach(z=>P({step:11,size:[8,10,8],cyl:4,pos:[x+SW/2-4,yRail-10,z],m:'black',off:[0,-90,0]})); }
+      }
+      P({step:12,geo:new T.CylinderGeometry(9,9,12,16).rotateZ(Math.PI/2),size:[12,18,18],pos:[4,pivY,pivZ],m:'metal',off:[-140,0,0],win:[.05,.5]});
+      P({step:12,geo:new T.CylinderGeometry(9,9,12,16).rotateZ(Math.PI/2),size:[12,18,18],pos:[W-4,pivY,pivZ],m:'metal',off:[140,0,0],win:[.2,.65]});
+      // Bemaßung
+      dim(1,[0,0,D+60],[W,0,D+60],[0,0,140],W); dim(1,[W+60,0,D],[W+60,H,D],[140,0,0],H); dim(1,[W+60,H,0],[W+60,H,D],[0,90,0],D);
+      tag(1,[W/2,H/2,D/2],'Grundfläche der Bank','lbl tag');
+      tag(2,[W/2,8*(ST+1)+40,D/2],`${n} Lamellen ${D} × ${SW} × ${ST}`,'lbl tag');
+      tag(3,[W/2,ST+40,60+D/2],'Kanten R3 · Korn 180','lbl tag');
+      tag(4,[W/2,ST+30,60+pivZ],'Ø 10,5 mm · 25 mm von hinten','lbl tag');
+      tag(5,[LI,legH*.55,D+40],'8° gespreizt','lbl tag'); dim(5,[W-LI+60,0,D+30],[W-LI+60,legH,D+30],[120,0,0],legH);
+      dim(6,[0,yBeam,D+30],[LI,yBeam,D+30],[0,-80,0],LI);
+      dim(7,[30,yRail+60,D+20],[W-30,yRail+60,D+20],[0,90,0],W-60);
+      tag(8,[W/2,pivY-40,-30],'Anschlag: bestimmt den Lehnenwinkel','lbl tag');
+      tag(10,[W/2,H+60,D/2],`${bc.nf} fest + ${bc.nk} klappbar`,'lbl tag');
+      tag(11,[W/2,yRail-40,D+40],`${bc.nf*2} Schrauben von unten`,'lbl tag');
+      tag(12,[W-4,pivY+50,pivZ],'Hutmutter','lbl tag');
+      tag(13,[W*.75,bc.top+50,0],`Lehne ${A}°`,'lbl tag'); dim(13,[W+60,0,0],[W+60,bc.top,0],[140,0,0],bc.top);
+      const bv=(y,hh)=>({c:[W/2,y,D*.5],hh,hw:W*.6});
+      const full=Math.max(400,(bc.top)*0.6);
+      VIEWS={1:bv(H*.45,full), 2:bv(160,Math.max(300,full*.7)), 3:bv(110,Math.max(260,full*.6)), 4:bv(110,Math.max(260,full*.6)),
+        5:bv(H*.5,full), 6:bv(H*.5,full), 7:bv(H*.55,full), 8:bv(H*.55,full), 9:bv(H*.55,full), 10:bv(H*.6,full), 11:bv(H*.5,full), 12:bv(H*.6,full), 13:bv(bc.top*.55,full)};
+      for(const kk in VIEWS){ VIEWS[kk].hh/=1.3; VIEWS[kk].hw/=1.3; }
     }
     for(const kk in VIEWS){ const vv=VIEWS[kk], f=kk==1||kk==13? 1.12 : 1.3; vv.hh*=f; vv.hw*=f; vv.c=[vv.c[0], vv.c[1]*0.85+(H/2)*0.15, vv.c[2]*0.8+300*sz*0.2]; }
     for(let s=1;s<=N;s++){ const ps=parts.filter(p=>p.step===s&&!p.win); ps.forEach((p,i)=>{ const a=.04+.5*(i/Math.max(1,ps.length-1)); p.win=[a,a+.36]; }); }
@@ -1766,7 +2072,7 @@ function build3D(host){
   // Paletten: Frontfarbe und Holzart je Variante
   const FRONTS={weiss:0xf7f5f0, grau:0xc4c1ba, salbei:0xa9b49b, sand:0xd9cdb9, taube:0x9fb0bd, anthrazit:0x5a5853};
   const WOODS={eiche:['#c58d55','112,66,28','238,196,138',0], fichte:['#e6cfa8','140,96,52','250,232,200',9], nuss:['#7a5338','52,30,14','160,115,78',1], esche:['#e7d8bd','150,122,88','252,246,232',0]};
-  const KEYS={eiche:{front:['front'], wood:['oakH','oakV','shelf']}, sitz:{front:['grey'], wood:['fiH','fiV']}};
+  const KEYS={eiche:{front:['front'], wood:['oakH','oakV','shelf']}, sitz:{front:['grey'], wood:['fiH','fiV']}, bank:{front:[], wood:['oakH','oakV']}};
   const texCache={};
   function woodMap(w, kind){
     const k=w+kind; if(texCache[k]) return texCache[k];
@@ -1817,6 +2123,8 @@ function build3D(host){
       const animating=p.step===s;
       const k=animating? ease(clamp((t-p.win[0])/(p.win[1]-p.win[0]))) : 1;
       p.obj.position.set(p.c[0]+p.off[0]*(1-k), p.c[1]+p.off[1]*(1-k), p.c[2]+p.off[2]*(1-k));
+      if(p.flip){ const f=p.flip, fk= s>f.s? 1 : s===f.s? ease(clamp((t-f.w[0])/(f.w[1]-f.w[0]))) : 0, th=-f.a*fk, ry=p.obj.position.y-f.py, rz=p.obj.position.z-f.pz;
+        p.obj.rotation.x=th; p.obj.position.y=f.py+ry*Math.cos(th)-rz*Math.sin(th); p.obj.position.z=f.pz+ry*Math.sin(th)+rz*Math.cos(th); }
       const op=animating? clamp(t/.08) : fade;
       p.obj.material=p.real; for(const m of p.mats){ m.opacity=op; }
       const hi= animating? 1 : (p.step===s-1? 1-clamp(t/.25) : 0);
@@ -1927,7 +2235,7 @@ function render(){
   const S=stepOf(p), t=clamp(p-(S-1));
   viewer.renderFrame(S,t);
   for(let i=0;i<N;i++) segs[i].style.transform=`scaleX(${clamp(p-i).toFixed(4)})`;
-  stage.style.setProperty('--eve', S===N? (ease(clamp((t-.3)/.6))*.55).toFixed(3) : '0');
+  stage.style.setProperty('--eve', S===N&&curBase!=='bank'? (ease(clamp((t-.3)/.6))*.55).toFixed(3) : '0');
   if(S!==shownStep) showStep(S);
 }
 function showStep(S){
@@ -2068,6 +2376,7 @@ function openPanel(id){
   closeMenu(); document.querySelectorAll('.panel.open').forEach(x=>{ if(x!==p) x.classList.remove('open'); });
   lastFocus=document.activeElement; openId=id; p.classList.add('open'); p.scrollTop=0; document.body.style.overflow='hidden';
   setHash(id); setTimeout(()=>p.querySelector('[data-close-panel]').focus({preventScroll:true}),50);
+  if(id==='zielbild'&&curBase==='bank'&&viewer){ const v=byId(activeId); setTimeout(()=>{ viewer.thumb(v.base,dimsOf(v),{front:v.front,wood:v.wood},$('#zielBank')); viewer.show(v.base,dimsOf(v),{front:v.front,wood:v.wood}); render(); },60); }
 }
 function closePanel(){
   if(!openId) return; if(openId==='mass') closeMasse(true); const p=document.querySelector('.panel.open')||document.createElement('div'); p.classList.remove('open');
@@ -2166,16 +2475,17 @@ function drawElevation(){
 
 // =================== Varianten ===================
 const BUILTIN=[
-  {id:'eiche', name:'Eiche & Baumkante', base:'eiche', front:'weiss', wood:'eiche', builtin:true, project:'wohnnische'},
-  {id:'sitz', name:'Sitznische grau', base:'sitz', front:'grau', wood:'fichte', builtin:true, project:'wohnnische'},
+  {id:'eiche', name:'Eiche & Baumkante', base:'eiche', front:'weiss', wood:'eiche', builtin:true, project:'wohnnische', sub:'Version 1'},
+  {id:'sitz', name:'Sitznische grau', base:'sitz', front:'grau', wood:'fichte', builtin:true, project:'wohnnische', sub:'Version 2'},
+  {id:'bank', name:'Klappbank Nussbaum', base:'bank', front:'weiss', wood:'nuss', builtin:true, project:'klappbank', sub:'Version 1'},
 ];
 const FRONT_N={weiss:'Weiß', grau:'Grau', salbei:'Salbei', sand:'Sand', taube:'Taubenblau', anthrazit:'Anthrazit'};
 const WOOD_N={eiche:'Eiche', fichte:'Fichte', nuss:'Nussbaum', esche:'Esche'};
-const BASE_N={eiche:'Kommode & Regale', sitz:'Sitznische'};
+const BASE_N={eiche:'Kommode & Regale', sitz:'Sitznische', bank:'Klappbank'};
 const BASE_INFO={eiche:{cut:'45 Teile', cost:'1.150–1.400 €'}, sitz:{cut:'63 Teile', cost:'915 €–1.940 €'}};
 let custom=[], activeId='eiche', db=null, canWrite=true;
 function clean(d,id){ const o=d||{}; const name=String(o.name||'').slice(0,32).trim()||'Variante';
-  return {id, name, base:o.base==='sitz'?'sitz':'eiche', front:FRONT_N[o.front]?o.front:'weiss', wood:WOOD_N[o.wood]?o.wood:'eiche', project:/^(wohnnische|p[a-z0-9]+)$/.test(String(o.project))? String(o.project) : 'wohnnische', createdAt:+o.createdAt||0}; }
+  return {id, name, base:['sitz','bank'].includes(o.base)?o.base:'eiche', front:FRONT_N[o.front]?o.front:'weiss', wood:WOOD_N[o.wood]?o.wood:'eiche', project:/^(wohnnische|klappbank|p[a-z0-9]+)$/.test(String(o.project))? String(o.project) : 'wohnnische', createdAt:+o.createdAt||0}; }
 function all(){ return BUILTIN.concat(custom); }
 function byId(id){ return all().find(v=>v.id===id)||BUILTIN[0]; }
 const tabsEl=$('#tabs');
@@ -2186,7 +2496,7 @@ function renderTabs(){
     const cv=document.createElement('canvas'); cv.width=64; cv.height=80; cv.setAttribute('aria-hidden','true');
     const tx=document.createElement('span'); tx.className='tx';
     const nm=document.createElement('span'); nm.className='nm'; nm.textContent=v.name;
-    const sb=document.createElement('span'); sb.className='sb'; sb.textContent=v.builtin? (v.id==='eiche'?'Version 1':'Version 2') : `${FRONT_N[v.front]} · ${WOOD_N[v.wood]}`;
+    const sb=document.createElement('span'); sb.className='sb'; sb.textContent=v.builtin? (v.sub||'') : `${FRONT_N[v.front]} · ${WOOD_N[v.wood]}`;
     tx.append(nm,sb); b.append(cv,tx); tabsEl.appendChild(b);
     b.addEventListener('click',()=>{ if(v.id===activeId){ if(!v.builtin) openEditor(v); return; } switchTo(v.id); });
     v._cv=cv;
@@ -2284,7 +2594,7 @@ try{ const raw=JSON.parse(localStorage.getItem('ww-variants')||'[]'); if(Array.i
     },()=>{});
     db.collection('dims').onSnapshot(snap=>{
       let changed=false;
-      snap.docs.forEach(d=>{ if(!/^(eiche|sitz|v[a-z0-9]+)$/.test(d.id)) return; const o=d.data()||{}; const j=JSON.stringify(o); if(JSON.stringify(savedDims[d.id])!==j){ savedDims[d.id]=o; changed=true; } });
+      snap.docs.forEach(d=>{ if(!/^(eiche|sitz|bank|v[a-z0-9]+)$/.test(d.id)) return; const o=d.data()||{}; const j=JSON.stringify(o); if(JSON.stringify(savedDims[d.id])!==j){ savedDims[d.id]=o; changed=true; } });
       if(changed&&!ed){ try{ localStorage.setItem('ww-dims', JSON.stringify(savedDims)); }catch(_){} const v=byId(activeId); if(viewer) viewer.show(v.base,dimsOf(v),{front:v.front,wood:v.wood}); applyContent(v); render(); drawThumbs(); }
     },()=>{});
   }catch(_){ db=null; }
@@ -2298,15 +2608,22 @@ function isCustomDims(v){ return !!savedDims[v.id] && JSON.stringify(dimsOf(v))!
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 // Frontansicht als SVG (mm-Koordinaten, y nach oben). handles: Griffe zum Ziehen.
+const htop=(base,P)=> base==='bank'? Math.max(P.H+60, calc('bank',P).top+60) : P.H;
 function elevSVG(base,P,opt={}){
-  const c=calc(base,P), W=P.W, H=P.H, Y=y=>H-y, k=opt.k||3;
+  const c=calc(base,P), W=P.W, H=htop(base,P), Y=y=>H-y, k=opt.k||3;
   const r=(x,y,w,h,cls)=>`<rect x="${x}" y="${Y(y+h)}" width="${Math.max(0,w)}" height="${Math.max(0,h)}" class="${cls}"/>`;
   const ln=(x1,y1,x2,y2,cls,extra='')=>`<line x1="${x1}" y1="${Y(y1)}" x2="${x2}" y2="${Y(y2)}" class="${cls}" ${extra}/>`;
   const tx=(x,y,t,cls='t',a='start')=>`<text x="${x}" y="${Y(y)}" class="${cls}" text-anchor="${a}" dominant-baseline="middle">${esc(t)}</text>`;
   let s='';
-  s+=r(0,0,W,H,'n');
-  const F=c.F, M=P.mods, xs=M.map((w,i)=>F+M.slice(0,i).reduce((a,b)=>a+b,0));
-  if(base==='eiche'){
+  if(base!=='bank') s+=r(0,0,W,H,'n');
+  const F=c.F, M=P.mods||[], xs=M.map((w,i)=>F+M.slice(0,i).reduce((a,b)=>a+b,0));
+  if(base==='bank'){
+    const ang=8*Math.PI/180, yB=c.yRail-60, dx=c.legH*Math.tan(ang);
+    [[P.LI,-1],[W-P.LI,1]].forEach(([jx,d])=>{ s+=`<polygon points="${jx-25},${Y(yB)} ${jx+25},${Y(yB)} ${jx+25+d*dx},${Y(0)} ${jx-25+d*dx},${Y(0)}" class="o"/>`; s+=r(jx-25,yB,50,60,'o'); });
+    s+=r(30,c.yRail,W-60,60,'o');
+    const flips=[]; for(let i=1;i<c.n;i+=2) flips.push(i); const up=new Set(flips.slice(Math.max(0,flips.length-c.BK)));
+    for(let i=0;i<c.n;i++){ const x=c.rest/2+i*P.SW; s+=r(x+1,P.H-P.ST,P.SW-2,P.ST,'o'); if(up.has(i)) s+=r(x+1,P.H,P.SW-2,c.top-P.H,'o'); }
+  } else if(base==='eiche'){
     s+=r(2,2,W-4,P.PL-4,'b');
     if(F>1) s+=r(0,P.PL,F,P.CH,'w')+r(W-F,P.PL,F,P.CH,'w');
     s+=r(xs[0]+2,P.PL+2,M[0]-4,P.CH-4,'o')+r(xs[2]+2,P.PL+2,M[2]-4,P.CH-4,'o');
@@ -2327,25 +2644,27 @@ function elevSVG(base,P,opt={}){
     [0,1].forEach(i=>[0,1].forEach(j=>s+=r(F+i*c.uw+2+j*(c.dw+4),P.UB+2,c.dw,P.UH-4,'g')));
   }
   // Höhenkette rechts
-  const hs= base==='eiche'? [0,P.PL,P.PL+P.CH,c.lowTop,P.SH1-P.ST,P.SH1,P.SH2-P.ST,P.SH2,P.UB,P.UB+P.UH,H] : [0,P.PL,P.PL+P.BH,c.seatTop,P.SHU,P.SHU+P.SHT,P.UB,P.UB+P.UH,H];
+  const hs= base==='bank'? [0,c.yRail-60,c.yRail,P.H-P.ST,P.H,c.top] : base==='eiche'? [0,P.PL,P.PL+P.CH,c.lowTop,P.SH1-P.ST,P.SH1,P.SH2-P.ST,P.SH2,P.UB,P.UB+P.UH,H] : [0,P.PL,P.PL+P.BH,c.seatTop,P.SHU,P.SHU+P.SHT,P.UB,P.UB+P.UH,H];
   const dx=W+70;
   s+=ln(dx,0,dx,H,'d');
   hs.forEach(h=>{ s+=`<line x1="${dx-16}" y1="${Y(h)+16}" x2="${dx+16}" y2="${Y(h)-16}" class="d"/>`+ln(W+8,h,dx+10,h,'d','stroke-dasharray="6 8"'); });
   for(let i=1;i<hs.length;i++){ const a=hs[i-1], b=hs[i]; if(b-a>=45) s+=tx(dx+26,(a+b)/2,String(R(b-a)),b-a>=120?'t':'tm'); }
   // Breitenkette unten
-  const wy=-80, ws=[0].concat(F>1?[F]:[], xs.slice(1), F>1?[W-F]:[], [W]);
+  const wy=-80, ws= base==='bank'? [0,P.LI,W-P.LI,W] : [0].concat(F>1?[F]:[], xs.slice(1), F>1?[W-F]:[], [W]);
   s+=ln(0,wy,W,wy,'d'); ws.forEach(w=>s+=`<line x1="${w-14}" y1="${Y(wy)+14}" x2="${w+14}" y2="${Y(wy)-14}" class="d"/>`);
   for(let i=1;i<ws.length;i++){ const a=ws[i-1], b=ws[i]; if(b-a>=60) s+=tx((a+b)/2,wy+40,String(R(b-a)),'t','middle'); }
-  s+=tx(W/2,wy-70,`${fmtN(W)} × ${fmtN(H)} × ${fmtN(P.D)} mm`,'tm','middle');
+  s+=tx(W/2,wy-70,`${fmtN(W)} × ${fmtN(P.H)} × ${fmtN(P.D)} mm`,'tm','middle');
   // Griffe
   let hd='';
   if(opt.handles){
     const hr=11*k, hw=26*k;
     const hz=(id,x1,y1,x2,y2,px,py,cursor,label)=>`<g class="hdl" data-h="${id}" style="cursor:${cursor}"><line x1="${x1}" y1="${Y(y1)}" x2="${x2}" y2="${Y(y2)}" class="hit" stroke-width="${hw}"/><line x1="${x1}" y1="${Y(y1)}" x2="${x2}" y2="${Y(y2)}" class="hl"/><circle cx="${px}" cy="${Y(py)}" r="${hr}" class="hd"/><text x="${px}" y="${Y(py)}" class="hdt" text-anchor="middle" dominant-baseline="central" font-size="${11*k}">${label}</text></g>`;
     hd+=hz('W',W,0,W,H,W,H*.3,'ew-resize','↔');
-    hd+=hz('H',0,H,W,H,W*.5,H,'ns-resize','↕');
+    if(base==='bank'){ hd+=hz('H',0,P.H,W,P.H,W*.3,P.H,'ns-resize','↕'); hd+=hz('LI',P.LI,0,P.LI,c.yRail-60,P.LI,(c.yRail-60)*.5,'ew-resize','↔'); }
+    else hd+=hz('H',0,H,W,H,W*.5,H,'ns-resize','↕');
     xs.slice(1).forEach((x,i)=>{ const yb=base==='eiche'? P.PL : P.PL, yt=base==='eiche'? P.PL+P.CH : P.PL+P.BH; hd+=hz('div'+(i+1),x,yb,x,yt,x,(yb+yt)/2,'ew-resize','↔'); });
-    if(base==='eiche'){
+    if(base==='bank'){ }
+    else if(base==='eiche'){
       hd+=hz('CH',0,c.lowTop,W,c.lowTop,W*.12,c.lowTop,'ns-resize','↕');
       hd+=hz('SH1',5,P.SH1,W-5,P.SH1,W*.88,P.SH1,'ns-resize','↕');
       hd+=hz('SH2',5,P.SH2,W-5,P.SH2,W*.12,P.SH2,'ns-resize','↕');
@@ -2353,11 +2672,11 @@ function elevSVG(base,P,opt={}){
       hd+=hz('BH',0,c.seatTop,W,c.seatTop,W*.12,c.seatTop,'ns-resize','↕');
       hd+=hz('SHU',19,P.SHU+P.SHT,W-19,P.SHU+P.SHT,W*.88,P.SHU+P.SHT,'ns-resize','↕');
     }
-    hd+=hz('UB',0,P.UB,W,P.UB,W*.5,P.UB,'ns-resize','↕');
+    if(base!=='bank') hd+=hz('UB',0,P.UB,W,P.UB,W*.5,P.UB,'ns-resize','↕');
   }
   return `<g>${s}</g><g class="handles">${hd}</g>`;
 }
-function svgWrap(inner,P){ return `<svg viewBox="${-60} ${-140} ${P.W+300} ${P.H+400}" role="img" aria-label="Frontansicht mit Maßen"><style>${ELEV_CSS}</style>${inner}</svg>`; }
+function svgWrap(inner,P,base){ return `<svg viewBox="${-60} ${-140} ${P.W+300} ${htop(base,P)+400}" role="img" aria-label="Frontansicht mit Maßen"><style>${ELEV_CSS}</style>${inner}</svg>`; }
 const ELEV_CSS='.w{fill:var(--surface);stroke:var(--ink);stroke-width:3}.o{fill:#c79058;stroke:var(--ink);stroke-width:3}.b{fill:#2b2825}.g{fill:#c4c1ba;stroke:var(--ink);stroke-width:3}.g2{fill:#6f6c66}.f{fill:#e6cfa8;stroke:var(--ink);stroke-width:3}.c{fill:#a4ae95;stroke:var(--ink);stroke-width:2}.n{fill:none;stroke:var(--muted);stroke-width:4}.d{stroke:var(--oak);stroke-width:2.5;fill:none}.t{font:500 40px var(--f-mono,monospace);fill:var(--ink)}.tm{font:400 32px var(--f-mono,monospace);fill:var(--muted)}.hit{stroke:transparent}.hl{stroke:var(--oak);stroke-width:5;stroke-dasharray:14 10;opacity:.0}.hdl:hover .hl,.hdl.on .hl{opacity:1}.hd{fill:var(--oak);stroke:var(--surface);stroke-width:6}.hdt{fill:#fff;font-family:var(--f-body,sans-serif);font-weight:700;pointer-events:none}';
 
 function applyContent(v){
@@ -2379,24 +2698,27 @@ function applyContent(v){
     groups.forEach(g=>{ if(!g.rows.length) return; add([[g.name,'',4]],'grp'); g.rows.forEach(r=>add([[r.n],[String(r.q),'num'],[`${r.a} × ${r.b}`,'dim'],[r.t]])); });
     add([['Summe Teile'],[String(total),'num'],[''],['']],'sum');
   }
-  const sumHTML=()=>{ const it=[['Möbelbauplatte 18 mm',a.p18-(a.hdf||0)*.3],['HDF 3 mm',a.hdf],['Fronten 20 mm',a.fr],['Multiplex / Sperrholz',a.mp],base==='eiche'?[`Eiche ${P.WT} mm Platte`,a.wt]:['Fichte Dreischicht',a.fi],[base==='eiche'?`Eiche ${P.ST} mm Regale`:`Eiche ${P.SHT} mm Regal`,a.sh]].filter(x=>x[1]>0);
-    return it.map(([n,v])=>`<span class="mchip"><b>${m2(v*1.15)} m²</b>${esc(n)}</span>`).join('')+`<span class="mchip muted">inkl. 15 % Verschnitt</span>`; };
+  const lfm=v=>(v/1000*1.1).toFixed(1).replace('.',',');
+  const bankSum=()=>{ const c=calc('bank',P); return `<span class="mchip"><b>${lfm(c.n*P.D)} lfm</b>Leiste ${P.SW} × ${P.ST} für ${c.n} Lamellen</span><span class="mchip"><b>${lfm(4*c.legL+2*(P.D-40)+3*c.RL)} lfm</b>Kantholz fürs Gestell</span><span class="mchip"><b>${fmtN(P.W-20)} mm</b>Edelstahl Ø 10</span><span class="mchip muted">inkl. 10 % Verschnitt</span>`; };
+  const sumHTML=()=> base==='bank'? bankSum() : (()=>{ const it=[['Möbelbauplatte 18 mm',a.p18-(a.hdf||0)*.3],['HDF 3 mm',a.hdf],['Fronten 20 mm',a.fr],['Multiplex / Sperrholz',a.mp],base==='eiche'?[`Eiche ${P.WT} mm Platte`,a.wt]:['Fichte Dreischicht',a.fi],[base==='eiche'?`Eiche ${P.ST} mm Regale`:`Eiche ${P.SHT} mm Regal`,a.sh]].filter(x=>x[1]>0);
+    return it.map(([n,v])=>`<span class="mchip"><b>${m2(v*1.15)} m²</b>${esc(n)}</span>`).join('')+`<span class="mchip muted">inkl. 15 % Verschnitt</span>`; })();
   document.querySelectorAll(`[data-panel-id="zuschnitt"][data-base="${base}"], [data-panel-id="einkauf"][data-base="${base}"]`).forEach(pn=>{
     let box=pn.querySelector('.msum'); if(!box){ box=document.createElement('div'); box.className='msum'; const anchor=pn.querySelector('.panel-body > p.muted'); anchor.after(box); }
-    box.innerHTML=`<div class="mtitle">Mengen für ${fmtN(P.W)} × ${fmtN(P.H)} × ${fmtN(P.D)} mm</div>`+sumHTML(); });
+    box.innerHTML=`<div class="mtitle">Mengen für ${fmtN(P.W)} × ${fmtN(P.H)} × ${fmtN(P.D)} mm${base==='bank'?' (L × Sitzhöhe × T)':''}</div>`+sumHTML(); });
   // Kosten
   const cs=costs(base,P), pK=document.querySelector(`[data-panel-id="kosten"][data-base="${base}"]`);
   if(pK){ const tb=pK.querySelector('tbody'); tb.textContent='';
     cs.rows.forEach(([n,lo,hi])=>{ const tr=document.createElement('tr'); [[n,''],[fmtN(lo)+' €','num'],[fmtN(hi)+' €','num']].forEach(([t,c])=>{ const td=document.createElement('td'); if(c) td.className=c; td.textContent=t; tr.appendChild(td); }); tb.appendChild(tr); });
     const tr=document.createElement('tr'); tr.className='sum'; [['Summe',''],[fmtN(cs.lo)+' €','num'],[fmtN(cs.hi)+' €','num']].forEach(([t,c])=>{ const td=document.createElement('td'); if(c) td.className=c; td.textContent=t; tr.appendChild(td); }); tb.appendChild(tr);
     const vs=pK.querySelectorAll('.total .v'); if(vs[1]) vs[1].textContent=`${fmtN(cs.lo)}–${fmtN(cs.hi)} €`;
+    if(base==='bank'&&vs[0]){ vs[0].textContent=`${calc('bank',P).n} Lamellen`; }
     if(base==='sitz'&&vs[0]){ const d=costs('sitz',DEF.sitz), f=(cs.lo+cs.hi)/(d.lo+d.hi); vs[0].textContent=`${fmtN(Math.round(1200*f/10)*10)}–${fmtN(Math.round(1450*f/10)*10)} €`; }
   }
   $('#mCut').textContent=`${total} Teile`; $('#mCost').textContent=`${fmtN(cs.lo)}–${fmtN(cs.hi)} €`;
   // Maßzeichnung + Höhenkette
   const pM=document.querySelector(`[data-panel-id="masse"][data-base="${base}"]`);
-  if(pM){ const el=pM.querySelector('.svgwrap'); el.innerHTML=svgWrap(elevSVG(base,P),P);
-    const c=calc(base,P), chain= base==='eiche'? [['Sockel',0,P.PL],['Unterkorpus',P.PL,P.PL+P.CH],['Arbeitsplatte Eiche',P.PL+P.CH,c.lowTop],['Freiraum',c.lowTop,P.SH1-P.ST],['Regal 1',P.SH1-P.ST,P.SH1],['Freiraum',P.SH1,P.SH2-P.ST],['Regal 2',P.SH2-P.ST,P.SH2],['Freiraum',P.SH2,P.UB],['Oberschrank',P.UB,P.UB+P.UH],['Deckenluft',P.UB+P.UH,P.H]]
+  if(pM){ const el=pM.querySelector('.svgwrap'); el.innerHTML=svgWrap(elevSVG(base,P),P,base);
+    const c=calc(base,P), chain= base==='bank'? [['Beine',0,c.yRail-60],['Querriegel',c.yRail-60,c.yRail],['Zarge',c.yRail,P.H-P.ST],['Lamelle',P.H-P.ST,P.H],['Lehne hochgeklappt',P.H,c.top]] : base==='eiche'? [['Sockel',0,P.PL],['Unterkorpus',P.PL,P.PL+P.CH],['Arbeitsplatte Eiche',P.PL+P.CH,c.lowTop],['Freiraum',c.lowTop,P.SH1-P.ST],['Regal 1',P.SH1-P.ST,P.SH1],['Freiraum',P.SH1,P.SH2-P.ST],['Regal 2',P.SH2-P.ST,P.SH2],['Freiraum',P.SH2,P.UB],['Oberschrank',P.UB,P.UB+P.UH],['Deckenluft',P.UB+P.UH,P.H]]
       : [['Sockel',0,P.PL],['Bank mit 4 Schubladen',P.PL,P.PL+P.BH],['Sitzplatte Fichte',P.PL+P.BH,c.seatTop],['Sitznische (Polster 60 mm)',c.seatTop,P.SHU],['Regalboden Eiche',P.SHU,P.SHU+P.SHT],['Bücherfach',P.SHU+P.SHT,P.UB],['Oberschrank',P.UB,P.UB+P.UH],['Deckenluft',P.UB+P.UH,P.H]];
     const tb=pM.querySelector('tbody'); tb.textContent='';
     chain.forEach(([n,a1,b1])=>{ const tr=document.createElement('tr'); [[n,''],[String(R(a1)),'num'],[String(R(b1)),'num'],[String(R(b1-a1)),'num']].forEach(([t,cl])=>{ const td=document.createElement('td'); if(cl) td.className=cl; td.textContent=t; tr.appendChild(td); }); tb.appendChild(tr); });
@@ -2405,6 +2727,7 @@ function applyContent(v){
 
 // ---- Editor
 const FIELDS={
+  bank:[['Bank',[['W','Länge'],['H','Sitzhöhe'],['D','Sitztiefe'],['LI','Beine vom Ende']]],['Lamellen',[['SW','Lamellenbreite'],['ST','Lamellenstärke'],['BK','Lehne: hochgeklappt'],['A','Lehnenwinkel']]]],
   eiche:[['Nische',[['W','Breite'],['H','Höhe'],['D','Tiefe']]],['Unterbau',[['PL','Sockel'],['CH','Korpushöhe'],['CD','Korpustiefe'],['WT','Arbeitsplatte'],['mods.0','Modul links'],['mods.1','Modul Mitte'],['mods.2','Modul rechts']]],
     ['Regale',[['SH1','Regal 1 Oberkante'],['SH2','Regal 2 Oberkante'],['SD','Regaltiefe'],['ST','Regalstärke']]],['Oberschrank',[['UB','Unterkante'],['UH','Höhe'],['UD','Tiefe']]]],
   sitz:[['Nische',[['W','Breite'],['H','Höhe'],['D','Tiefe']]],['Sitzbank',[['PL','Sockel'],['BH','Bankkorpus'],['CD','Tiefe'],['STK','Sitzplatte'],['mods.0','Modul links'],['mods.1','Modul rechts']]],
@@ -2412,16 +2735,19 @@ const FIELDS={
 };
 let ed=null; // {v, base, P}
 const getK=(P,k)=>k.startsWith('mods.')? P.mods[+k.slice(5)] : P[k];
+const STEPK={SW:1,ST:1,BK:1,A:1};
 function setK(P,k,val,auto){
-  val=Math.round(val/5)*5;
+  const stp=(ed&&ed.base==='bank'&&STEPK[k])||5; val=Math.round(val/stp)*stp;
   if(k.startsWith('mods.')){ const i=+k.slice(5); P.mods[i]=Math.max(LIM.mod[0],Math.min(LIM.mod[1],val)); return; }
-  const lim=LIM[k]; if(lim) val=Math.max(lim[0],Math.min(lim[1],val));
+  const lim=limFor(ed?ed.base:'eiche',k); if(lim) val=Math.max(lim[0],Math.min(lim[1],val));
+  if(ed&&ed.base==='bank'){ P[k]=val; return; }
   if(k==='W'&&auto){ const c=calc(ed.base,P), keepF=Math.max(5,Math.min(40,c.F)), target=val-2*keepF, s=c.sum; let acc=0; P.mods=P.mods.map((w,i,arr)=>{ if(i===arr.length-1) return Math.round(target-acc); const n=Math.round(w*target/s/5)*5; acc+=n; return n; }); }
   if(k==='H'){ const dH=val-P.H; P.UB+=dH; }
   P[k]=val;
 }
 function dragSet(id,x,y){
   const P=ed.P, base=ed.base, c=calc(base,P), snap=v=>Math.round(v/5)*5; x=snap(x); y=snap(y);
+  if(base==='bank'){ if(id==='W') setK(P,'W',x); else if(id==='H') setK(P,'H',y); else if(id==='LI') setK(P,'LI',x); return; }
   if(id==='W') setK(P,'W',x,$('#mAuto').checked);
   else if(id==='H') setK(P,'H',y);
   else if(id.startsWith('div')){ const i=+id.slice(3), left=c.F+P.mods.slice(0,i-1).reduce((a,b)=>a+b,0), pair=P.mods[i-1]+P.mods[i];
@@ -2439,7 +2765,7 @@ function buildForm(){
     list.forEach(([k,label])=>{ const id='mf-'+k.replace('.','-'); const row=document.createElement('label'); row.className='mrow'; row.htmlFor=id;
       const sp=document.createElement('span'); sp.textContent=label; const wrap=document.createElement('span'); wrap.className='minp';
       const inp=document.createElement('input'); inp.type='number'; inp.id=id; inp.step='5'; inp.inputMode='numeric'; inp.dataset.k=k;
-      const u=document.createElement('i'); u.textContent='mm'; wrap.append(inp,u); row.append(sp,wrap); fs.appendChild(row);
+      const u=document.createElement('i'); u.textContent= k==='BK'? 'Stk' : k==='A'? '°' : 'mm'; if(ed.base==='bank'&&STEPK[k]) inp.step='1'; wrap.append(inp,u); row.append(sp,wrap); fs.appendChild(row);
       inp.addEventListener('change',()=>{ const v=+inp.value; if(Number.isFinite(v)){ setK(ed.P,k,v,$('#mAuto').checked); } edRefresh(true); });
     });
     f.appendChild(fs);
@@ -2449,7 +2775,7 @@ let liveT=0;
 function edRefresh(updateInputs){
   const P=ed.P, base=ed.base, svg=$('#mSvg');
   const k=(P.W+300)/Math.max(200,svg.clientWidth||600);
-  svg.setAttribute('viewBox',`-60 -140 ${P.W+300} ${P.H+400}`);
+  svg.setAttribute('viewBox',`-60 -140 ${P.W+300} ${htop(base,P)+400}`);
   svg.innerHTML=`<style>${ELEV_CSS}</style>`+elevSVG(base,P,{handles:true,k});
   if(edDrag) svg.querySelector(`.hdl[data-h="${edDrag.id}"]`)?.classList.add('on');
   if(updateInputs!==false) document.querySelectorAll('#mForm input').forEach(i=>{ if(document.activeElement!==i) i.value=getK(P,i.dataset.k); });
@@ -2457,16 +2783,17 @@ function edRefresh(updateInputs){
   if(!warn.length){ const ok=document.createElement('p'); ok.className='mok'; ok.textContent='Alle Maße passen zusammen.'; wl.appendChild(ok); }
   warn.forEach(w=>{ const p=document.createElement('p'); p.className='mw '+w.lvl; p.textContent=w.m; wl.appendChild(p); });
   const cl=cutList(base,P), total=cl.reduce((s,g)=>s+g.rows.reduce((t,r)=>t+r.q,0),0), a=areas(base,P), cs=costs(base,P);
-  $('#mStats').innerHTML=`<span class="mchip"><b>${total}</b>Teile</span><span class="mchip"><b>${m2((a.p18-(a.hdf||0)*.3)*1.15)} m²</b>Möbelbauplatte</span><span class="mchip"><b>${m2(a.fr*1.15)} m²</b>Fronten</span><span class="mchip"><b>${fmtN(cs.lo)}–${fmtN(cs.hi)} €</b>Kosten</span>`;
+  if(base==='bank'){ const bc=calc('bank',P); $('#mStats').innerHTML=`<span class="mchip"><b>${bc.n}</b>Lamellen (${bc.nf} fest, ${bc.nk} klappbar)</span><span class="mchip"><b>${(bc.n*P.D/1000*1.1).toFixed(1).replace('.',',')} lfm</b>Leiste ${P.SW} × ${P.ST}</span><span class="mchip"><b>bis ${bc.top} mm</b>Lehne</span><span class="mchip"><b>${fmtN(cs.lo)}–${fmtN(cs.hi)} €</b>Kosten</span>`; }
+  else $('#mStats').innerHTML=`<span class="mchip"><b>${total}</b>Teile</span><span class="mchip"><b>${m2((a.p18-(a.hdf||0)*.3)*1.15)} m²</b>Möbelbauplatte</span><span class="mchip"><b>${m2(a.fr*1.15)} m²</b>Fronten</span><span class="mchip"><b>${fmtN(cs.lo)}–${fmtN(cs.hi)} €</b>Kosten</span>`;
   $('#mApply').disabled=warn.some(w=>w.lvl==='err');
   if(viewer&&window.innerWidth>=960){ clearTimeout(liveT); liveT=setTimeout(()=>{ if(!ed) return; viewer.show(base,JSON.parse(JSON.stringify(P)),{front:ed.v.front,wood:ed.v.wood}); p=N; cur=N; render(); },220); }
 }
 let edDrag=null;
-function svgPoint(e){ const svg=$('#mSvg'), pt=svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY; const q=pt.matrixTransform(svg.getScreenCTM().inverse()); return {x:q.x, y:ed.P.H-q.y}; }
+function svgPoint(e){ const svg=$('#mSvg'), pt=svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY; const q=pt.matrixTransform(svg.getScreenCTM().inverse()); return {x:q.x, y:htop(ed.base,ed.P)-q.y}; }
 function openMasse(){
   const v=byId(activeId); ed={v, base:v.base, P:dimsOf(v)};
   $('#mVar').textContent=`Projekt: ${v.name} · Bauweise ${BASE_N[v.base]}`;
-  buildForm(); openPanel('mass'); requestAnimationFrame(()=>edRefresh(true));
+  $('.mauto').hidden=v.base==='bank'; $('#mCap').textContent= v.base==='bank'? 'Ziehe die runden Griffe: Länge, Sitzhöhe und Abstand der Beine vom Ende. Lamellen, Lehne und Winkel stellst du in den Feldern ein.' : 'Ziehe die runden Griffe: Nischenbreite und -höhe, Modulgrenzen, Platte bzw. Sitz, Regale und Oberschrank. Raster 5 mm.'; buildForm(); openPanel('mass'); requestAnimationFrame(()=>edRefresh(true));
 }
 function closeMasse(revert){ if(!ed) return; const v=ed.v; ed=null; edDrag=null; if(revert&&viewer){ viewer.show(v.base,dimsOf(v),{front:v.front,wood:v.wood}); render(); } }
 (function(){
@@ -2488,14 +2815,15 @@ async function persistDims(id,base,P){
   try{ localStorage.setItem('ww-dims', JSON.stringify(savedDims)); }catch(_){}
   if(db&&canWrite){ try{ await db.collection('dims').doc(id).set({base, ...P}); }catch(_){ canWrite=false; toast('Nur auf diesem Gerät gespeichert'); } }
 }
-try{ const raw=JSON.parse(localStorage.getItem('ww-dims')||'{}'); if(raw&&typeof raw==='object') for(const id in raw){ if(/^(eiche|sitz|v[a-z0-9]+)$/.test(id)) savedDims[id]=raw[id]; } }catch(_){}
+try{ const raw=JSON.parse(localStorage.getItem('ww-dims')||'{}'); if(raw&&typeof raw==='object') for(const id in raw){ if(/^(eiche|sitz|bank|v[a-z0-9]+)$/.test(id)) savedDims[id]=raw[id]; } }catch(_){}
 
 
 // =================== Projekte ===================
-const BUILTIN_PROJ={id:'wohnnische', name:'Wohnnische', idea:'Einbau in die Nische 1450 × 2300 × 570 mm: Eiche & Baumkante oder Sitznische grau.', builtin:true, createdAt:0};
+const BUILTIN_PROJS=[{id:'wohnnische', name:'Wohnnische', idea:'Einbau in die Nische 1450 × 2300 × 570 mm: Eiche & Baumkante oder Sitznische grau.', builtin:true, createdAt:0}, {id:'klappbank', name:'Klappbank', idea:'Freistehende Holzbank aus Lamellen. Einzelne Lamellen lassen sich hochklappen und werden zur Lehne – genau dort, wo man sie braucht.', builtin:true, createdAt:1}];
+const BUILTIN_PROJ=BUILTIN_PROJS[0];
 let projects=[], activeProject='wohnnische';
 function cleanProj(d,id){ const o=d||{}; return {id, name:String(o.name||'').slice(0,28).trim()||'Projekt', idea:String(o.idea||'').slice(0,2000), createdAt:+o.createdAt||0}; }
-function allProj(){ return [BUILTIN_PROJ].concat(projects); }
+function allProj(){ return BUILTIN_PROJS.concat(projects); }
 function projById(id){ return allProj().find(p=>p.id===id)||BUILTIN_PROJ; }
 function inProj(){ return all().filter(v=>v.project===activeProject); }
 function persistProj(){ try{ localStorage.setItem('ww-projects', JSON.stringify(projects)); }catch(_){} }
@@ -2537,7 +2865,8 @@ async function deleteProject(id){
 }
 // Maße aus Breite/Höhe/Tiefe ableiten (Module mitziehen, Oberschrank an der Decke halten)
 function fitDims(base,W,H,D){
-  const P=DEFDIMS(base), lim=k=>v=>Math.round(Math.min(LIM[k][1],Math.max(LIM[k][0],v)));
+  const P=DEFDIMS(base), lim=k=>v=>Math.round(Math.min(limFor(base,k)[1],Math.max(limFor(base,k)[0],v)));
+  if(base==='bank'){ if(W) P.W=lim('W')(W); if(H) P.H=lim('H')(H); if(D) P.D=lim('D')(D); return sanitize(base,P); }
   if(W){ P.W=lim('W')(W); const target=P.W-50, s=P.mods.reduce((a,b)=>a+b,0); let acc=0; P.mods=P.mods.map((w,i,arr)=>{ if(i===arr.length-1) return Math.round(target-acc); const n=Math.round(w*target/s/5)*5; acc+=n; return n; }); }
   if(H){ const h=lim('H')(H); P.UB+=h-P.H; P.H=h; }
   if(D){ P.D=lim('D')(D); P.CD=Math.min(P.CD,P.D-40); if(base==='eiche') P.UD=Math.min(P.UD,P.D-150); }
@@ -2608,18 +2937,19 @@ let sampleFn=null;
 $('#pAI').addEventListener('click',async()=>{
   const idea=$('#pIdea').value.trim(); if(!idea){ $('#pAiMsg').textContent='Erst die Idee einsprechen oder tippen.'; return; }
   if(!sampleFn) return; const btn=$('#pAI'); btn.disabled=true; $('#pAiMsg').textContent='Claude liest die Idee …';
-  const prompt=`Du hilfst beim Planen von Einbaumöbeln in einer Wohnung. Es gibt genau zwei Bauweisen:
+  const prompt=`Du hilfst beim Planen von Einbaumöbeln in einer Wohnung. Es gibt genau drei Bauweisen:
 "eiche" = Kommode aus 3 Modulen (außen Türen, Mitte 3 Schubladen) mit Holz-Arbeitsplatte, darüber zwei offene Wandregale und oben zwei Oberschränke mit Klappen.
 "sitz" = Sitzbank mit 4 Schubladen, darüber eine mit Holz verkleidete Sitznische mit Regalboden als Deckel und Bücherfach, oben Oberschränke mit Türen bis zur Decke.
+"bank" = freistehende Holzbank aus Lamellen, einzelne Lamellen klappen hoch und bilden die Lehne. Hier ist W die Länge, H die Sitzhöhe, D die Sitztiefe.
 Lies die Idee und antworte nur mit einem JSON-Objekt dieser Form:
-{"name": "kurzer deutscher Projektname, max. 28 Zeichen", "base": "eiche" oder "sitz", "W": Breite in mm oder null, "H": Höhe in mm oder null, "D": Tiefe in mm oder null, "front": "weiss"|"grau"|"salbei"|"sand"|"taube"|"anthrazit", "wood": "eiche"|"fichte"|"nuss"|"esche", "fit": true wenn eine der beiden Bauweisen gut passt, sonst false, "summary": "ein Satz, was gebaut werden soll"}
+{"name": "kurzer deutscher Projektname, max. 28 Zeichen", "base": "eiche", "sitz" oder "bank", "W": Breite in mm oder null, "H": Höhe in mm oder null, "D": Tiefe in mm oder null, "front": "weiss"|"grau"|"salbei"|"sand"|"taube"|"anthrazit", "wood": "eiche"|"fichte"|"nuss"|"esche", "fit": true wenn eine der drei Bauweisen gut passt, sonst false, "summary": "ein Satz, was gebaut werden soll"}
 Rechne Maße in cm oder m in mm um. Erfinde keine Maße, die nicht genannt sind (dann null).
 Idee: """${idea.slice(0,4000)}"""`;
   try{
     const r=await sampleFn.json(prompt,{modelTier:'quick'});
     const o=r&&typeof r==='object'? r : {};
     if(typeof o.name==='string'&&o.name.trim()) $('#pName').value=o.name.trim().slice(0,28);
-    if(o.base==='eiche'||o.base==='sitz') np.base=o.base;
+    if(['eiche','sitz','bank'].includes(o.base)) np.base=o.base;
     if(FRONT_N[o.front]) np.front=o.front; if(WOOD_N[o.wood]) np.wood=o.wood;
     [['W','#pW'],['H','#pH'],['D','#pD']].forEach(([k,s])=>{ const v=Number(o[k]); if(Number.isFinite(v)&&v>0) $(s).value=String(Math.round(v)); });
     npSync();
