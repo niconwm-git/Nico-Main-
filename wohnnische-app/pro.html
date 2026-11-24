@@ -154,7 +154,12 @@ a{color:var(--oak)}
 .medit{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:22px; align-items:start; margin-top:12px}
 @media (max-width:700px){ .medit{grid-template-columns:1fr} }
 .mcanvas{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:10px; position:sticky; top:64px; z-index:1}
-@media (max-width:700px){ .mcanvas{top:56px} #mSvg{max-height:40svh} }
+@media (max-width:700px){ .mcanvas{position:static} #mSvg{max-height:52svh} }
+.mtog{display:flex; width:100%; align-items:center; justify-content:space-between; border:0; background:transparent; padding:2px 4px 8px; font:inherit; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); cursor:pointer}
+.mtog svg{width:18px; height:18px; transition:transform .25s}
+.mcanvas.collapsed .mtog{padding-bottom:2px}
+.mcanvas.collapsed .mtog svg{transform:rotate(180deg)}
+.mcanvas.collapsed #mSvg, .mcanvas.collapsed .cap{display:none}
 #mSvg{display:block; width:100%; height:auto; max-height:min(58svh, 620px); touch-action:none; user-select:none; -webkit-user-select:none}
 .mside{display:grid; gap:10px; min-width:0}
 .mauto{display:flex; gap:8px; align-items:center; font-size:14px}
@@ -1132,7 +1137,8 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
     <h2 class="ttl">Maße anpassen</h2>
     <p class="muted" id="mVar"></p>
     <div class="medit">
-      <div class="mcanvas">
+      <div class="mcanvas" id="mCanvas">
+        <button type="button" class="mtog" id="mTog" aria-expanded="true" aria-controls="mSvg"><span>Zeichnung</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
         <svg id="mSvg" role="application" aria-label="Frontansicht. Griffe ziehen, um Maße zu ändern."></svg>
         <p class="cap">Ziehe die runden Griffe: Nischenbreite und -höhe, Modulgrenzen, Platte bzw. Sitz, Regale und Oberschrank. Raster 5 mm.</p>
       </div>
@@ -2377,6 +2383,7 @@ function closeMasse(revert){ if(!ed) return; const v=ed.v; ed=null; edDrag=null;
   svg.addEventListener('pointermove',e=>{ if(!edDrag||e.pointerId!==edDrag.pid) return; const q=svgPoint(e); dragSet(edDrag.id,q.x,q.y); edRefresh(true); });
   const up=e=>{ if(!edDrag||e.pointerId!==edDrag.pid) return; edDrag=null; edRefresh(true); };
   svg.addEventListener('pointerup',up); svg.addEventListener('pointercancel',up);
+  $('#mTog').addEventListener('click',()=>{ const c=$('#mCanvas'), on=!c.classList.toggle('collapsed'); $('#mTog').setAttribute('aria-expanded',String(on)); if(on&&ed) edRefresh(false); });
   $('#mReset').addEventListener('click',()=>{ if(!ed) return; ed.P=DEFDIMS(ed.base); edRefresh(true); toast('Standardmaße geladen – noch nicht übernommen'); });
   $('#mApply').addEventListener('click',async()=>{
     if(!ed) return; const v=ed.v, P=JSON.parse(JSON.stringify(ed.P));
