@@ -1,4 +1,4 @@
-<title>wohnwerk. Varianten</title>
+<title>Nico Möbelplaner</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Wohnnische in Varianten: Eiche mit Baumkantenregalen, Sitznische in Grau und eigene Farbvarianten, jeweils als wischbare 3D-Montage.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,7 +59,8 @@ a{color:var(--oak)}
 /* Kopfzeile + Zeitleiste */
 .hud{display:none}
 .js .hud{display:block; position:fixed; top:0; left:0; right:0; z-index:5; padding:calc(env(safe-area-inset-top,0px) + 8px) max(16px, env(safe-area-inset-right,0px)) 0 max(16px, env(safe-area-inset-left,0px)); pointer-events:none}
-.bar{display:flex; align-items:center; gap:12px; height:44px}
+.bar{display:flex; align-items:center; gap:10px; height:58px}
+.bar .glass-btn{margin-left:0; flex:none}
 .brand{font-family:var(--f-display); font-weight:700; font-size:19px; letter-spacing:-.035em; color:var(--ink); text-decoration:none; pointer-events:auto}
 .brand span{color:var(--oak)}
 .studio{font-family:var(--f-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); padding:4px 8px; border-radius:999px; border:1px solid var(--line)}
@@ -146,7 +147,7 @@ a{color:var(--oak)}
 
 [hidden]{display:none!important}
 /* Varianten-Reiter */
-.tabs{pointer-events:auto; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; margin:6px calc(-1 * max(16px, env(safe-area-inset-left,0px))) 0; padding:4px max(16px, env(safe-area-inset-left,0px)); scroll-snap-type:x proximity}
+.tabs{pointer-events:auto; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; flex:1 1 auto; min-width:0; margin:0 0 0 calc(-1 * max(16px, env(safe-area-inset-left,0px))); padding:4px 4px 4px max(16px, env(safe-area-inset-left,0px)); scroll-snap-type:x proximity}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:none; display:flex; align-items:center; gap:9px; height:50px; padding:4px 12px 4px 4px; border-radius:16px; border:1px solid var(--glass-line); cursor:pointer; scroll-snap-align:start;
   background:var(--glass); -webkit-backdrop-filter:blur(16px) saturate(1.4); backdrop-filter:blur(16px) saturate(1.4); color:var(--ink); text-align:left; transition:border-color .2s, box-shadow .2s, transform .15s}
@@ -156,7 +157,7 @@ a{color:var(--oak)}
 .tab .nm{font-size:13px; font-weight:600; letter-spacing:-.01em; max-width:132px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .tab .sb{font-family:var(--f-mono); font-size:10px; color:var(--muted); letter-spacing:.04em}
 .tab[aria-selected="true"]{border-color:var(--oak); box-shadow:0 0 0 1px var(--oak) inset, 0 8px 20px -12px rgba(0,0,0,.35)}
-.tab.add{width:50px; padding:0; justify-content:center; border-style:dashed; border-color:color-mix(in srgb, var(--ink) 25%, transparent)}
+.tab.add{pointer-events:auto; width:44px; height:44px; border-radius:999px; padding:0; justify-content:center; border-style:dashed; border-color:color-mix(in srgb, var(--ink) 25%, transparent)}
 .tab.add svg{width:20px; height:20px}
 .stage.switching .live{opacity:0}
 .live{transition:opacity .22s ease}
@@ -285,11 +286,9 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
 
 <header class="hud">
   <div class="bar">
-    <a class="brand" href="#" data-home>wohn<span>werk.</span></a>
-    <span class="studio">Varianten</span>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Varianten"></div>
     <button class="glass-btn" id="menuBtn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>
-  <div class="tabs" id="tabs" role="tablist" aria-label="Varianten"></div>
   <div class="timeline" id="timeline" role="slider" tabindex="0" aria-label="Montagefortschritt" aria-valuemin="1" aria-valuemax="13" aria-valuenow="1"></div>
   <div class="phase-row" id="phaseRow"></div>
 </header>
@@ -660,7 +659,7 @@ tr.sum td{border-bottom:0; border-top:1.5px solid var(--ink); font-weight:600}
 
 <div class="scrim" id="scrim" hidden></div>
 <aside class="drawer" id="drawer" hidden aria-label="Menü">
-  <div class="drawer-head"><span>Projekt</span>
+  <div class="drawer-head"><span>Nico Möbelplaner</span>
     <button class="icon-btn" data-close-menu aria-label="Menü schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <ul class="menu-list">
     <li><a href="#animation" data-panel="animation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>Gesamtanimation<small id="mAnim">live</small></a></li>
@@ -1956,7 +1955,7 @@ function renderTabs(){
   });
   const add=document.createElement('button'); add.type='button'; add.className='tab add'; add.setAttribute('aria-label','Weitere Variante hinzufügen');
   add.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
-  add.addEventListener('click',()=>openEditor(null)); tabsEl.appendChild(add);
+  add.addEventListener('click',()=>openEditor(null)); add.id='addTab'; const old=$('#addTab'); if(old) old.remove(); $('#menuBtn').before(add);
   drawThumbs();
 }
 function drawThumbs(){ if(!viewer) return; const act=byId(activeId);
@@ -1973,8 +1972,9 @@ function switchTo(id, opt={}){
     const note=$('#vnote');
     if(v.builtin){ note.hidden=true; }
     else { note.hidden=false; note.textContent=''; const b=document.createElement('b'); b.textContent=v.name; note.append(b, ` · Fronten ${FRONT_N[v.front]}, Holz ${WOOD_N[v.wood]}. Bauweise, Zuschnitt und Kosten wie „${BASE_N[v.base]}“. Reiter nochmal antippen zum Bearbeiten.`); }
-    p=opt.p!==undefined? opt.p : N; cur=stepOf(p); render(); region();
+    p=0; cur=1; render(); region();
     stage.classList.remove('switching');
+    if(viewer) animateTo(1);
   };
   if(opt.instant||reduced||!viewer){ doSwitch(); return; }
   stage.classList.add('switching'); setTimeout(doSwitch,200);
